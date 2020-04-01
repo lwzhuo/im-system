@@ -15,4 +15,8 @@ public class SessionUtil {
     public static void userOffline(String uid){
         onlineUserMap.remove(uid);
     }
+
+    public static ChannelHandlerContext getUserContext(String uid){
+        return onlineUserMap.get(uid);
+    }
 }

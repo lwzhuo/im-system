@@ -10,7 +10,8 @@ public class ProtocalMap extends HashMap<Integer,Class>{
     private static ProtocalMap map = new ProtocalMap();
     static {
         map.put(1,EchoProtocal.class);
-        map.put(2,SingleChatProtocal.class);
+        map.put(2,RegisterProtocal.class);
+        map.put(3,SingleChatProtocal.class);
     }
     private ProtocalMap(){
     }

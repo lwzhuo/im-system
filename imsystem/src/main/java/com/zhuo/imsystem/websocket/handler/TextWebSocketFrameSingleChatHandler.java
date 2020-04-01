@@ -10,6 +10,6 @@ public class TextWebSocketFrameSingleChatHandler extends SimpleChannelInboundHan
     protected void channelRead0(ChannelHandlerContext ctx, SingleChatProtocal msg) throws Exception {
         String recMsg = msg.getMsg();
         System.out.println("收到单聊请求:"+recMsg);
-        ctx.channel().writeAndFlush(new TextWebSocketFrame("singlechat:"+recMsg));
+        ctx.writeAndFlush(new TextWebSocketFrame("singlechat:"+recMsg));
     }
 }

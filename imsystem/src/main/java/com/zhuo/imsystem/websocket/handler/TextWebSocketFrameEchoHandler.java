@@ -11,6 +11,6 @@ public class TextWebSocketFrameEchoHandler extends SimpleChannelInboundHandler<E
     protected void channelRead0(ChannelHandlerContext ctx, EchoProtocal msg) throws Exception {
         String recMsg = msg.getMsg();
         System.out.println("收到echo:"+recMsg);
-        ctx.channel().writeAndFlush(new TextWebSocketFrame("echo:"+recMsg));
+        ctx.writeAndFlush(new TextWebSocketFrame("echo:"+recMsg));
     }
 }

@@ -8,9 +8,10 @@ import java.util.HashMap;
 public class ResponseJson extends HashMap<String, Object> {
     private static final long serialVersionUID = 1L;
 
-    private static final Integer SUCCESS_STATUS = 200;
+    private static final Integer SUCCESS_STATUS = 0;
     private static final Integer ERROR_STATUS = -1;
     private static final String SUCCESS_MSG = "OK";
+    private static final String ERROR_MSG = "ERROR";
     
     public ResponseJson() {
         super();
@@ -30,18 +31,28 @@ public class ResponseJson extends HashMap<String, Object> {
     public ResponseJson success() {
         put("msg", SUCCESS_MSG);
         put("status", SUCCESS_STATUS);
+        put("data",null);
         return this;
     }
     
     public ResponseJson success(String msg) {
         put("msg", msg);
         put("status", SUCCESS_STATUS);
+        put("data",null);
         return this;
     }
-    
+
+    public ResponseJson error() {
+        put("msg", ERROR_MSG);
+        put("status", ERROR_STATUS);
+        put("data",null);
+        return this;
+    }
+
     public ResponseJson error(String msg) {
         put("msg", msg);
         put("status", ERROR_STATUS);
+        put("data",null);
         return this;
     }
 
@@ -55,7 +66,12 @@ public class ResponseJson extends HashMap<String, Object> {
         data.put(key, obj);
         return this;
     }
-    
+
+    public ResponseJson setData(Object data){
+        put("data", data);
+        return this;
+    }
+
     public ResponseJson setStatus(int status) {
         put("status", status);
         return this;

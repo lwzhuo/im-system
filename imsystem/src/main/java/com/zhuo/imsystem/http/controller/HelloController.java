@@ -1,4 +1,4 @@
-package com.zhuo.imsystem.controller;
+package com.zhuo.imsystem.http.controller;
 
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;

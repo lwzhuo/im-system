@@ -1,6 +1,6 @@
-package com.zhuo.imsystem.mapper;
+package com.zhuo.imsystem.http.mapper;
 
-import com.zhuo.imsystem.model.User;
+import com.zhuo.imsystem.http.model.User;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Result;
 import org.apache.ibatis.annotations.Results;

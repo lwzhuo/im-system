@@ -6,7 +6,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-@MapperScan("com.zhuo.imsystem.mapper")
+@MapperScan("com.zhuo.imsystem.http.mapper")
 public class ImSystemApplication {
 
     public static void main(String[] args) {

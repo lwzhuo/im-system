@@ -1,4 +1,4 @@
-package com.zhuo.imsystem.model;
+package com.zhuo.imsystem.http.model;
 
 import java.util.Date;
 

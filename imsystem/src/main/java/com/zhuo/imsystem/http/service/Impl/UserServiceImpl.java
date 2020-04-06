@@ -1,8 +1,8 @@
-package com.zhuo.imsystem.service.Impl;
+package com.zhuo.imsystem.http.service.Impl;
 
-import com.zhuo.imsystem.mapper.UserMapper;
-import com.zhuo.imsystem.model.User;
-import com.zhuo.imsystem.service.UserService;
+import com.zhuo.imsystem.http.mapper.UserMapper;
+import com.zhuo.imsystem.http.model.User;
+import com.zhuo.imsystem.http.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

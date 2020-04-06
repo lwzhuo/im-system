@@ -1,4 +1,4 @@
-package com.zhuo.imsystem.util;
+package com.zhuo.imsystem.http.util;
 
 import com.alibaba.fastjson.JSONObject;
 import org.springframework.http.HttpStatus;

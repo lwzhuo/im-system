@@ -1,4 +1,4 @@
-package com.zhuo.imsystem.config;
+package com.zhuo.imsystem.http.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;

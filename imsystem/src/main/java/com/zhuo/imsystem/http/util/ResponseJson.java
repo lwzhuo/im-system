@@ -1,6 +1,7 @@
 package com.zhuo.imsystem.http.util;
 
 import com.alibaba.fastjson.JSONObject;
+import com.zhuo.imsystem.http.config.StatusCode;
 import org.springframework.http.HttpStatus;
 
 import java.util.HashMap;
@@ -8,8 +9,8 @@ import java.util.HashMap;
 public class ResponseJson extends HashMap<String, Object> {
     private static final long serialVersionUID = 1L;
 
-    private static final Integer SUCCESS_STATUS = 0;
-    private static final Integer ERROR_STATUS = -1;
+    private static final Integer SUCCESS_STATUS = StatusCode.OK;
+    private static final Integer ERROR_STATUS = StatusCode.ERROR;
     private static final String SUCCESS_MSG = "OK";
     private static final String ERROR_MSG = "ERROR";
     
@@ -19,39 +20,46 @@ public class ResponseJson extends HashMap<String, Object> {
 
     public ResponseJson(int code) {
         super();
-        setStatus(code);
+        setStatusCode(code);
     }
 
     public ResponseJson(HttpStatus status) {
         super();
-        setStatus(status.value());
+        setStatusCode(status.value());
         setMsg(status.getReasonPhrase());
     }
     
     public ResponseJson success() {
         put("msg", SUCCESS_MSG);
-        put("status", SUCCESS_STATUS);
+        put("code", SUCCESS_STATUS);
         put("data",null);
         return this;
     }
     
     public ResponseJson success(String msg) {
         put("msg", msg);
-        put("status", SUCCESS_STATUS);
+        put("code", SUCCESS_STATUS);
         put("data",null);
         return this;
     }
 
     public ResponseJson error() {
         put("msg", ERROR_MSG);
-        put("status", ERROR_STATUS);
+        put("code", ERROR_STATUS);
         put("data",null);
         return this;
     }
 
     public ResponseJson error(String msg) {
         put("msg", msg);
-        put("status", ERROR_STATUS);
+        put("code", ERROR_STATUS);
+        put("data",null);
+        return this;
+    }
+
+    public ResponseJson error(String msg,int statusCode) {
+        put("msg", msg);
+        put("code", statusCode);
         put("data",null);
         return this;
     }
@@ -72,8 +80,8 @@ public class ResponseJson extends HashMap<String, Object> {
         return this;
     }
 
-    public ResponseJson setStatus(int status) {
-        put("status", status);
+    public ResponseJson setStatusCode(int statusCode) {
+        put("code", statusCode);
         return this;
     }
 

@@ -1,8 +1,10 @@
 package com.zhuo.imsystem.http.service.Impl;
 
+import com.zhuo.imsystem.http.config.StatusCode;
 import com.zhuo.imsystem.http.mapper.UserMapper;
 import com.zhuo.imsystem.http.model.User;
 import com.zhuo.imsystem.http.service.UserService;
+import com.zhuo.imsystem.http.util.CommonException;
 import com.zhuo.imsystem.http.util.PasswordUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,7 +23,24 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Boolean register(User user){
+    public User queryUserByName(String name){
+        return this.userMapper.queryUserByName(name);
+    }
+    public Boolean checkUserNameExist(String name){
+        User user = queryUserByName(name);
+        if(user!=null)
+            return true;
+        else
+            return false;
+    }
+
+    @Override
+    public Boolean register(User user) throws Exception{
+        if(user.getName()==null)
+            throw new CommonException();
+        Boolean usernameIsExist = checkUserNameExist(user.getName());
+        if(usernameIsExist)
+            throw new CommonException(StatusCode.ERROR_USERNAME_DUMPLICATE,"用户名重复");
         // 处理密码
         String password = user.getPassword();
         String salt = PasswordUtil.generateSalt();

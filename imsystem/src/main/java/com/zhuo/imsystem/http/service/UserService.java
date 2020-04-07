@@ -4,5 +4,7 @@ import com.zhuo.imsystem.http.model.User;
 
 public interface UserService {
     public User queryUser(String uid);
-    public Boolean register(User user);
+    public User queryUserByName(String name);
+    public Boolean checkUserNameExist(String name);
+    public Boolean register(User user) throws Exception;
 }

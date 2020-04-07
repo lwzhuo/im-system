@@ -4,4 +4,5 @@ import com.zhuo.imsystem.http.model.User;
 
 public interface UserService {
     public User queryUser(String uid);
+    public Boolean register(User user);
 }

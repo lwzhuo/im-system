@@ -5,13 +5,14 @@ import java.util.Date;
 public class User {
     private int Id;
     private String uid;
+    private String name;
     private String nickName;
-    private String avatar;
+    private String salt;
     private String password;
-    private int register_by;
+    private String avatarUrl;
     private int status;
-    private String register_ip;
-    private Date register_time;
+    private Date registTime;
+    private Date updateTime;
 
     public int getId() {
         return Id;
@@ -29,6 +30,14 @@ public class User {
         this.uid = uid;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public String getNickName() {
         return nickName;
     }
@@ -37,12 +46,12 @@ public class User {
         this.nickName = nickName;
     }
 
-    public String getAvatar() {
-        return avatar;
+    public String getSalt() {
+        return salt;
     }
 
-    public void setAvatar(String avatar) {
-        this.avatar = avatar;
+    public void setSalt(String salt) {
+        this.salt = salt;
     }
 
     public String getPassword() {
@@ -53,12 +62,12 @@ public class User {
         this.password = password;
     }
 
-    public int getRegister_by() {
-        return register_by;
+    public String getAvatarUrl() {
+        return avatarUrl;
     }
 
-    public void setRegister_by(int register_by) {
-        this.register_by = register_by;
+    public void setAvatarUrl(String avatarUrl) {
+        this.avatarUrl = avatarUrl;
     }
 
     public int getStatus() {
@@ -69,19 +78,19 @@ public class User {
         this.status = status;
     }
 
-    public String getRegister_ip() {
-        return register_ip;
+    public Date getRegistTime() {
+        return registTime;
     }
 
-    public void setRegister_ip(String register_ip) {
-        this.register_ip = register_ip;
+    public void setRegistTime(Date registTime) {
+        this.registTime = registTime;
     }
 
-    public Date getRegister_time() {
-        return register_time;
+    public Date getUpdateTime() {
+        return updateTime;
     }
 
-    public void setRegister_time(Date register_time) {
-        this.register_time = register_time;
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
     }
 }

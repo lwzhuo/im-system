@@ -20,6 +20,11 @@ public class UserController extends BaseController {
 
     @RequestMapping(value = "/register",method = RequestMethod.POST)
     public ResponseJson register(@RequestBody JSONObject json){
-        return success().setData(json);
+        User user = json.toJavaObject(User.class);
+        Boolean res = userService.register(user);
+        if(res)
+            return success().setData(json);
+        else
+            return error();
     }
 }

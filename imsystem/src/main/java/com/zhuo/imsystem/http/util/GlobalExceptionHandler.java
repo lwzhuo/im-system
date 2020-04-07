@@ -20,6 +20,7 @@ public class GlobalExceptionHandler {
         } else {
             //对系统级异常进行日志记录
 //            logger.error("系统异常:" + e.getMessage(), e);
+            e.printStackTrace();
             return new ResponseJson().error();
         }
     }

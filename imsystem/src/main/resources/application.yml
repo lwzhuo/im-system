@@ -5,3 +5,7 @@ spring:
     username: root  #用户名
     password:   #密码
     driver-class-name: com.mysql.cj.jdbc.Driver  #数据库链接驱动
+
+jwt:
+  secret: Only4IM-System
+  ttl: 600000

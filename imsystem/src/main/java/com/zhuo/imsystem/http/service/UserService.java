@@ -7,4 +7,5 @@ public interface UserService {
     public User queryUserByName(String name);
     public Boolean checkUserNameExist(String name);
     public Boolean register(User user) throws Exception;
+    public User login(User user) throws Exception;
 }

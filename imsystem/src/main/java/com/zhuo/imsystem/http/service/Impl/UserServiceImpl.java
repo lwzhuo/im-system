@@ -60,4 +60,20 @@ public class UserServiceImpl implements UserService {
         Boolean res = userMapper.register(user);
         return res;
     }
+
+    public User login(User user) throws Exception{
+        String name = user.getName();
+        User userFromDB = queryUserByName(name);
+        if(userFromDB==null)
+            throw new CommonException(StatusCode.ERROR_LOGIN_INFO_INVALID,"用户名或密码错误");
+
+        String originPassword = user.getPassword();
+        String salt = userFromDB.getSalt();
+        String password = userFromDB.getPassword();
+        boolean isValid = PasswordUtil.isValid(originPassword,password,salt);
+        if(!isValid)
+            throw new CommonException(StatusCode.ERROR_LOGIN_INFO_INVALID,"用户名或密码错误");
+
+        return userFromDB;
+    }
 }

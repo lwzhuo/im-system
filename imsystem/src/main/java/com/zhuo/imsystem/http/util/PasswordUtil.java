@@ -52,6 +52,21 @@ public class PasswordUtil {
         return hexString.toString();
     }
 
+    /**
+     * 判断密码正确性
+     * @param originPassword
+     * @param md5Password
+     * @param salt
+     * @return boolean
+     */
+    public static boolean isValid(String originPassword,String md5Password,String salt){
+        String password = getMd5Password(originPassword,salt);
+        if(password.equals(md5Password))
+            return true;
+        else
+            return false;
+    }
+
     public static void main(String[] args) throws Exception{
 //        1389FB39AD46B68D46F7E9C508A3FBA7
         String res = PasswordUtil.getMd5Password("aaa","bbb");

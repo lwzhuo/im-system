@@ -23,11 +23,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User queryUserByName(String name){
+    public User queryUserByUserName(String name){
         return this.userMapper.queryUserByName(name);
     }
     public Boolean checkUserNameExist(String name){
-        User user = queryUserByName(name);
+        User user = queryUserByUserName(name);
         if(user!=null)
             return true;
         else
@@ -36,9 +36,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Boolean register(User user) throws Exception{
-        if(user.getName()==null)
+        if(user.getUserName()==null)
             throw new CommonException();
-        Boolean usernameIsExist = checkUserNameExist(user.getName());
+        Boolean usernameIsExist = checkUserNameExist(user.getUserName());
         if(usernameIsExist)
             throw new CommonException(StatusCode.ERROR_USERNAME_DUMPLICATE,"用户名重复");
         // 处理密码
@@ -62,8 +62,8 @@ public class UserServiceImpl implements UserService {
     }
 
     public User login(User user) throws Exception{
-        String name = user.getName();
-        User userFromDB = queryUserByName(name);
+        String name = user.getUserName();
+        User userFromDB = queryUserByUserName(name);
         if(userFromDB==null)
             throw new CommonException(StatusCode.ERROR_LOGIN_INFO_INVALID,"用户名或密码错误");
 

@@ -22,7 +22,7 @@ public class AuthController extends BaseController{
         User user = json.toJavaObject(User.class);
         User res = userService.login(user);
         String uid = res.getUid();
-        String name = res.getName();
+        String name = res.getUserName();
 
         JSONObject jwtJson = new JSONObject();
         json.put("uid", uid);
@@ -31,7 +31,7 @@ public class AuthController extends BaseController{
         String jwt = JWTUtil.createJWT(jwtJson.toJSONString(), constConfig.JWT_SECRET, constConfig.JWT_TTL);
 
         return success()
-                .setData("name",name)
+                .setData("username",name)
                 .setData("uid",uid)
                 .setData("token",jwt);
     }

@@ -3,6 +3,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.zhuo.imsystem.http.config.Const;
 import com.zhuo.imsystem.http.model.User;
 import com.zhuo.imsystem.http.service.UserService;
+import com.zhuo.imsystem.http.util.FirstLetterUtil;
 import com.zhuo.imsystem.http.util.JWTUtil;
 import com.zhuo.imsystem.http.util.ResponseJson;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +23,8 @@ public class AuthController extends BaseController{
         User user = json.toJavaObject(User.class);
         User res = userService.login(user);
         String uid = res.getUid();
-        String name = res.getUserName();
+        String username = res.getUserName();
+        String avatarUrl = res.getAvatarUrl();
 
         JSONObject jwtJson = new JSONObject();
         json.put("uid", uid);
@@ -31,8 +33,10 @@ public class AuthController extends BaseController{
         String jwt = JWTUtil.createJWT(jwtJson.toJSONString(), constConfig.JWT_SECRET, constConfig.JWT_TTL);
 
         return success()
-                .setData("username",name)
+                .setData("username",username)
                 .setData("uid",uid)
+                .setData("avatarUrl",null)
+                .setData("firstLetterOfName", FirstLetterUtil.getFirstLetter(username))
                 .setData("token",jwt);
     }
 }

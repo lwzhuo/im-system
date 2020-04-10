@@ -2,10 +2,10 @@ package com.zhuo.imsystem.http.util;
 
 import java.util.Base64;
 import java.util.Date;
-
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
-
+import com.alibaba.fastjson.JSONObject;
+import com.zhuo.imsystem.http.config.Const;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
@@ -60,6 +60,19 @@ public class JWTUtil {
         SecretKey key = generalKey(secret);
         Claims claims = Jwts.parser().setSigningKey(key).parseClaimsJws(jwt).getBody();
         return claims;
+    }
+
+    public static void main(String[] args) {
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("uid","123456");
+        String jwt = JWTUtil.createJWT(jsonObject.toJSONString(), Const.JWT_SECRET,Const.JWT_TTL);
+        System.out.println(jwt);
+
+        Claims afterParse = JWTUtil.parseJWT(jwt,Const.JWT_SECRET);
+        System.out.println(afterParse);
+        System.out.println(afterParse.getSubject());
+        System.out.println(afterParse.getExpiration());
+        System.out.println(afterParse.getExpiration().getTime());
     }
 
 }

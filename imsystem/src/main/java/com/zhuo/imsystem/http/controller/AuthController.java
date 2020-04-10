@@ -1,6 +1,7 @@
 package com.zhuo.imsystem.http.controller;
 import com.alibaba.fastjson.JSONObject;
 import com.zhuo.imsystem.http.config.Const;
+import com.zhuo.imsystem.http.model.JwtSubject;
 import com.zhuo.imsystem.http.model.User;
 import com.zhuo.imsystem.http.service.UserService;
 import com.zhuo.imsystem.http.util.FirstLetterUtil;
@@ -26,11 +27,9 @@ public class AuthController extends BaseController{
         String username = res.getUserName();
         String avatarUrl = res.getAvatarUrl();
 
-        JSONObject jwtJson = new JSONObject();
-        json.put("uid", uid);
+        String jwtSubject = new JwtSubject(uid).toString();
         Const constConfig = new Const();
-//        System.out.println(constConfig.JWT_SECRET+" "+constConfig.JWT_TTL);
-        String jwt = JWTUtil.createJWT(jwtJson.toJSONString(), constConfig.JWT_SECRET, constConfig.JWT_TTL);
+        String jwt = JWTUtil.createJWT(jwtSubject, constConfig.JWT_SECRET, constConfig.JWT_TTL);
 
         return success()
                 .setData("username",username)

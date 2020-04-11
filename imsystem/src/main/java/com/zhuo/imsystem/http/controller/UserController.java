@@ -31,7 +31,6 @@ public class UserController extends BaseController {
     @RequestMapping(value = "/me",method = RequestMethod.GET)
     public ResponseJson aboutMe(@RequestHeader("X-Token") String token){
         Claims claims = JWTUtil.parseJWT(token, Const.JWT_SECRET);
-        System.out.println(claims.getSubject());
         String uid = JSONObject.parseObject(claims.getSubject()).getString("uid");
         User user = new User();
         User res = userService.queryUser(uid);

@@ -15,23 +15,15 @@ public class AuthInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         String token = request.getHeader("X-Token");
-        try {
-            Claims claims = JWTUtil.parseJWT(token, Const.JWT_SECRET);
-            long expirTime = claims.getExpiration().getTime();
-            long nowMillis = System.currentTimeMillis();
-            if(expirTime<=nowMillis){// 校验签名是否过期
-                String resJson = new ResponseJson().error("token 已经过期", StatusCode.ERROR_JSON_WEB_TOKEN_EXPIRE).toString();
-                response.setHeader("Content-Type","application/json; charset=utf-8");
-                response.getWriter().write(resJson);
-                return false;
-            }
-        }catch (Exception e) {
-            // 解析jwt失败
+        String res = JWTUtil.checkJWT(token);
+        if(res==null){
+            // 解析jwt失败 或者 token过期
             String resJson = new ResponseJson().error("token 不合法",StatusCode.ERROR_JSON_WEB_TOKEN_INVALID).toString();
             response.setHeader("Content-Type","application/json; charset=utf-8");
             response.getWriter().write(resJson);
             return false;
+        }else {
+            return true;
         }
-        return true;
     }
 }

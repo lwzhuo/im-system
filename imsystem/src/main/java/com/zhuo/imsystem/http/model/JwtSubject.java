@@ -11,7 +11,7 @@ public class JwtSubject {
 
     public String toString(){
         return "{"+
-                "uid:"+ uid +
+                "uid:"+"\""+ uid +"\""+
                 "}";
     }
 

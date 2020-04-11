@@ -1,5 +1,7 @@
 package com.zhuo.imsystem.http.model;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
 import java.util.Date;
 
 public class User {

@@ -15,6 +15,7 @@ public class AuthInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         String token = request.getHeader("X-Token");
+        System.out.println("[获取token]"+token);
         String res = JWTUtil.checkJWT(token);
         if(res==null){
             // 解析jwt失败 或者 token过期

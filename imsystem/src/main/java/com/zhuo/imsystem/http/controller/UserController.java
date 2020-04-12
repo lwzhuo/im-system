@@ -45,6 +45,8 @@ public class UserController extends BaseController {
     public ResponseJson getUserInfoByName(@RequestParam("username") String username){
         User user = new User();
         User res = userService.queryUserByUserName(username);
+        if(res==null)
+            return success();
         user.setUid(res.getUid());
         user.setUserName(res.getUserName());
         user.setAvatarUrl(res.getAvatarUrl());

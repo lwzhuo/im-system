@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 public class Const {
 
 //    @Value("${jwt.ttl}")
-    public static int JWT_TTL = 600000;
+    public static int JWT_TTL = 86400000;
 
 //    @Value("${jwt.secret}")
     public static String JWT_SECRET = "ForIMSystem";

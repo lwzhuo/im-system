@@ -2,7 +2,7 @@ package com.zhuo.imsystem.http.model;
 
 import java.util.Date;
 
-public class ChannelUser {
+public class ChannelMember {
     private int id;
     private String channelId;
     private String uid;

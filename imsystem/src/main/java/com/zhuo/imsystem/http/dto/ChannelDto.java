@@ -1,10 +1,21 @@
 package com.zhuo.imsystem.http.dto;
 
+import java.util.ArrayList;
+
 public class ChannelDto {
     private String channelId;
     private String channelName;
     private String creatorId;
-    private String channelType;
+    private int channelType;
+    private ArrayList<ChannelMemberDto> channelUserList;
+
+    public ArrayList<ChannelMemberDto> getChannelUserList() {
+        return channelUserList;
+    }
+
+    public void setChannelUserList(ArrayList<ChannelMemberDto> channelUserList) {
+        this.channelUserList = channelUserList;
+    }
 
     public String getChannelId() {
         return channelId;
@@ -30,11 +41,11 @@ public class ChannelDto {
         this.creatorId = creatorId;
     }
 
-    public String getChannelType() {
+    public int getChannelType() {
         return channelType;
     }
 
-    public void setChannelType(String channelType) {
+    public void setChannelType(int channelType) {
         this.channelType = channelType;
     }
 }

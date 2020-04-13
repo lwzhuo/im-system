@@ -2,7 +2,7 @@ package com.zhuo.imsystem.http.dto;
 
 import java.util.Date;
 
-public class ChannelUserDto {
+public class ChannelMemberDto {
     private String uid;
     private Date joinTime;
     private Date leftTime;

@@ -7,7 +7,7 @@ public class Channel {
     private String channelId;
     private String channelName;
     private String creatorId;
-    private String channelType;
+    private int channelType;
     private Date ctime;
     private Date updateTime;
 
@@ -43,11 +43,11 @@ public class Channel {
         this.creatorId = creatorId;
     }
 
-    public String getChannelType() {
+    public int getChannelType() {
         return channelType;
     }
 
-    public void setChannelType(String channelType) {
+    public void setChannelType(int channelType) {
         this.channelType = channelType;
     }
 

@@ -11,4 +11,10 @@ public class Const {
 
 //    @Value("${jwt.secret}")
     public static String JWT_SECRET = "ForIMSystem";
+
+    // 私聊
+    public static int PRIVATE_CHANNEL = 1;
+
+    // 群聊
+    public static int GROUP_CHALLEL = 2;
 }

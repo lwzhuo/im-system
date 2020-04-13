@@ -11,4 +11,7 @@ public class StatusCode {
     // 签名 token 相关
     public static int ERROR_JSON_WEB_TOKEN_INVALID = -200;  // token不合法
     public static int ERROR_JSON_WEB_TOKEN_EXPIRE = -201;   // token失效
+
+    // channel相关
+    public static int ERROR_CHANNEL_CREATE_FAIL = -300;     // channel创建失败
 }

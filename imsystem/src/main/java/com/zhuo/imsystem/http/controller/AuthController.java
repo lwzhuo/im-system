@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.HashMap;
+
 @RestController
 @RequestMapping("/auth")
 public class AuthController extends BaseController{
@@ -31,11 +33,13 @@ public class AuthController extends BaseController{
         Const constConfig = new Const();
         String jwt = JWTUtil.createJWT(jwtSubject, constConfig.JWT_SECRET, constConfig.JWT_TTL);
 
-        return success()
-                .setData("username",username)
-                .setData("uid",uid)
-                .setData("avatarUrl",null)
-                .setData("firstLetterOfName", FirstLetterUtil.getFirstLetter(username))
-                .setData("token",jwt);
+        HashMap hashMap = new HashMap();
+        hashMap.put("username",res.getUserName());
+        hashMap.put("uid",res.getUid());
+        hashMap.put("avatarUrl",null);
+        hashMap.put("firstLetterOfName", FirstLetterUtil.getFirstLetter(res.getUserName()));
+        hashMap.put("nickname","");
+        hashMap.put("token",jwt);
+        return success().setData(hashMap);
     }
 }

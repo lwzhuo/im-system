@@ -4,11 +4,14 @@ import com.alibaba.fastjson.JSONObject;
 import com.zhuo.imsystem.http.config.Const;
 import com.zhuo.imsystem.http.model.User;
 import com.zhuo.imsystem.http.service.UserService;
+import com.zhuo.imsystem.http.util.FirstLetterUtil;
 import com.zhuo.imsystem.http.util.JWTUtil;
 import com.zhuo.imsystem.http.util.ResponseJson;
 import io.jsonwebtoken.Claims;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
 
 @RestController
 @RequestMapping("/user")
@@ -43,14 +46,16 @@ public class UserController extends BaseController {
     // 通过用户名查找用户信息
     @RequestMapping(value = "/get-user-info-by-username",method = RequestMethod.GET)
     public ResponseJson getUserInfoByName(@RequestParam("username") String username){
-        User user = new User();
         User res = userService.queryUserByUserName(username);
         if(res==null)
             return success();
-        user.setUid(res.getUid());
-        user.setUserName(res.getUserName());
-        user.setAvatarUrl(res.getAvatarUrl());
-        return success().setData(user);
+        HashMap hashMap = new HashMap();
+        hashMap.put("username",res.getUserName());
+        hashMap.put("uid",res.getUid());
+        hashMap.put("avatarUrl",null);
+        hashMap.put("firstLetterOfName", FirstLetterUtil.getFirstLetter(res.getUserName()));
+        hashMap.put("nickname",res.getNickName());
+        return success().addArrayData(hashMap);
     }
     // 注册
     @RequestMapping(value = "/register",method = RequestMethod.POST)

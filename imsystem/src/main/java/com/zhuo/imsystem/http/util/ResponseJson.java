@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.zhuo.imsystem.http.config.StatusCode;
 import org.springframework.http.HttpStatus;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class ResponseJson extends HashMap<String, Object> {
@@ -32,48 +33,48 @@ public class ResponseJson extends HashMap<String, Object> {
     public ResponseJson success() {
         put("msg", SUCCESS_MSG);
         put("code", SUCCESS_STATUS);
-        put("data",null);
+        put("data",new ArrayList<Object>());
         return this;
     }
     
     public ResponseJson success(String msg) {
         put("msg", msg);
         put("code", SUCCESS_STATUS);
-        put("data",null);
+        put("data",new ArrayList<Object>());
         return this;
     }
 
     public ResponseJson error() {
         put("msg", ERROR_MSG);
         put("code", ERROR_STATUS);
-        put("data",null);
+        put("data",new ArrayList<Object>());
         return this;
     }
 
     public ResponseJson error(String msg) {
         put("msg", msg);
         put("code", ERROR_STATUS);
-        put("data",null);
+        put("data",new ArrayList<Object>());
         return this;
     }
 
     public ResponseJson error(String msg,int statusCode) {
         put("msg", msg);
         put("code", statusCode);
-        put("data",null);
+        put("data",new ArrayList<Object>());
         return this;
     }
 
-    public ResponseJson setData(String key, Object obj) {
-        @SuppressWarnings("unchecked")
-        HashMap<String, Object> data = (HashMap<String, Object>) get("data");
+    public ResponseJson addArrayData(Object obj){
+        ArrayList<Object> data = (ArrayList<Object>) get("data");
         if (data == null) {
-            data = new HashMap<String, Object>();
+            data = new ArrayList<Object>();
             put("data", data);
         }
-        data.put(key, obj);
+        data.add(obj);
         return this;
     }
+
 
     public ResponseJson setData(Object data){
         put("data", data);

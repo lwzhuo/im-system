@@ -1,9 +1,7 @@
 package com.zhuo.imsystem.http.interceptor;
-import com.zhuo.imsystem.http.config.Const;
 import com.zhuo.imsystem.http.config.StatusCode;
 import com.zhuo.imsystem.http.util.JWTUtil;
 import com.zhuo.imsystem.http.util.ResponseJson;
-import io.jsonwebtoken.Claims;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 import javax.servlet.http.HttpServletRequest;

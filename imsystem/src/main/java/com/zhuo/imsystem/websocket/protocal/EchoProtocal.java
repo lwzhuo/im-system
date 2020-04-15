@@ -1,18 +1,18 @@
 package com.zhuo.imsystem.websocket.protocal;
 
 public class EchoProtocal extends Protocal {
-    private int type;
+    private int action;
     private String msg;
     private String uid;
     private String to_uid;
     private int ts;
 
-    public int getType() {
-        return type;
+    public int getAction() {
+        return action;
     }
 
-    public void setType(int type) {
-        this.type = type;
+    public void setAction(int action) {
+        this.action = action;
     }
 
     public String getMsg() {

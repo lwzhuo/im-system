@@ -8,6 +8,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class ChannelContainer {
     // 注：channel的id是项目自定义生成的，可以长期保存的id。而不是使用netty中Channel.id()中的id值
 
+    // todo CHANNELID_CHANNEL_MAP 和 CHANNEL_CHANNELID_MAP 具体使用方式待定
     //记录channel的id和channel对象的映射关系
     public static ConcurrentHashMap<String, Channel> CHANNELID_CHANNEL_MAP = new ConcurrentHashMap<String ,Channel>();
 

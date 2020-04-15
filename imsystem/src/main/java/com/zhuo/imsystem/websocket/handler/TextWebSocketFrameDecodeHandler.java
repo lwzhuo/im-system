@@ -24,9 +24,9 @@ public class TextWebSocketFrameDecodeHandler extends MessageToMessageDecoder<Tex
         try {
             msg.retain();
             jsonObject = JSONObject.parseObject(request);
-            int type = jsonObject.getIntValue("type");// 获取数据类型
-            out.add(JSON.toJavaObject(jsonObject, ProtocalMap.getMap().get(type)));// 获取pojo
-            System.out.println("协议类型:"+type+" "+ProtocalMap.getMap().get(type).toString());
+            int action = jsonObject.getIntValue("action");// 获取数据类型
+            out.add(JSON.toJavaObject(jsonObject, ProtocalMap.getMap().get(action)));// 获取pojo
+            System.out.println("协议类型:"+action+" "+ProtocalMap.getMap().get(action).toString());
         } catch (Exception e) {
             ctx.channel().writeAndFlush(new TextWebSocketFrame("格式错误"));
             e.printStackTrace();

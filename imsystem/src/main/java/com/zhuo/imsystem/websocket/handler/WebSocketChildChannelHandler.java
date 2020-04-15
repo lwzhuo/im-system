@@ -16,13 +16,14 @@ public class WebSocketChildChannelHandler extends ChannelInitializer<SocketChann
         ch.pipeline().addLast("http-codec", new HttpServerCodec()); // HTTP编码解码器
         ch.pipeline().addLast("aggregator", new HttpObjectAggregator(65536)); // 把HTTP头、HTTP体拼成完整的HTTP请求
         ch.pipeline().addLast("http-chunked", new ChunkedWriteHandler()); // 方便大文件传输，不过实质上都是短的文本数据
+        ch.pipeline().addLast(new AuthHandler());//权限校验
         //ws://server:port/context_path
         //ws://localhost:9999/ws
         //参数指的是contex_path
         //三个参数分别为读/写/读写的空闲，我们只针对读写空闲检测
-        ch.pipeline().addLast(new IdleStateHandler(2,2,60));
-        ch.pipeline().addLast(new HeartBeatHandler());
-        ch.pipeline().addLast(new WebSocketServerProtocolHandler("/ws"));
+//        ch.pipeline().addLast(new IdleStateHandler(2,2,60));
+//        ch.pipeline().addLast(new HeartBeatHandler());
+        ch.pipeline().addLast(new WebSocketServerProtocolHandler("/ws","ok",5000));
         //websocket定义了传递数据的6中frame类型
         ch.pipeline().addLast(new TextWebSocketFrameHandler());
     }

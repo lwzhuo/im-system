@@ -1,7 +1,7 @@
 package com.zhuo.imsystem.http.util;
 
 import com.alibaba.fastjson.JSONObject;
-import com.zhuo.imsystem.http.config.StatusCode;
+import com.zhuo.imsystem.commom.config.StatusCode;
 import org.springframework.http.HttpStatus;
 
 import java.util.ArrayList;

@@ -1,6 +1,6 @@
 package com.zhuo.imsystem.http.service.Impl;
 
-import com.zhuo.imsystem.http.config.StatusCode;
+import com.zhuo.imsystem.commom.config.StatusCode;
 import com.zhuo.imsystem.http.mapper.UserMapper;
 import com.zhuo.imsystem.http.model.User;
 import com.zhuo.imsystem.http.service.UserService;

@@ -6,7 +6,6 @@ import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 import com.alibaba.fastjson.JSONObject;
 import com.zhuo.imsystem.http.config.Const;
-import com.zhuo.imsystem.http.config.StatusCode;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;

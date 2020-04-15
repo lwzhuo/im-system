@@ -14,7 +14,6 @@ public class TextWebSocketFrameHandler extends SimpleChannelInboundHandler<TextW
         ctx.pipeline().addLast(new TextWebSocketFrameDecodeHandler());
         ctx.pipeline().addLast(new TextWebSocketFrameRegisterHandler());
         ctx.pipeline().addLast(new TextWebSocketFrameEchoHandler());
-        ctx.pipeline().addLast(new TextWebSocketFrameSingleChatHandler());
         ctx.fireChannelRead(msg);
     }
 }

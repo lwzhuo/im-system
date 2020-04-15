@@ -1,4 +1,4 @@
-package com.zhuo.imsystem.http.config;
+package com.zhuo.imsystem.commom.config;
 
 public class StatusCode {
     public static int OK = 0;
@@ -14,4 +14,8 @@ public class StatusCode {
 
     // channel相关
     public static int ERROR_CHANNEL_CREATE_FAIL = -300;     // channel创建失败
+
+    // websocket服务相关
+    public static int ERROR_WEBSOCKET_PROTOCAL_FORMAT_INVALID = -400; // 协议格式错误 无法正常解码
+    public static int ERROR_WEBSOCKET_CHANNEL_REGISTER_FAILED = -401; // channel注册失败
 }

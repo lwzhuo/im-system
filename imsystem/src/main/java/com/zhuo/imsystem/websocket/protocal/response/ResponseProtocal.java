@@ -1,11 +1,14 @@
-package com.zhuo.imsystem.websocket.protocal;
+package com.zhuo.imsystem.websocket.protocal.response;
 
-public class Protocal {
+import com.zhuo.imsystem.websocket.protocal.Protocal;
+
+public class ResponseProtocal extends Protocal {
     private int action;     // 动作
-    private String msg;     // 消息内容
+    private String msg;     // 消息
+    private String fromUid; // 来源uid
     private long ts;         // 发生的时间戳
 
-    public Protocal(){
+    public ResponseProtocal(){
         this.ts = System.currentTimeMillis();
     }
     public int getAction() {
@@ -22,6 +25,14 @@ public class Protocal {
 
     public void setMsg(String msg) {
         this.msg = msg;
+    }
+
+    public String getFromUid() {
+        return fromUid;
+    }
+
+    public void setFromUid(String fromUid) {
+        this.fromUid = fromUid;
     }
 
     public long getTs() {

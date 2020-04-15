@@ -21,8 +21,8 @@ public class WebSocketChildChannelHandler extends ChannelInitializer<SocketChann
         //ws://localhost:9999/ws
         //参数指的是contex_path
         //三个参数分别为读/写/读写的空闲，我们只针对读写空闲检测
-//        ch.pipeline().addLast(new IdleStateHandler(2,2,60));
-//        ch.pipeline().addLast(new HeartBeatHandler());
+        ch.pipeline().addLast(new IdleStateHandler(2,2,60));
+        ch.pipeline().addLast(new HeartBeatHandler());
         ch.pipeline().addLast(new WebSocketServerProtocolHandler("/ws","ok",5000));
         //websocket定义了传递数据的6中frame类型
         ch.pipeline().addLast(new TextWebSocketFrameHandler());

@@ -1,7 +1,7 @@
 package com.zhuo.imsystem.http.service.Impl;
 
 import com.zhuo.imsystem.http.config.Const;
-import com.zhuo.imsystem.http.config.StatusCode;
+import com.zhuo.imsystem.commom.config.StatusCode;
 import com.zhuo.imsystem.http.dto.ChannelDto;
 import com.zhuo.imsystem.http.dto.ChannelMemberDto;
 import com.zhuo.imsystem.http.mapper.ChannelMapper;
@@ -10,8 +10,6 @@ import com.zhuo.imsystem.http.mapper.UserMapper;
 import com.zhuo.imsystem.http.model.User;
 import com.zhuo.imsystem.http.service.ChannelService;
 import com.zhuo.imsystem.http.util.CommonException;
-import com.zhuo.imsystem.websocket.util.ChannelContainer;
-import io.netty.channel.Channel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

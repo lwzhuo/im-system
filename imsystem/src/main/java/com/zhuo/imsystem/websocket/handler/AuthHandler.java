@@ -31,8 +31,8 @@ public class AuthHandler extends SimpleChannelInboundHandler<FullHttpRequest> {
             request.setUri("/ws");
             // 传递到下一个handler：升级握手
             System.out.println("[websocket] 签名验证成功");
-            ctx.fireChannelRead(request.retain());
             ctx.channel().pipeline().remove(this); // 鉴权成功 移除handler
+            ctx.fireChannelRead(request.retain());
         }else {
             System.out.println("[websocket] 签名验证失败,uri 没有携带token参数");
             ctx.close();

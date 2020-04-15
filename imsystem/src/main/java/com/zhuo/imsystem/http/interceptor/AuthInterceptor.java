@@ -1,5 +1,5 @@
 package com.zhuo.imsystem.http.interceptor;
-import com.zhuo.imsystem.http.config.StatusCode;
+import com.zhuo.imsystem.commom.config.StatusCode;
 import com.zhuo.imsystem.http.util.JWTUtil;
 import com.zhuo.imsystem.http.util.ResponseJson;
 import org.springframework.stereotype.Component;

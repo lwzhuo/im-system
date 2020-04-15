@@ -6,7 +6,9 @@ public class ResponseProtocal extends Protocal {
     private int action;     // 动作
     private String msg;     // 消息
     private String fromUid; // 来源uid
+    private int msgType; // 消息类型
     private long ts;         // 发生的时间戳
+    private int statusCode; // 状态码
 
     public ResponseProtocal(){
         this.ts = System.currentTimeMillis();
@@ -41,5 +43,21 @@ public class ResponseProtocal extends Protocal {
 
     public void setTs(long ts) {
         this.ts = ts;
+    }
+
+    public int getMsgType() {
+        return msgType;
+    }
+
+    public void setMsgType(int msgType) {
+        this.msgType = msgType;
+    }
+
+    public int getStatusCode() {
+        return statusCode;
+    }
+
+    public void setStatusCode(int statusCode) {
+        this.statusCode = statusCode;
     }
 }

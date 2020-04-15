@@ -11,13 +11,19 @@ import java.util.HashMap;
 
 // 协议映射字典
 public class ProtocalMap extends HashMap<Integer,Class>{
+    public static int Echo_Request_Protocal = 1;
+    public static int Echo_Response_Protocal = 2;
+
+    public static int Register_Request_Protocal = 3;
+    public static int Register_Response_Protocal = 4;
+
     private static ProtocalMap map = new ProtocalMap();
     static {
-        map.put(1, EchoRequestProtocal.class);
-        map.put(2, EchoResponseProtocal.class);
+        map.put(Echo_Request_Protocal, EchoRequestProtocal.class);
+        map.put(Echo_Response_Protocal, EchoResponseProtocal.class);
 
-        map.put(3, RegisterRequestProtocal.class);
-        map.put(4, RegisterResponseProtocal.class);
+        map.put(Register_Request_Protocal, RegisterRequestProtocal.class);
+        map.put(Register_Response_Protocal, RegisterResponseProtocal.class);
     }
     private ProtocalMap(){
     }

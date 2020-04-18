@@ -1,11 +1,11 @@
-package com.zhuo.imsystem.queue.model;
+package com.zhuo.imsystem.queue.model.message;
 
 // 队列数据载体
-public class Message {
+public class BlockingQueueMessage {
     private int action;
     private String msg;
 
-    public Message(int action,String msg){
+    public BlockingQueueMessage(int action, String msg){
         this.action = action;
         this.msg = msg;
     }

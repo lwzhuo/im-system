@@ -1,11 +1,12 @@
 package com.zhuo.imsystem.websocket.protocal;
 
 public class Protocal {
-    private int action;     // 动作
-    private String msg;     // 消息内容
-    private long ts;         // 发生的时间戳
-    private int msgType; // 消息类型
-    private int statusCode; // 状态码
+    protected int action;     // 动作
+    protected String msg;     // 消息内容
+    protected long ts;         // 发生的时间戳
+    protected int msgType; // 消息类型
+    protected int statusCode; // 状态码
+    protected String jsonString; // json格式字符串
 
     public Protocal(){
         this.ts = System.currentTimeMillis();
@@ -51,19 +52,27 @@ public class Protocal {
     }
 
     public Protocal success(String msg){
-        this.msg = msg;
+        this.setMsg(msg);
         return this;
     }
 
     public Protocal success(int statusCode,String msg){
-        this.statusCode = statusCode;
-        this.msg = msg;
+        this.setStatusCode(statusCode);
+        this.setMsg(msg);
         return this;
     }
 
     public Protocal error(int statusCode,String msg){
-        this.statusCode = statusCode;
-        this.msg = msg;
+        this.setStatusCode(statusCode);
+        this.setMsg(msg);
         return this;
+    }
+
+    public String getJsonString() {
+        return jsonString;
+    }
+
+    public void setJsonString(String jsonString) {
+        this.jsonString = jsonString;
     }
 }

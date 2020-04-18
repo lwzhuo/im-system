@@ -7,6 +7,6 @@ public class EchoResponseProtocal extends ResponseProtocal {
     public EchoResponseProtocal(){
         super();
         this.setMsgType(ConstVar.SYSTEM_MESSAGE_TYPE);
-        this.setAction(ProtocalMap.Echo_Response_Protocal);
+        this.setAction(ProtocalMap.Echo_Response);
     }
 }

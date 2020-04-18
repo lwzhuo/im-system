@@ -3,12 +3,13 @@ package com.zhuo.imsystem.websocket.protocal.request;
 import com.zhuo.imsystem.websocket.protocal.Protocal;
 
 public class RequestProtocal extends Protocal {
-    private int action;     // 动作
-    private String msg;     // 消息
-    private String fromUid; // 来源uid
-    private int msgType; // 消息类型
-    private long ts;         // 发生的时间戳
-    private int statusCode; // 状态码
+    protected int action;     // 动作
+    protected String msg;     // 消息
+    protected String fromUid; // 来源uid
+    protected int msgType; // 消息类型
+    protected long ts;         // 发生的时间戳
+    protected int statusCode; // 状态码
+    protected String jsonString; // json格式字符串
 
     public RequestProtocal(){
         this.ts = System.currentTimeMillis();
@@ -59,5 +60,13 @@ public class RequestProtocal extends Protocal {
 
     public void setStatusCode(int statusCode) {
         this.statusCode = statusCode;
+    }
+
+    public String getJsonString() {
+        return jsonString;
+    }
+
+    public void setJsonString(String jsonString) {
+        this.jsonString = jsonString;
     }
 }

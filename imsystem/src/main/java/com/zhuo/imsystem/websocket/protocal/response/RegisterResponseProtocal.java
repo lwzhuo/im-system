@@ -7,6 +7,6 @@ public class RegisterResponseProtocal extends ResponseProtocal {
     public RegisterResponseProtocal(){
         super();
         this.setMsgType(ConstVar.SYSTEM_MESSAGE_TYPE);
-        this.setAction(ProtocalMap.Register_Response_Protocal);
+        this.setAction(ProtocalMap.Register_Response);
     }
 }

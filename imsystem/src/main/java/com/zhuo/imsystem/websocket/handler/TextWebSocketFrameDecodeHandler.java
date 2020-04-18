@@ -20,11 +20,11 @@ public class TextWebSocketFrameDecodeHandler extends MessageToMessageDecoder<Tex
     private void doDecode(ChannelHandlerContext ctx, TextWebSocketFrame msg, List<Object> out){
         try {
             // 客服端发送过来的消息
-            String request = msg.text();
-            JSONObject jsonObject = null;
+            String requestMsg = msg.text();
             msg.retain();
-            jsonObject = JSONObject.parseObject(request);
-            int action = jsonObject.getIntValue("action");// 获取数据类型
+            JSONObject jsonObject = JSONObject.parseObject(requestMsg);
+            int action = jsonObject.getIntValue("action");
+            jsonObject.put("jsonString",requestMsg);// 获取json格式字符串
             out.add(JSON.toJavaObject(jsonObject, ProtocalMap.getMap().get(action)));// 获取pojo
             System.out.println("[websocket]解析协议:"+action+" "+ProtocalMap.getMap().get(action).toString());
         } catch (Exception e) {

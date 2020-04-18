@@ -1,5 +1,6 @@
 package com.zhuo.imsystem;
 
+import com.zhuo.imsystem.queue.consumer.BlockingQueueConsumer;
 import com.zhuo.imsystem.websocket.WebSocketServer;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
@@ -11,8 +12,12 @@ public class ImSystemApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(ImSystemApplication.class, args);
+        // 启动websocket 服务器
         WebSocketServer webSocketServer = new WebSocketServer();
         webSocketServer.start();
+
+        // 启动队列consumer
+        BlockingQueueConsumer.start();
     }
 
 }

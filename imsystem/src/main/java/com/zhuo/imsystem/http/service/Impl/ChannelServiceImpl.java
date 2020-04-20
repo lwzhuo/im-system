@@ -129,4 +129,21 @@ public class ChannelServiceImpl implements ChannelService {
         }
         return channelDto;
     }
+
+    // 获取channel信息
+    public ChannelDto getInfo(String channelId,String uid,int channelType) throws Exception{
+        // 校验channel类型是否合法
+        if(channelType!= PRIVATE_CHANNEL&&channelType!=GROUP_CHANNEL){
+            System.out.println("channel类型错误");
+            throw new CommonException(StatusCode.ERROR_CHANNEL_QUERY_PARAM_INVALID,"channel 类型错误");
+        }
+        ChannelDto channelDto = null;
+        if(channelType==PRIVATE_CHANNEL){
+            channelDto = channelMapper.queryPrivateChannelByChannelIdAndCreatorUid(channelId,uid);
+            channelDto.setChannelUserList(new ArrayList<>());
+        }else {
+            //群聊 todo
+        }
+        return channelDto;
+    }
 }

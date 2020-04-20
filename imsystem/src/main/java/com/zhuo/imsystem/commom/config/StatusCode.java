@@ -14,6 +14,7 @@ public class StatusCode {
 
     // channel相关
     public static int ERROR_CHANNEL_CREATE_FAIL = -300;     // channel创建失败
+    public static int ERROR_CHANNEL_QUERY_PARAM_INVALID = -301; // channel查询参数错误
 
     // websocket服务相关
     public static int ERROR_WEBSOCKET_PROTOCAL_FORMAT_INVALID = -400; // 协议格式错误 无法正常解码

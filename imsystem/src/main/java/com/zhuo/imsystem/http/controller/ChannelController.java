@@ -21,4 +21,10 @@ public class ChannelController extends BaseController  {
         channelDto = channelService.createChannel(channelDto);
         return success().setData(channelDto);
     }
+
+    @RequestMapping(value = "/info",method = RequestMethod.GET)
+    public ResponseJson getChannelInfo(@RequestParam String uid,@RequestParam String channelId,@RequestParam int channelType)throws Exception{
+        ChannelDto channelDto = channelService.getInfo(channelId,uid,channelType);
+        return success().setData(channelDto);
+    }
 }

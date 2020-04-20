@@ -1,14 +1,19 @@
 package com.zhuo.imsystem.http.mapper;
 
 import com.zhuo.imsystem.http.dto.ChannelDto;
-import org.apache.ibatis.annotations.Insert;
+import org.apache.ibatis.annotations.InsertProvider;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.SelectProvider;
 import org.springframework.stereotype.Component;
+import java.util.List;
 
 @Component
 @Mapper
 public interface ChannelMapper {
-    @Insert("insert into im_channel (channel_id,channel_name,creator_id,channel_type,ctime,updatetime) values (#{channelId},#{channelName},#{creatorId},#{channelType},#{registTime},#{updateTime})")
-    public boolean saveChannel(ChannelDto channelDto);
-
+    @InsertProvider(type = ChannelSQLBulider.class, method = "insertChannel")
+    public int saveChannel(ChannelDto channelDto);
+    
+    @Select("select channel_id,channel_name,channel_type,creator_id,attender_id from im_channel where creator_id=#{creatorId} and attender_id=#{attenderId} limit 1")
+    public ChannelDto queryPrivateChannelByMemberUid(ChannelDto channelDto);
 }

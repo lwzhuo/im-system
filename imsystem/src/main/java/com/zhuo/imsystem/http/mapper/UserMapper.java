@@ -16,4 +16,7 @@ public interface UserMapper {
 
     @Insert("insert into im_user (uid,username,salt,password,regist_time,update_time) values (#{uid},#{userName},#{salt},#{password},#{registTime},#{updateTime})")
     public boolean register(User user);
+
+    @Select("select username from im_user where uid=#{uid}")
+    public String queryUserName(String uid);
 }

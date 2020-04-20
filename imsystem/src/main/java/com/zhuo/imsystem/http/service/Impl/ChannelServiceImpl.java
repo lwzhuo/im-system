@@ -141,10 +141,19 @@ public class ChannelServiceImpl implements ChannelService {
         if(channelType==PRIVATE_CHANNEL){
             if(channelDtoList.size()!=2)
                 return res;
-            if(channelDtoList.get(0).getCreatorId().equals(uid))
-                return channelDtoList.get(0);
-            else
-                return channelDtoList.get(1);
+            if(channelDtoList.get(0).getCreatorId().equals(uid)) {
+                ChannelDto item = channelDtoList.get(0);
+                String toUid = item.getAttenderId();
+                String username = userMapper.queryUserName(toUid);
+                item.setChannelName(username);
+                return item;
+            }else{
+                ChannelDto item = channelDtoList.get(1);
+                String toUid = item.getAttenderId();
+                String username = userMapper.queryUserName(toUid);
+                item.setChannelName(username);
+                return item;
+            }
         }else {
             //群聊 todo
         }

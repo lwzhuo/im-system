@@ -109,7 +109,7 @@ public class ChannelServiceImpl implements ChannelService {
                 throw new CommonException(StatusCode.ERROR_CHANNEL_CREATE_FAIL,"channel 创建失败");
             }
             // 检查channel是否已经创建过
-            ChannelDto res = channelMapper.queryPrivateChannelByMemberUid(channelDto);
+            ChannelDto res = channelMapper.queryPrivateChannelByMemberUid(creatorUid,memberUid);
             System.out.println(res);
             if(res!=null){
                 // 根据用户uid 查询到相应的channel信息 直接返回这个channel数据

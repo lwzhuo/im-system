@@ -19,4 +19,8 @@ public class StatusCode {
     // websocket服务相关
     public static int ERROR_WEBSOCKET_PROTOCAL_FORMAT_INVALID = -400; // 协议格式错误 无法正常解码
     public static int ERROR_WEBSOCKET_CHANNEL_REGISTER_FAILED = -401; // channel注册失败
+
+    // 权限相关
+    public static int ERROR_INVALID_USER = -500;            // 非法用户
+    public static int ERROR_CHANNEL_AUTH_FAILED = -501;     // 没有该channel的权限
 }

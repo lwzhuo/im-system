@@ -11,5 +11,7 @@ public class SessionUtil {
     public static void userOnline(String uid, Channel channel){
         ChannelContainer.addUserChannel(uid,channel);
     }
-
+    public static void userOffline(String uid){
+        ChannelContainer.removeUserChannel(uid);
+    }
 }

@@ -46,4 +46,8 @@ public class ChannelContainer {
         USERID_CHANNEL_MAP.put(uid,channel);
         return;
     }
+
+    public static void removeUserChannel(String uid){
+        USERID_CHANNEL_MAP.remove(uid);
+    }
 }

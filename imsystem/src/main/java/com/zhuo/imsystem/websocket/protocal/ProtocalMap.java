@@ -3,8 +3,10 @@ package com.zhuo.imsystem.websocket.protocal;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.zhuo.imsystem.websocket.protocal.request.EchoRequestProtocal;
+import com.zhuo.imsystem.websocket.protocal.request.NewMessageRequestProtocal;
 import com.zhuo.imsystem.websocket.protocal.request.RegisterRequestProtocal;
 import com.zhuo.imsystem.websocket.protocal.response.EchoResponseProtocal;
+import com.zhuo.imsystem.websocket.protocal.response.NewMessageResponseProtocal;
 import com.zhuo.imsystem.websocket.protocal.response.RegisterResponseProtocal;
 
 import java.util.HashMap;
@@ -19,6 +21,10 @@ public class ProtocalMap extends HashMap<Integer,Class>{
     public static final int Register_Request = 3;
     public static final int Register_Response = 4;
 
+    // 新消息协议
+    public static final int New_message_Request = 5;
+    public static final int New_message_Response = 6;
+
     private static ProtocalMap map = new ProtocalMap();
     static {
         map.put(Echo_Request, EchoRequestProtocal.class);
@@ -26,6 +32,9 @@ public class ProtocalMap extends HashMap<Integer,Class>{
 
         map.put(Register_Request, RegisterRequestProtocal.class);
         map.put(Register_Response, RegisterResponseProtocal.class);
+
+        map.put(New_message_Request, NewMessageRequestProtocal.class);
+        map.put(New_message_Response, NewMessageResponseProtocal.class);
     }
     private ProtocalMap(){
     }

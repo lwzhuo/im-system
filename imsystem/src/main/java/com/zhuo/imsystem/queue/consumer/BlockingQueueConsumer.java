@@ -27,7 +27,7 @@ public class BlockingQueueConsumer {
 
     public static void start(){
         System.out.println("消息队列模块启动");
-        int messageTypes[] = new int[]{ConstVar.SYSTEM_MESSAGE_TYPE,ConstVar.PRIVATE_QUEUE,ConstVar.GROUP_QUEUE};
+        int messageTypes[] = new int[]{ConstVar.PRIVATE_MESSAGE_TYPE,ConstVar.GROUP_MESSAGE_TYPE,ConstVar.SYSTEM_MESSAGE_TYPE};
         for(int type : messageTypes){
             Thread thread = new Thread(() -> {
                 for (;;) {
@@ -43,5 +43,24 @@ public class BlockingQueueConsumer {
             thread.setName("Consumer_thread-" + type);
             thread.start();
         }
+
+        // 队列监视线程
+        Thread queueMonitorThread = new Thread(() -> {
+            try {
+                for (;;) {
+                    String str = "[Queue-monitor]";
+                    for(int type:messageTypes){
+                        int size = BlockingQueueModel.getQueue(type).size();
+                        str+=(" type:"+type+" size:"+size);
+                    }
+                    System.out.println(str);
+                    Thread.sleep(10000);
+                }
+            }catch (InterruptedException e){
+                e.printStackTrace();
+            }
+        });
+        queueMonitorThread.setName("Queue-monitor");
+        queueMonitorThread.start();
     }
 }

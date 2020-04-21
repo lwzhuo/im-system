@@ -9,4 +9,10 @@ public class BaseController {
     public static ResponseJson error(){
         return new ResponseJson().error();
     }
+    public static ResponseJson error(String msg){
+        return new ResponseJson().error(msg);
+    }
+    public static ResponseJson error(String msg,int statusCode){
+        return new ResponseJson().error(msg,statusCode);
+    }
 }

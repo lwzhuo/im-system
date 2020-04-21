@@ -30,4 +30,14 @@ public interface ChannelMapper {
     })
     @Select("select * from im_channel where channel_id=#{channelId}")
     public List<ChannelDto> queryChannelInfoByChannelId(String ChannelId);
+
+    @Results(id = "privateChannelResult3", value = {
+            @Result(property = "channelId", column = "channel_id", id = true),
+            @Result(property = "channelName", column = "channel_name"),
+            @Result(property = "creatorId", column = "creator_id"),
+            @Result(property = "attenderId", column = "attender_id"),
+            @Result(property = "channelType", column = "channel_type")
+    })
+    @Select("select * from im_channel where creator_id=#{creatorId} and channel_id=#{channelId} limit 1")
+    public ChannelDto queryPrivateChannelByCreatorUid(String channelId,String creatorId);
 }

@@ -21,5 +21,6 @@ public class BlockingQueueProvider {
         }
         BlockingQueueMessage blockingQueueMessage = new BlockingQueueMessage(action,msg);
         BlockingQueueModel.putMessageToQueue(blockingQueueMessage,blockingQueue);
+        System.out.println("[消息入队]"+" msgType:"+msgType+" action:"+action+" msg:"+msg);
     }
 }

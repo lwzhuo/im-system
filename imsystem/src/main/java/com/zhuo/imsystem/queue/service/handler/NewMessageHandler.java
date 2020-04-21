@@ -4,18 +4,19 @@ import com.zhuo.imsystem.http.config.Const;
 import com.zhuo.imsystem.http.dto.ChannelDto;
 import com.zhuo.imsystem.http.mapper.ChannelMapper;
 import com.zhuo.imsystem.queue.model.message.BlockingQueueMessage;
+import com.zhuo.imsystem.utils.SpringUtils;
 import com.zhuo.imsystem.websocket.protocal.ProtocalMap;
 import com.zhuo.imsystem.websocket.protocal.request.NewMessageRequestProtocal;
 import com.zhuo.imsystem.websocket.protocal.response.NewMessageResponseProtocal;
 import com.zhuo.imsystem.websocket.util.ChannelContainer;
 import io.netty.channel.Channel;
 import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.context.ApplicationContext;
 
 public class NewMessageHandler extends MessageHandler {
-    @Autowired
-    ChannelMapper channelMapper;
+    // 运行时注入
+    private ApplicationContext applicationContext = SpringUtils.getApplicationContext();
+    private ChannelMapper channelMapper = applicationContext.getBean(ChannelMapper.class);
 
     public NewMessageHandler(BlockingQueueMessage message){
         this.message = message;

@@ -8,6 +8,6 @@ import org.springframework.stereotype.Service;
 @Service("messageService")
 public class MessageServiceImpl implements MessageService {
     public void sendMessage(NewMessageRequestProtocal msg) throws Exception{
-        BlockingQueueProvider.publish(msg.getMsgType(),msg.getAction(),msg.getJsonString());
+        BlockingQueueProvider.publish(msg.getChannelType(),msg.getAction(),msg.getJsonString());
     }
 }

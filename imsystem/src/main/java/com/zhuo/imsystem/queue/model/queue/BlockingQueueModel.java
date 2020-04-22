@@ -20,13 +20,13 @@ public class BlockingQueueModel {
     private static HashMap<Integer,BlockingQueue<BlockingQueueMessage>> QUEUE_MAP = new HashMap<Integer, BlockingQueue<BlockingQueueMessage>>();
 
     static {
-        QUEUE_MAP.put(ConstVar.SYSTEM_QUEUE,SYSTEM_QUEUE);
-        QUEUE_MAP.put(ConstVar.PRIVATE_QUEUE,PRIVATE_QUEUE);
-        QUEUE_MAP.put(ConstVar.GROUP_QUEUE,GROUP_QUEUE);
+        QUEUE_MAP.put(ConstVar.SYSTEM_CHANNEL_QUEUE,SYSTEM_QUEUE);
+        QUEUE_MAP.put(ConstVar.PRIVATE_CHANNEL_QUEUE,PRIVATE_QUEUE);
+        QUEUE_MAP.put(ConstVar.GROUP_CHANNEL_QUEUE,GROUP_QUEUE);
     }
 
-    public static BlockingQueue getQueue(int queueType){
-        return QUEUE_MAP.get(queueType);
+    public static BlockingQueue getQueue(int channelType){
+        return QUEUE_MAP.get(channelType);
     }
 
     public static void putMessageToQueue(BlockingQueueMessage blockingQueueMessage, BlockingQueue<BlockingQueueMessage> queue){

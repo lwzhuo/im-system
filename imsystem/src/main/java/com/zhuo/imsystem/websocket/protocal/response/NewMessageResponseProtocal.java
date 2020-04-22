@@ -6,7 +6,7 @@ import com.zhuo.imsystem.websocket.protocal.ProtocalMap;
 public class NewMessageResponseProtocal extends ResponseProtocal {
     public NewMessageResponseProtocal(){
         super();
-        this.setMsgType(ConstVar.PRIVATE_MESSAGE_TYPE);
+        this.setChannelType(ConstVar.PRIVATE_CHANNEL_QUEUE);
         this.setAction(ProtocalMap.New_message_Response);
     }
 }

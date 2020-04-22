@@ -6,7 +6,7 @@ import com.zhuo.imsystem.websocket.protocal.ProtocalMap;
 public class EchoResponseProtocal extends ResponseProtocal {
     public EchoResponseProtocal(){
         super();
-        this.setMsgType(ConstVar.SYSTEM_MESSAGE_TYPE);
+        this.setChannelType(ConstVar.SYSTEM_CHANNEL_QUEUE);
         this.setAction(ProtocalMap.Echo_Response);
     }
 }

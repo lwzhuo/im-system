@@ -27,8 +27,8 @@ public class BlockingQueueConsumer {
 
     public static void start(){
         System.out.println("消息队列模块启动");
-        int messageTypes[] = new int[]{ConstVar.PRIVATE_MESSAGE_TYPE,ConstVar.GROUP_MESSAGE_TYPE,ConstVar.SYSTEM_MESSAGE_TYPE};
-        for(int type : messageTypes){
+        int channelType[] = new int[]{ConstVar.PRIVATE_CHANNEL_QUEUE,ConstVar.GROUP_CHANNEL_QUEUE,ConstVar.SYSTEM_CHANNEL_QUEUE};
+        for(int type : channelType){
             Thread thread = new Thread(() -> {
                 for (;;) {
                     BlockingQueueMessage message = consume(type); // 从队列中获取数据
@@ -49,9 +49,9 @@ public class BlockingQueueConsumer {
             try {
                 for (;;) {
                     String str = "[Queue-monitor]";
-                    for(int type:messageTypes){
+                    for(int type:channelType){
                         int size = BlockingQueueModel.getQueue(type).size();
-                        str+=(" type:"+type+" size:"+size);
+                        str+=(" channelType:"+type+" size:"+size);
                     }
                     System.out.println(str);
                     Thread.sleep(10000);

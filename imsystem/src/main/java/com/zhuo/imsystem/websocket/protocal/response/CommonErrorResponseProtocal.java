@@ -8,6 +8,6 @@ public class CommonErrorResponseProtocal extends ResponseProtocal {
         super();
         this.setMsg(msg);
         this.setStatusCode(errorCode);
-        this.setMsgType(ConstVar.SYSTEM_MESSAGE_TYPE);
+        this.setChannelType(ConstVar.SYSTEM_CHANNEL_QUEUE);
     }
 }

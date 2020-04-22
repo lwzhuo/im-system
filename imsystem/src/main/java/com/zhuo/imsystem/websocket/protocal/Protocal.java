@@ -7,6 +7,7 @@ public class Protocal {
     protected int msgType; // 消息类型
     protected int statusCode; // 状态码
     protected String jsonString; // json格式字符串
+    protected int channelType;//channel类型(私聊/群聊/系统channel)
 
     public Protocal(){
         this.ts = System.currentTimeMillis();
@@ -49,6 +50,14 @@ public class Protocal {
 
     public void setStatusCode(int statusCode) {
         this.statusCode = statusCode;
+    }
+
+    public int getChannelType() {
+        return channelType;
+    }
+
+    public void setChannelType(int channelType) {
+        this.channelType = channelType;
     }
 
     public Protocal success(String msg){

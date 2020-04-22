@@ -33,9 +33,10 @@ public class NewMessageHandler extends MessageHandler {
         int channeltype = newMessageRequestProtocal.getChannelType();
         String msg = newMessageRequestProtocal.getMsg();
         long ts = newMessageRequestProtocal.getTs();
+        String messageId = newMessageRequestProtocal.getMessageId();
 
         // 保存消息到ES
-        Message stroedMessage = new Message(ts,channelId,fromUid,messageType,channeltype,msg);
+        Message stroedMessage = new Message(ts,channelId,fromUid,messageType,channeltype,msg,messageId);
         elasticMessageService.save(stroedMessage);
 
         // 处理消息发送

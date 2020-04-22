@@ -2,6 +2,7 @@ package com.zhuo.imsystem.http.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.zhuo.imsystem.commom.config.StatusCode;
+import com.zhuo.imsystem.elasticsearch.Message;
 import com.zhuo.imsystem.http.dto.ChannelMemberDto;
 import com.zhuo.imsystem.http.service.MessageService;
 import com.zhuo.imsystem.http.service.UserChannelService;
@@ -11,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
 
 @RestController
 @RequestMapping("/message")
@@ -31,7 +33,6 @@ public class MessageController extends BaseController{
     @RequestMapping(value = "send",method = RequestMethod.POST)
     public ResponseJson sendMessage(HttpServletRequest request,@RequestBody JSONObject json)throws Exception{
         NewMessageRequestProtocal newMessageRequest = json.toJavaObject(NewMessageRequestProtocal.class);
-        newMessageRequest.setJsonString(json.toJSONString());
         // 校验消息中的uid是否匹配
         String uid = (String) request.getAttribute("uid");
         String fromUid = newMessageRequest.getFromUid();
@@ -45,7 +46,15 @@ public class MessageController extends BaseController{
             return error("用户没有权限", StatusCode.ERROR_CHANNEL_AUTH_FAILED);
 
         // 发送消息
+        long ts = System.currentTimeMillis();
+        String messageId = Message.generateMessageTid();
+        newMessageRequest.setTs(ts);
+        newMessageRequest.setMessageId(messageId);
+        newMessageRequest.setJsonString(JSONObject.toJSONString(newMessageRequest));
         messageService.sendMessage(newMessageRequest);
-        return success();
+        HashMap res = new HashMap();
+        res.put("ts",ts);
+        res.put("messageId",messageId);
+        return success().setData(res);
     }
 }

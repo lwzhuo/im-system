@@ -139,19 +139,22 @@ public class ChannelServiceImpl implements ChannelService {
         }
         int channelType = channelDtoList.get(0).getChannelType();
         if(channelType==PRIVATE_CHANNEL){
+            // 私聊
             if(channelDtoList.size()!=2)
                 return res;
             if(channelDtoList.get(0).getCreatorId().equals(uid)) {
                 ChannelDto item = channelDtoList.get(0);
                 String toUid = item.getAttenderId();
                 String username = userMapper.queryUserName(toUid);
-                item.setChannelName(username);
+                item.setAttenderName(username);
+                item.setChannelName(username); // 私聊窗口的名字为对方的用户名(暂时不支持修改)
                 return item;
             }else{
                 ChannelDto item = channelDtoList.get(1);
                 String toUid = item.getAttenderId();
                 String username = userMapper.queryUserName(toUid);
-                item.setChannelName(username);
+                item.setAttenderName(username);
+                item.setChannelName(username); // 私聊窗口的名字为对方的用户名(暂时不支持修改)
                 return item;
             }
         }else {

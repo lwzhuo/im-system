@@ -31,14 +31,14 @@ public class Message {
     @Field(type = FieldType.Keyword)
     private String messageId;
 
-    public Message(long ts, String channelId, String sendFrom, int msgType, int channelType, String msg) {
+    public Message(long ts, String channelId, String sendFrom, int msgType, int channelType, String msg,String messageId) {
         this.ts = ts;
         this.channelId = channelId;
         this.sendFrom = sendFrom;
         this.msgType = msgType;
         this.channelType = channelType;
         this.msg = msg;
-        this.messageId = generateMessageTid();
+        this.messageId = messageId;
     }
 
     public long getTs() {

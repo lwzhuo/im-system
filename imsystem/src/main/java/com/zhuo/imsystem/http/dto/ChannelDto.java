@@ -6,7 +6,8 @@ public class ChannelDto {
     private String channelId;
     private String channelName;
     private String creatorId;
-    private String attenderId;
+    private String attenderId; // 参与者Id
+    private String attenderName; // 参与者用户名
     private int channelType;
     private Date ctime;
     private Date updateTime;
@@ -88,5 +89,13 @@ public class ChannelDto {
 
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
+    }
+
+    public String getAttenderName() {
+        return attenderName;
+    }
+
+    public void setAttenderName(String attenderName) {
+        this.attenderName = attenderName;
     }
 }

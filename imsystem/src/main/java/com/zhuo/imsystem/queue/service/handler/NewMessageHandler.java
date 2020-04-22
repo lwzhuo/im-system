@@ -1,5 +1,6 @@
 package com.zhuo.imsystem.queue.service.handler;
 
+import com.zhuo.imsystem.elasticsearch.ElasticMessageService;
 import com.zhuo.imsystem.elasticsearch.Message;
 import com.zhuo.imsystem.http.config.Const;
 import com.zhuo.imsystem.http.dto.ChannelDto;
@@ -18,6 +19,7 @@ public class NewMessageHandler extends MessageHandler {
     // 运行时注入
     private ApplicationContext applicationContext = SpringUtils.getApplicationContext();
     private ChannelMapper channelMapper = applicationContext.getBean(ChannelMapper.class);
+    private ElasticMessageService elasticMessageService = applicationContext.getBean(ElasticMessageService.class);
 
     public NewMessageHandler(BlockingQueueMessage message){
         this.message = message;
@@ -28,6 +30,15 @@ public class NewMessageHandler extends MessageHandler {
         String fromUid = newMessageRequestProtocal.getFromUid();
         String channelId = newMessageRequestProtocal.getChannelId();
         int messageType = newMessageRequestProtocal.getMsgType();
+        int channeltype = newMessageRequestProtocal.getChannelType();
+        String msg = newMessageRequestProtocal.getMsg();
+        long ts = newMessageRequestProtocal.getTs();
+
+        // 保存消息到ES
+        Message stroedMessage = new Message(ts,channelId,fromUid,messageType,channeltype,msg);
+        elasticMessageService.save(stroedMessage);
+
+        // 处理消息发送
         if(messageType== Const.PRIVATE_CHANNEL){
             // 私聊
             ChannelDto channelDto = channelMapper.queryPrivateChannelByCreatorUid(channelId,fromUid);
@@ -36,7 +47,6 @@ public class NewMessageHandler extends MessageHandler {
             // 保存消息
             if(userChannel!=null){// 用户在线
                 System.out.println("用户在线 发送消息");
-                String msg = newMessageRequestProtocal.getMsg();
                 NewMessageResponseProtocal responseProtocal = new NewMessageResponseProtocal();
                 responseProtocal.setFromUid(fromUid);
                 String res = ProtocalMap.toJSONString(responseProtocal.success(msg));// todo  改为toString()

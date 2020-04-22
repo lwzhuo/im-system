@@ -28,8 +28,8 @@ public class Message {
     @Field(type = FieldType.Text)
     private String msg;
 
-    @Field(type = FieldType.Long)
-    private long messageId;
+    @Field(type = FieldType.Keyword)
+    private String messageId;
 
     public Message(long ts, String channelId, String sendFrom, int msgType, int channelType, String msg) {
         this.ts = ts;
@@ -38,14 +38,7 @@ public class Message {
         this.msgType = msgType;
         this.channelType = channelType;
         this.msg = msg;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
+        this.messageId = generateMessageTid();
     }
 
     public long getTs() {
@@ -96,11 +89,17 @@ public class Message {
         this.msg = msg;
     }
 
-    public long getMessageId() {
+    public String getMessageId() {
         return messageId;
     }
 
-    public void setMessageId(long messageId) {
+    public void setMessageId(String  messageId) {
         this.messageId = messageId;
+    }
+
+    public static String generateMessageTid(){
+        long nanots = System.nanoTime();
+        long random = (long)Math.random()*10000;
+        return nanots+""+random;
     }
 }

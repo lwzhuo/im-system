@@ -1,5 +1,6 @@
 package com.zhuo.imsystem.queue.service.handler;
 
+import com.zhuo.imsystem.elasticsearch.Message;
 import com.zhuo.imsystem.http.config.Const;
 import com.zhuo.imsystem.http.dto.ChannelDto;
 import com.zhuo.imsystem.http.mapper.ChannelMapper;
@@ -32,6 +33,7 @@ public class NewMessageHandler extends MessageHandler {
             ChannelDto channelDto = channelMapper.queryPrivateChannelByCreatorUid(channelId,fromUid);
             String toUid = channelDto.getAttenderId();
             Channel userChannel = ChannelContainer.getChannelByUserId(toUid);
+            // 保存消息
             if(userChannel!=null){// 用户在线
                 System.out.println("用户在线 发送消息");
                 String msg = newMessageRequestProtocal.getMsg();

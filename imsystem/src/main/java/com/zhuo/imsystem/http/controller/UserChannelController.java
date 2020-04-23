@@ -16,6 +16,7 @@ public class UserChannelController extends BaseController{
     @Autowired
     ChannelService channelService;
 
+    // 获取用户频道列表
     @RequestMapping(value = "/{uid}",method = RequestMethod.GET)
     public ResponseJson createChannel(@PathVariable String uid, @RequestParam int limit) throws Exception{
         HashMap hashMap = new HashMap();

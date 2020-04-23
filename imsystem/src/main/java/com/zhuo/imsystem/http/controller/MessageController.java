@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.zhuo.imsystem.commom.config.StatusCode;
 import com.zhuo.imsystem.elasticsearch.Message;
 import com.zhuo.imsystem.http.dto.ChannelMemberDto;
+import com.zhuo.imsystem.http.mapper.UserMapper;
 import com.zhuo.imsystem.http.service.MessageService;
 import com.zhuo.imsystem.http.service.UserChannelService;
 import com.zhuo.imsystem.http.util.ResponseJson;
@@ -24,12 +25,17 @@ public class MessageController extends BaseController{
     @Autowired
     MessageService messageService;
 
-    // 拉取历史消息
-    @RequestMapping(value = "/get",method = RequestMethod.GET)
-    public ResponseJson getMessage(@RequestParam String channelId,@RequestParam int size){
+    @Autowired
+    UserMapper userMapper;
+
+    // 拉取历史消息 使用base+offset方式拉取ES中的数据 后续可以改为使用ES的scroll api进行拉取
+    @RequestMapping(value = "",method = RequestMethod.GET)
+    public ResponseJson getMessage(@RequestParam String channelId,@RequestParam long base,@RequestParam int size){
+        
         return success();
     }
 
+    // 发送消息
     @RequestMapping(value = "send",method = RequestMethod.POST)
     public ResponseJson sendMessage(HttpServletRequest request,@RequestBody JSONObject json)throws Exception{
         NewMessageRequestProtocal newMessageRequest = json.toJavaObject(NewMessageRequestProtocal.class);
@@ -48,13 +54,24 @@ public class MessageController extends BaseController{
         // 发送消息
         long ts = System.currentTimeMillis();
         String messageId = Message.generateMessageTid();
+        String fromUserName = userMapper.queryUserName(fromUid);
+        int messageType = newMessageRequest.getMsgType();
+        int channelType = newMessageRequest.getChannelType();
+        String msg = newMessageRequest.getMsg();
         newMessageRequest.setTs(ts);
         newMessageRequest.setMessageId(messageId);
         newMessageRequest.setJsonString(JSONObject.toJSONString(newMessageRequest));
         messageService.sendMessage(newMessageRequest);
+
+        // 返回结果响应
         HashMap res = new HashMap();
         res.put("ts",ts);
         res.put("messageId",messageId);
+        res.put("fromUid",fromUid);
+        res.put("fromUserName",fromUserName);
+        res.put("msgType",messageType);
+        res.put("channelType",channelType);
+        res.put("msg",msg);
         return success().setData(res);
     }
 }

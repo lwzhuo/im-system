@@ -5,7 +5,11 @@ import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
 
-@Document(indexName = "im-system",type = "_doc", shards = 5, replicas = 1)
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+@Document(indexName = "im-system",type = "_doc", shards = 5, replicas = 0)
 public class Message {
     @Id
     private Long id;
@@ -14,10 +18,13 @@ public class Message {
     private long ts;
 
     @Field(type = FieldType.Keyword)
+    private String date;
+
+    @Field(type = FieldType.Keyword)
     private String channelId;
 
     @Field(type = FieldType.Keyword)
-    private String sendFrom;
+    private String fromUid;
 
     @Field(type = FieldType.Integer)
     private int msgType;
@@ -31,18 +38,23 @@ public class Message {
     @Field(type = FieldType.Keyword)
     private String messageId;
 
+    @Field(type = FieldType.Keyword)
+    private int status;
+
     public Message(){
 
     }
 
-    public Message(long ts, String channelId, String sendFrom, int msgType, int channelType, String msg,String messageId) {
+    public Message(long ts, String channelId, String fromUid, int msgType, int channelType, String msg,String messageId,int status) {
         this.ts = ts;
         this.channelId = channelId;
-        this.sendFrom = sendFrom;
+        this.fromUid = fromUid;
         this.msgType = msgType;
         this.channelType = channelType;
         this.msg = msg;
         this.messageId = messageId;
+        DateFormat dFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        this.date = dFormat.format(new Date(ts));
     }
 
     public long getTs() {
@@ -53,6 +65,14 @@ public class Message {
         this.ts = ts;
     }
 
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
     public String getChannelId() {
         return channelId;
     }
@@ -61,12 +81,12 @@ public class Message {
         this.channelId = channelId;
     }
 
-    public String getSendFrom() {
-        return sendFrom;
+    public String getfromUid() {
+        return fromUid;
     }
 
-    public void setSendFrom(String sendFrom) {
-        this.sendFrom = sendFrom;
+    public void setfromUid(String fromUid) {
+        this.fromUid = fromUid;
     }
 
     public int getMsgType() {
@@ -99,6 +119,14 @@ public class Message {
 
     public void setMessageId(String  messageId) {
         this.messageId = messageId;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
     }
 
     public static String generateMessageTid(){

@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.elasticsearch.core.ElasticsearchRestTemplate;
 import org.springframework.stereotype.Service;
 
@@ -34,9 +35,10 @@ public class ElasticMessageServiceImpl implements ElasticMessageService {
         return elasticRepository.getMessagebyMessageId(messageId,pageable);
     }
 
-    public Page<Message> getMessageDesc(String channelId,long ts,int size){
-        Pageable pageable = PageRequest.of(0,size);
-        return elasticRepository.getMessageDesc(channelId,ts,size,pageable);
+    public List<Message> getMessageDesc(String channelId, long ts, int size){
+        Sort sort = Sort.by("ts").descending();
+        Pageable pageable = PageRequest.of(0,size,sort);
+        return elasticRepository.getMessageDesc(channelId,ts,pageable);
     }
 
     public void save(Message message){

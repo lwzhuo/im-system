@@ -1,5 +1,6 @@
 package com.zhuo.imsystem.queue.service.handler;
 
+import com.zhuo.imsystem.commom.config.ConstVar;
 import com.zhuo.imsystem.elasticsearch.ElasticMessageService;
 import com.zhuo.imsystem.elasticsearch.Message;
 import com.zhuo.imsystem.http.config.Const;
@@ -36,7 +37,7 @@ public class NewMessageHandler extends MessageHandler {
         String messageId = newMessageRequestProtocal.getMessageId();
 
         // 保存消息到ES
-        Message stroedMessage = new Message(ts,channelId,fromUid,messageType,channeltype,msg,messageId);
+        Message stroedMessage = new Message(ts,channelId,fromUid,messageType,channeltype,msg,messageId, ConstVar.MESSAGE_STATUS_NORMAL);
         elasticMessageService.save(stroedMessage);
 
         // 处理消息发送

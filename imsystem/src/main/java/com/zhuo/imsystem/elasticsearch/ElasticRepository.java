@@ -2,8 +2,11 @@ package com.zhuo.imsystem.elasticsearch;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.elasticsearch.annotations.Query;
 import org.springframework.data.elasticsearch.repository.ElasticsearchRepository;
+
+import java.util.List;
 
 public interface ElasticRepository extends ElasticsearchRepository<Message, Long> {
 
@@ -21,9 +24,7 @@ public interface ElasticRepository extends ElasticsearchRepository<Message, Long
     // 倒序获取消息 用于向前查看历史消息
     @Query("{\"bool\": {\"must\": \n" +
             "[{\"term\": {\"channelId\": \"?0\"}},\n" +
-            "{\"range\": {\"ts\": {\"lt\": ?1}}}]}},\n" +
-            "\"size\": ?2,\n" +
-            "\"sort\": {\"ts\": {\"order\": \"desc\"}}")
-    public Page<Message> getMessageDesc(String channelId,long ts,int size,Pageable pageable);
+            "{\"range\": {\"ts\": {\"lt\": ?1}}}]}},\n")
+    public List<Message> getMessageDesc(String channelId, long ts, Pageable pageable);
 
 }

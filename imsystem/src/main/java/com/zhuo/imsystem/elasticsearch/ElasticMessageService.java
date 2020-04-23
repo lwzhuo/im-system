@@ -13,6 +13,8 @@ public interface ElasticMessageService {
 
     public Page<Message> queryByMessageId(long messageId);
 
+    public Page<Message> getMessageDesc(String channelId,long ts,int size);
+
     public void save(Message message);
 
     public void saveAll(List<Message> list);

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
+import java.util.List;
 
 @RestController
 @RequestMapping("/message")
@@ -29,10 +30,10 @@ public class MessageController extends BaseController{
     UserMapper userMapper;
 
     // 拉取历史消息 使用base+offset方式拉取ES中的数据 后续可以改为使用ES的scroll api进行拉取
-    @RequestMapping(value = "",method = RequestMethod.GET)
-    public ResponseJson getMessage(@RequestParam String channelId,@RequestParam long base,@RequestParam int size){
-        
-        return success();
+    @RequestMapping(value = "/{channelId}",method = RequestMethod.GET)
+    public ResponseJson getMessage(@PathVariable String channelId,@RequestParam long maxCreateAt,@RequestParam int size)throws Exception{
+        List res = messageService.getMoreMessage(channelId, maxCreateAt, size);
+        return success().setData(res);
     }
 
     // 发送消息

@@ -34,6 +34,11 @@ public class ElasticMessageServiceImpl implements ElasticMessageService {
         return elasticRepository.getMessagebyMessageId(messageId,pageable);
     }
 
+    public Page<Message> getMessageDesc(String channelId,long ts,int size){
+        Pageable pageable = PageRequest.of(0,size);
+        return elasticRepository.getMessageDesc(channelId,ts,size,pageable);
+    }
+
     public void save(Message message){
         elasticRepository.save(message);
     }

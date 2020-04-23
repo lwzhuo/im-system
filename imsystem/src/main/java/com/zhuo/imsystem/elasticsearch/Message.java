@@ -31,6 +31,10 @@ public class Message {
     @Field(type = FieldType.Keyword)
     private String messageId;
 
+    public Message(){
+
+    }
+
     public Message(long ts, String channelId, String sendFrom, int msgType, int channelType, String msg,String messageId) {
         this.ts = ts;
         this.channelId = channelId;
@@ -45,7 +49,7 @@ public class Message {
         return ts;
     }
 
-    public void setTs(int ts) {
+    public void setTs(long ts) {
         this.ts = ts;
     }
 

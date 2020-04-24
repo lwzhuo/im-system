@@ -31,13 +31,13 @@ public class NewMessageHandler extends MessageHandler {
         String fromUid = newMessageRequestProtocal.getFromUid();
         String channelId = newMessageRequestProtocal.getChannelId();
         int messageType = newMessageRequestProtocal.getMsgType();
-        int channeltype = newMessageRequestProtocal.getChannelType();
+        int channelType = newMessageRequestProtocal.getChannelType();
         String msg = newMessageRequestProtocal.getMsg();
         long ts = newMessageRequestProtocal.getTs();
         String messageId = newMessageRequestProtocal.getMessageId();
 
         // 保存消息到ES
-        Message stroedMessage = new Message(ts,channelId,fromUid,messageType,channeltype,msg,messageId, ConstVar.MESSAGE_STATUS_NORMAL);
+        Message stroedMessage = new Message(ts,channelId,fromUid,messageType,channelType,msg,messageId, ConstVar.MESSAGE_STATUS_NORMAL);
         elasticMessageService.save(stroedMessage);
 
         // 处理消息发送
@@ -49,9 +49,8 @@ public class NewMessageHandler extends MessageHandler {
             // 保存消息
             if(userChannel!=null){// 用户在线
                 System.out.println("用户在线 发送消息");
-                NewMessageResponseProtocal responseProtocal = new NewMessageResponseProtocal();
-                responseProtocal.setFromUid(fromUid);
-                String res = ProtocalMap.toJSONString(responseProtocal.success(msg));// todo  改为toString()
+                NewMessageResponseProtocal responseProtocal = new NewMessageResponseProtocal(msg,channelId,fromUid,channelType,messageType);
+                String res = ProtocalMap.toJSONString(responseProtocal);// todo  改为toString()
                 userChannel.writeAndFlush(new TextWebSocketFrame(res));
             }else {// 用户离线
                 System.out.println("用户离线");

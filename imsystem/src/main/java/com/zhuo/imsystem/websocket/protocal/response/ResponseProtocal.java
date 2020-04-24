@@ -10,6 +10,7 @@ public class ResponseProtocal extends Protocal {
     protected long ts;         // 发生的时间戳
     protected int statusCode; // 状态码
     protected String jsonString; // json格式字符串
+    protected String channelId; // channel标识符
     protected int channelType;//channel类型(私聊/群聊/系统channel)
 
     public ResponseProtocal(){
@@ -70,6 +71,14 @@ public class ResponseProtocal extends Protocal {
 
     public void setJsonString(String jsonString) {
         this.jsonString = jsonString;
+    }
+
+    public String getChannelId() {
+        return channelId;
+    }
+
+    public void setChannelId(String channelId) {
+        this.channelId = channelId;
     }
 
     public int getChannelType() {

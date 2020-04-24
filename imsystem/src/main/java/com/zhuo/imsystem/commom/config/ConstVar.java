@@ -15,4 +15,9 @@ public class ConstVar {
     // 消息状态
     public static int MESSAGE_STATUS_NORMAL = 0;
     public static int MESSAGE_STATUS_DELETED = 1;
+
+    // 私聊
+    public static int PRIVATE_CHANNEL = 1;
+    // 群聊
+    public static int GROUP_CHALLEL = 2;
 }

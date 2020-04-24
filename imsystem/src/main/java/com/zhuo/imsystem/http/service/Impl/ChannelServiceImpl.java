@@ -61,8 +61,8 @@ public class ChannelServiceImpl implements ChannelService {
 
         // 校验chennel 创建者用户是否合法
         String creatorId = channelDto.getCreatorId();
-        User user = userMapper.queryUser(creatorId);
-        if(user==null){
+        User creator = userMapper.queryUser(creatorId);
+        if(creator==null){
             System.out.println("channel 创建者用户不存在");
             throw new CommonException(StatusCode.ERROR_CHANNEL_CREATE_FAIL,"channel 创建失败");
         }
@@ -104,6 +104,8 @@ public class ChannelServiceImpl implements ChannelService {
             String creatorUid = channelDto.getCreatorId();
             String memberUid = channelDto.getAttenderId();
             User member = userMapper.queryUser(memberUid);
+            String creatorName = creator.getUserName();
+            String memberName = member.getUserName();
             if(member==null) {
                 System.out.println("channel 成员用户不存在");
                 throw new CommonException(StatusCode.ERROR_CHANNEL_CREATE_FAIL,"channel 创建失败");
@@ -116,8 +118,8 @@ public class ChannelServiceImpl implements ChannelService {
                 return res;
             }else {
                 // 新增channel信息
-                ChannelDto creatorA = new ChannelDto(channelId,"private",creatorId,memberUid,PRIVATE_CHANNEL,now,now);
-                ChannelDto creatorB = new ChannelDto(channelId,"private",memberUid,creatorId,PRIVATE_CHANNEL,now,now);
+                ChannelDto creatorA = new ChannelDto(channelId,memberName,creatorId,memberUid,PRIVATE_CHANNEL,now,now);
+                ChannelDto creatorB = new ChannelDto(channelId,creatorName,memberUid,creatorId,PRIVATE_CHANNEL,now,now);
                 channelMapper.saveChannel(creatorA);
                 channelMapper.saveChannel(creatorB);
                 // 新增成员信息
@@ -125,6 +127,8 @@ public class ChannelServiceImpl implements ChannelService {
                 ChannelMemberDto memberB = new ChannelMemberDto(memberUid,channelId,now,channelType,ATTENDER,IN_CHANNEL,now,now);// 成员B dto
                 channelMemberMapper.saveChannelMember(memberA);
                 channelMemberMapper.saveChannelMember(memberB);
+
+                return creatorA;
             }
         }
         return channelDto;
@@ -144,17 +148,11 @@ public class ChannelServiceImpl implements ChannelService {
                 return res;
             if(channelDtoList.get(0).getCreatorId().equals(uid)) {
                 ChannelDto item = channelDtoList.get(0);
-                String toUid = item.getAttenderId();
-                String username = userMapper.queryUserName(toUid);
-                item.setAttenderName(username);
-                item.setChannelName(username); // 私聊窗口的名字为对方的用户名(暂时不支持修改)
+                item.setAttenderName(item.getChannelName());
                 return item;
             }else{
                 ChannelDto item = channelDtoList.get(1);
-                String toUid = item.getAttenderId();
-                String username = userMapper.queryUserName(toUid);
-                item.setAttenderName(username);
-                item.setChannelName(username); // 私聊窗口的名字为对方的用户名(暂时不支持修改)
+                item.setAttenderName(item.getChannelName());
                 return item;
             }
         }else {

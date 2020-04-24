@@ -20,4 +20,7 @@ public class ConstVar {
     public static int PRIVATE_CHANNEL = 1;
     // 群聊
     public static int GROUP_CHALLEL = 2;
+
+    // 聊天文本长度限制
+    public static int MAX_TEXT_LENGTH = 300;
 }

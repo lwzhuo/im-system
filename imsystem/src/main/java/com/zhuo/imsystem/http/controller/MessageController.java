@@ -1,6 +1,7 @@
 package com.zhuo.imsystem.http.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import com.zhuo.imsystem.commom.config.ConstVar;
 import com.zhuo.imsystem.commom.config.StatusCode;
 import com.zhuo.imsystem.elasticsearch.Message;
 import com.zhuo.imsystem.http.dto.ChannelMemberDto;
@@ -40,6 +41,11 @@ public class MessageController extends BaseController{
     @RequestMapping(value = "send",method = RequestMethod.POST)
     public ResponseJson sendMessage(HttpServletRequest request,@RequestBody JSONObject json)throws Exception{
         NewMessageRequestProtocal newMessageRequest = json.toJavaObject(NewMessageRequestProtocal.class);
+        String msg = newMessageRequest.getMsg();
+        // 校验文本长度
+        if(msg.length()> ConstVar.MAX_TEXT_LENGTH){
+            return error("消息长度超过限制",StatusCode.ERROR_TEXT_MESSAGE_OUT_OF_LENGTH);
+        }
         // 校验消息中的uid是否匹配
         String uid = (String) request.getAttribute("uid");
         String fromUid = newMessageRequest.getFromUid();
@@ -58,7 +64,6 @@ public class MessageController extends BaseController{
         String fromUserName = userMapper.queryUserName(fromUid);
         int messageType = newMessageRequest.getMsgType();
         int channelType = newMessageRequest.getChannelType();
-        String msg = newMessageRequest.getMsg();
         newMessageRequest.setTs(ts);
         newMessageRequest.setMessageId(messageId);
         newMessageRequest.setJsonString(JSONObject.toJSONString(newMessageRequest));

@@ -23,4 +23,7 @@ public class StatusCode {
     // 权限相关
     public static int ERROR_INVALID_USER = -500;            // 非法用户
     public static int ERROR_CHANNEL_AUTH_FAILED = -501;     // 没有该channel的权限
+
+    // 聊天相关
+    public static int ERROR_TEXT_MESSAGE_OUT_OF_LENGTH = -600; // 文本消息内容超过限制
 }

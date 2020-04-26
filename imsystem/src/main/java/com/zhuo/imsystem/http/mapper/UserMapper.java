@@ -19,4 +19,7 @@ public interface UserMapper {
 
     @Select("select username from im_user where uid=#{uid}")
     public String queryUserName(String uid);
+
+    @Update("update im_user set avatar_url=#{avatarUrl} where uid=#{uid}")
+    public boolean updateAvatar(String uid,String avatarUrl);
 }

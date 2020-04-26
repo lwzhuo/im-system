@@ -1,8 +1,11 @@
 package com.zhuo.imsystem.http.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import com.zhuo.imsystem.commom.config.ConstVar;
+import com.zhuo.imsystem.commom.config.StatusCode;
 import com.zhuo.imsystem.http.config.Const;
 import com.zhuo.imsystem.http.model.User;
+import com.zhuo.imsystem.http.service.AvatarService;
 import com.zhuo.imsystem.http.service.UserService;
 import com.zhuo.imsystem.http.util.FirstLetterUtil;
 import com.zhuo.imsystem.http.util.JWTUtil;
@@ -10,7 +13,9 @@ import com.zhuo.imsystem.http.util.ResponseJson;
 import io.jsonwebtoken.Claims;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 
 @RestController
@@ -18,6 +23,9 @@ import java.util.HashMap;
 public class UserController extends BaseController {
     @Autowired
     UserService userService;
+
+    @Autowired
+    AvatarService avatarService;
 
     // 通过uid查询信息
     @RequestMapping(value = "/{uid}",method = RequestMethod.GET)
@@ -66,5 +74,38 @@ public class UserController extends BaseController {
             return success();
         else
             return error();
+    }
+
+    // 上传用户头像 (仅上传 未修改用户信息)
+    @RequestMapping(value = "/avatar/upload",method = RequestMethod.POST)
+    public ResponseJson uploadAvatar(HttpServletRequest request, MultipartFile file)throws Exception{
+        String uid = (String) request.getAttribute("uid");
+        String filename = avatarService.generateAvatarName();
+        String path = ConstVar.AVATAR_BASE_PATH+ "/"+uid+"/";
+        byte[] data = file.getBytes();
+        String imageType = "png";
+        if("image/jpeg".equalsIgnoreCase(file.getContentType())) {
+            imageType = "jpg";
+        }
+        boolean validRes = avatarService.valid(uid); // 校验环境
+        String saveRes = avatarService.save(data,filename,path,imageType,80,80); // 上传头像
+        if(validRes&&saveRes!=null){
+            return success().setData(saveRes);
+        }else{
+            return error("头像上传失败", StatusCode.ERROR_USER_AVATAR_UPLOAD_FAILED);
+        }
+    }
+
+    // 修改为用户信息
+    @RequestMapping(value = "/info/save",method = RequestMethod.POST)
+    public ResponseJson saveInfo(HttpServletRequest request,@RequestBody JSONObject json){
+        String uid = (String) request.getAttribute("uid");
+        String avatarUrl = json.getString("avatarUrl");
+        boolean res = userService.updateUserInfo(uid,avatarUrl);
+        if(res){
+            return success();
+        }else {
+            return error("修改用户信息失败",StatusCode.ERROR_CHANGE_USER_INFO_FAILED);
+        }
     }
 }

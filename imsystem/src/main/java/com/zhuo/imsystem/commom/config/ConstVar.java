@@ -23,4 +23,13 @@ public class ConstVar {
 
     // 聊天文本长度限制
     public static int MAX_TEXT_LENGTH = 300;
+
+    // 头像大小限制 单位KB
+    public static int MAX_AVATAR_SIZE = 2048;
+
+    // 头像基准路径
+    public static String AVATAR_BASE_PATH = "/Users/zhuo/Documents/im-system-source/avatar/";
+
+    // 文件基准路径
+    public static String FILE_BASE_PATH = "/Users/zhuo/Documents/im-system-source/file/";
 }

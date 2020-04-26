@@ -76,4 +76,8 @@ public class UserServiceImpl implements UserService {
 
         return userFromDB;
     }
+
+    public boolean updateUserInfo(String uid,String avatarUrl){
+        return userMapper.updateAvatar(uid,avatarUrl);
+    }
 }

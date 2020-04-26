@@ -4,11 +4,16 @@ import java.util.Date;
 
 public class ChannelMemberDto {
     private String uid;
+    private String userName;
+    private String avatarUrl;
     private String channelId;
     private Date joinTime;
     private Date leftTime;
     private int channelType;
     private int userType;
+    private int status;
+    private Date ctime;
+    private Date updateTime;
 
     public ChannelMemberDto(){}
 
@@ -23,16 +28,28 @@ public class ChannelMemberDto {
         this.updateTime = updateTime;
     }
 
-    private int status;
-    private Date ctime;
-    private Date updateTime;
-
     public String getUid() {
         return uid;
     }
 
     public void setUid(String uid) {
         this.uid = uid;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public String getAvatarUrl() {
+        return avatarUrl;
+    }
+
+    public void setAvatarUrl(String avatarUrl) {
+        this.avatarUrl = avatarUrl;
     }
 
     public String getChannelId() {

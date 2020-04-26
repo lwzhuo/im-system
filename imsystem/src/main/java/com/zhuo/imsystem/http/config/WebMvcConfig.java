@@ -12,7 +12,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupp
 @Configuration
 public class WebMvcConfig extends WebMvcConfigurationSupport {
     /**
-     * 跨越配置 使用filter保证顺序在拦截器之前 https://www.codercto.com/a/55519.html
+     * 跨域配置 使用filter保证顺序在拦截器之前 https://www.codercto.com/a/55519.html
      */
     @Bean
     public CorsFilter corsFilter() {
@@ -33,7 +33,7 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
     // 拦截器
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(new AuthInterceptor()).addPathPatterns("/**").excludePathPatterns("/auth/login","/user/register");
+        registry.addInterceptor(new AuthInterceptor()).addPathPatterns("/**").excludePathPatterns("/auth/login","/user/register","/user/avatar/get/**");
         super.addInterceptors(registry);
     }
 

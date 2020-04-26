@@ -9,10 +9,10 @@ import com.zhuo.imsystem.http.mapper.ChannelMemberMapper;
 import com.zhuo.imsystem.http.mapper.UserMapper;
 import com.zhuo.imsystem.http.model.User;
 import com.zhuo.imsystem.http.service.ChannelService;
+import com.zhuo.imsystem.http.service.UserChannelService;
 import com.zhuo.imsystem.http.util.CommonException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -37,6 +37,9 @@ public class ChannelServiceImpl implements ChannelService {
 
     @Autowired
     UserMapper userMapper;
+
+    @Autowired
+    UserChannelService userChannelService;
 
     @Override
     public ChannelDto createChannel(ChannelDto channelDto) throws Exception{
@@ -71,7 +74,7 @@ public class ChannelServiceImpl implements ChannelService {
         List<ChannelMemberDto> channelUserList  = channelDto.getChannelUserList();
         if(channelType==Const.GROUP_CHALLEL){
             // 校验channel 成员用户是否合法
-            ArrayList<ChannelMemberDto> channelMemberList = channelDto.getChannelUserList();
+            List<ChannelMemberDto> channelMemberList = channelDto.getChannelUserList();
             for(ChannelMemberDto channelMemberDto:channelMemberList){
                 String uid = channelMemberDto.getUid();
                 User res = userMapper.queryUser(uid);
@@ -149,10 +152,12 @@ public class ChannelServiceImpl implements ChannelService {
             if(channelDtoList.get(0).getCreatorId().equals(uid)) {
                 ChannelDto item = channelDtoList.get(0);
                 item.setAttenderName(item.getChannelName());
+                item.setChannelUserList(userChannelService.getChannelMemberList(channelId));
                 return item;
             }else{
                 ChannelDto item = channelDtoList.get(1);
                 item.setAttenderName(item.getChannelName());
+                item.setChannelUserList(userChannelService.getChannelMemberList(channelId));
                 return item;
             }
         }else {
@@ -160,4 +165,5 @@ public class ChannelServiceImpl implements ChannelService {
         }
         return res;
     }
+
 }

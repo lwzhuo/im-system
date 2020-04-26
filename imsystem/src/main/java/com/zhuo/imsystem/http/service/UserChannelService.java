@@ -8,4 +8,5 @@ import java.util.List;
 public interface UserChannelService {
     public ChannelMemberDto getMemberChannel(String channelId, String uid) throws Exception;
     public List<ChannelDto> getUserChannelList(String uid) throws Exception;
+    public List<ChannelMemberDto> getChannelMemberList(String channelId);
 }

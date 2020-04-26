@@ -5,6 +5,8 @@ import com.zhuo.imsystem.http.dto.ChannelDto;
 import com.zhuo.imsystem.http.dto.ChannelMemberDto;
 import com.zhuo.imsystem.http.mapper.ChannelMapper;
 import com.zhuo.imsystem.http.mapper.ChannelMemberMapper;
+import com.zhuo.imsystem.http.mapper.UserMapper;
+import com.zhuo.imsystem.http.model.User;
 import com.zhuo.imsystem.http.service.UserChannelService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,6 +22,9 @@ public class UserChannelServiceImpl implements UserChannelService {
     @Autowired
     ChannelMapper channelMapper;
 
+    @Autowired
+    UserMapper userMapper;
+
     // 检查用户是否在channel中
     public ChannelMemberDto getMemberChannel(String channelId,String uid) throws Exception{
         ChannelMemberDto channelMemberDto = channelMemberMapper.getChannelMember(channelId,uid);
@@ -29,6 +34,7 @@ public class UserChannelServiceImpl implements UserChannelService {
             return channelMemberDto;
     }
 
+    // 获取用户的channel列表
     public List<ChannelDto> getUserChannelList(String uid) throws Exception{
         List<String> channelIdList = channelMapper.queryChannelIdsByMemberUid(uid);
         List<ChannelDto> res = new ArrayList<ChannelDto>();
@@ -44,5 +50,19 @@ public class UserChannelServiceImpl implements UserChannelService {
             }
         }
         return res;
+    }
+
+    // 获取一个channel中的成员列表
+    public List<ChannelMemberDto> getChannelMemberList(String channelId){
+        List<ChannelMemberDto> memberList = channelMemberMapper.getChannelMemberList(channelId);
+        for(ChannelMemberDto item : memberList){
+            String uid = item.getUid();
+            User user = userMapper.queryUser(uid);
+            String avatar = user.getAvatarUrl();
+            String username = user.getUserName();
+            item.setAvatarUrl(avatar);
+            item.setUserName(username);
+        }
+        return memberList;
     }
 }

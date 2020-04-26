@@ -1,6 +1,7 @@
 package com.zhuo.imsystem.http.dto;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class ChannelDto {
     private String channelId;
@@ -8,10 +9,11 @@ public class ChannelDto {
     private String creatorId;
     private String attenderId; // 参与者Id
     private String attenderName; // 参与者用户名
+    private String attenderAvatar; // 参与者头像
     private int channelType;
     private Date ctime;
     private Date updateTime;
-    private ArrayList<ChannelMemberDto> channelUserList;
+    private List<ChannelMemberDto> channelUserList;
 
     public ChannelDto(){
 
@@ -27,11 +29,11 @@ public class ChannelDto {
         this.updateTime = updateTime;
     }
 
-    public ArrayList<ChannelMemberDto> getChannelUserList() {
+    public List<ChannelMemberDto> getChannelUserList() {
         return channelUserList;
     }
 
-    public void setChannelUserList(ArrayList<ChannelMemberDto> channelUserList) {
+    public void setChannelUserList(List<ChannelMemberDto> channelUserList) {
         this.channelUserList = channelUserList;
     }
 
@@ -49,6 +51,14 @@ public class ChannelDto {
 
     public void setChannelName(String channelName) {
         this.channelName = channelName;
+    }
+
+    public String getAttenderAvatar() {
+        return attenderAvatar;
+    }
+
+    public void setAttenderAvatar(String attenderAvatar) {
+        this.attenderAvatar = attenderAvatar;
     }
 
     public String getCreatorId() {

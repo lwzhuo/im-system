@@ -34,9 +34,9 @@ public class AuthController extends BaseController{
         String jwt = JWTUtil.createJWT(jwtSubject, constConfig.JWT_SECRET, constConfig.JWT_TTL);
 
         HashMap hashMap = new HashMap();
-        hashMap.put("username",res.getUserName());
+        hashMap.put("username",username);
         hashMap.put("uid",res.getUid());
-        hashMap.put("avatarUrl",null);
+        hashMap.put("avatarUrl",avatarUrl);
         hashMap.put("firstLetterOfName", FirstLetterUtil.getFirstLetter(res.getUserName()));
         hashMap.put("nickname","");
         hashMap.put("token",jwt);

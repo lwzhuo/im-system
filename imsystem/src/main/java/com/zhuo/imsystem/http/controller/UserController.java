@@ -12,10 +12,11 @@ import com.zhuo.imsystem.http.util.JWTUtil;
 import com.zhuo.imsystem.http.util.ResponseJson;
 import io.jsonwebtoken.Claims;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
 import javax.servlet.http.HttpServletRequest;
+import java.awt.image.BufferedImage;
 import java.util.HashMap;
 
 @RestController
@@ -60,7 +61,7 @@ public class UserController extends BaseController {
         HashMap hashMap = new HashMap();
         hashMap.put("username",res.getUserName());
         hashMap.put("uid",res.getUid());
-        hashMap.put("avatarUrl",null);
+        hashMap.put("avatarUrl",res.getAvatarUrl());
         hashMap.put("firstLetterOfName", FirstLetterUtil.getFirstLetter(res.getUserName()));
         hashMap.put("nickname",res.getNickName());
         return success().addArrayData(hashMap);
@@ -106,6 +107,19 @@ public class UserController extends BaseController {
             return success();
         }else {
             return error("修改用户信息失败",StatusCode.ERROR_CHANGE_USER_INFO_FAILED);
+        }
+    }
+
+    // 获取头像
+    @RequestMapping(value = "/avatar/get/{uid}/{filename:.+\\..+}",method = RequestMethod.GET,produces = {MediaType.IMAGE_JPEG_VALUE,  MediaType.IMAGE_PNG_VALUE })
+    @ResponseBody
+    public byte[] getImage(@PathVariable String uid,@PathVariable String filename) {
+        try {
+            System.out.println(uid+" "+filename);
+            return avatarService.download(uid,filename);
+        }catch (Exception e){
+            e.printStackTrace();
+            return null;
         }
     }
 }

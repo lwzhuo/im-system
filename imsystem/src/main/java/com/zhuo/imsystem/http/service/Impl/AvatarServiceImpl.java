@@ -1,14 +1,14 @@
 package com.zhuo.imsystem.http.service.Impl;
 
 import com.zhuo.imsystem.commom.config.ConstVar;
+import com.zhuo.imsystem.http.config.Const;
 import com.zhuo.imsystem.http.service.AvatarService;
 import net.coobird.thumbnailator.Thumbnails;
 import org.springframework.stereotype.Service;
 
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.*;
 
 @Service("avatarService")
 public class AvatarServiceImpl implements AvatarService {
@@ -45,7 +45,13 @@ public class AvatarServiceImpl implements AvatarService {
         return filename+"."+imageType;
     }
 
-    public void download(String path,String filename){
-
+    public byte[] download(String uid,String filename) throws Exception{
+        String path = ConstVar.AVATAR_BASE_PATH+uid+"/"+filename;
+        File file = new File(path);
+        FileInputStream inputStream = new FileInputStream(file);
+        byte[] bytes = new byte[inputStream.available()];
+        inputStream.read(bytes, 0, inputStream.available());
+        inputStream.close();
+        return bytes;
     }
 }

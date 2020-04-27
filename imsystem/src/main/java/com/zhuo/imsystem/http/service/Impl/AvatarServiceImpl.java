@@ -1,13 +1,9 @@
 package com.zhuo.imsystem.http.service.Impl;
 
 import com.zhuo.imsystem.commom.config.ConstVar;
-import com.zhuo.imsystem.http.config.Const;
 import com.zhuo.imsystem.http.service.AvatarService;
 import net.coobird.thumbnailator.Thumbnails;
 import org.springframework.stereotype.Service;
-
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
 import java.io.*;
 
 @Service("avatarService")

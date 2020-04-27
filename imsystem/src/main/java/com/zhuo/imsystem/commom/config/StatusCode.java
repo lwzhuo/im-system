@@ -26,6 +26,7 @@ public class StatusCode {
 
     // 聊天相关
     public static int ERROR_TEXT_MESSAGE_OUT_OF_LENGTH = -600; // 文本消息内容超过限制
+    public static int ERROR_FILE_MESSAGE_OUT_OF_SIZE = -601; // 文件大小超过限制
 
     // 用户相关
     public static int ERROR_USER_AVATAR_UPLOAD_FAILED = -700; // 用户头像上传失败

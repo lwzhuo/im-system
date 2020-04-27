@@ -41,7 +41,7 @@ public class NewMessageHandler extends MessageHandler {
         elasticMessageService.save(stroedMessage);
 
         // 处理消息发送
-        if(messageType== Const.PRIVATE_CHANNEL){
+        if(channelType== Const.PRIVATE_CHANNEL){
             // 私聊
             ChannelDto channelDto = channelMapper.queryPrivateChannelByCreatorUid(channelId,fromUid);
             String toUid = channelDto.getAttenderId();

@@ -27,8 +27,8 @@ public class ConstVar {
     // 头像大小限制 单位KB
     public static int MAX_AVATAR_SIZE = 2048;
 
-    // 文件大小限制 单位KB
-    public static int MAX_FILE_SIZE = 2048;
+    // 文件大小限制 单位B
+    public static int MAX_FILE_SIZE = 2048*1024;
 
     // 头像基准路径
     public static String AVATAR_BASE_PATH = "/Users/zhuo/Documents/im-system-source/avatar/";

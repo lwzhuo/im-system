@@ -33,7 +33,12 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
     // 拦截器
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(new AuthInterceptor()).addPathPatterns("/**").excludePathPatterns("/auth/login","/user/register","/user/avatar/get/**");
+        registry.addInterceptor(new AuthInterceptor()).addPathPatterns("/**").excludePathPatterns(
+                "/auth/login",
+                "/user/register",
+                "/user/avatar/get/**",
+                "/message/file/get/**"
+        );
         super.addInterceptors(registry);
     }
 

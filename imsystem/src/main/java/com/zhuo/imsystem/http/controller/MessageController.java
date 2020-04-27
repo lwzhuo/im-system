@@ -11,13 +11,21 @@ import com.zhuo.imsystem.http.model.FileMessage;
 import com.zhuo.imsystem.http.service.FileService;
 import com.zhuo.imsystem.http.service.MessageService;
 import com.zhuo.imsystem.http.service.UserChannelService;
+import com.zhuo.imsystem.http.util.CommonException;
 import com.zhuo.imsystem.http.util.ResponseJson;
 import com.zhuo.imsystem.websocket.protocal.request.NewMessageRequestProtocal;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.RandomAccessFile;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.List;
 
@@ -89,8 +97,13 @@ public class MessageController extends BaseController{
     }
 
     @RequestMapping(value = "/file",method = RequestMethod.POST)
-    public ResponseJson uploadFile(HttpServletRequest request,@RequestParam("file")MultipartFile file,@RequestBody JSONObject json)throws Exception{
-        NewMessageRequestProtocal newMessageRequest = json.toJavaObject(NewMessageRequestProtocal.class);
+    public ResponseJson uploadFile(HttpServletRequest request,@RequestParam("file")MultipartFile file)throws Exception{
+        NewMessageRequestProtocal newMessageRequest = new NewMessageRequestProtocal();
+        newMessageRequest.setChannelType(Integer.parseInt(request.getParameter("channelType")));
+        newMessageRequest.setMsgType(Integer.parseInt(request.getParameter("msgType")));
+        newMessageRequest.setFromUid(request.getParameter("fromUid"));
+        newMessageRequest.setAction(Integer.parseInt(request.getParameter("action")));
+        newMessageRequest.setChannelId(request.getParameter("channelId"));
 
         // 校验文件大小
         if(file.getSize()>ConstVar.MAX_FILE_SIZE){
@@ -110,11 +123,12 @@ public class MessageController extends BaseController{
             return error("用户没有权限", StatusCode.ERROR_CHANNEL_AUTH_FAILED);
 
         // 获取文件信息
-        String filename = file.getName();
+        String filename = file.getOriginalFilename();
         String newFileName = fileService.generateFileName(); // 生成新的文件名
         long size = file.getSize();
         String contentType = file.getContentType();
-        FileMessage fileMessage = new FileMessage(newFileName,filename,size,contentType);
+        String fileExtension = fileService.getFileExtension(filename);
+        FileMessage fileMessage = new FileMessage(newFileName,filename,size,contentType,fileExtension);
         String msg = JSONObject.toJSONString(fileMessage);
         newMessageRequest.setMsg(msg);
         // 组装、发送消息
@@ -144,6 +158,28 @@ public class MessageController extends BaseController{
             return success().setData(resp);
         }else {
             return error();
+        }
+    }
+
+    // 获取文件
+    @RequestMapping(value = "/file/get/{channelId}/{filename}",method = RequestMethod.GET)
+    @ResponseBody
+    public ResponseEntity<byte[]> getImage(HttpServletRequest request, @PathVariable String channelId, @PathVariable String filename,@RequestParam("originFileName") String originFileName) throws Exception {
+        try {
+            // 检查用户是否有权限下载文件
+//            String uid = (String)request.getAttribute("uid");
+//            ChannelMemberDto channelMemberDto = userChannelService.getMemberChannel(channelId,uid);
+//            if(channelMemberDto==null)
+//                throw new CommonException(StatusCode.ERROR_CHANNEL_AUTH_FAILED,"用户没有权限");
+            String afterDecode = URLDecoder.decode(originFileName,"UTF8");
+            byte[] data = fileService.download(channelId,filename);
+            HttpHeaders header=new HttpHeaders();
+            header.add("Content-Disposition", "attchement;filename=" + URLEncoder.encode(afterDecode, "UTF8"));
+            HttpStatus ok = HttpStatus.OK;
+            return new ResponseEntity(data,header,ok);
+        }catch (Exception e){
+            e.printStackTrace();
+            return null;
         }
     }
 }

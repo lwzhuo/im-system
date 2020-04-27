@@ -5,12 +5,14 @@ public class FileMessage {
     private String origionFileName;
     private long size;
     private String contentType;
+    private String fileExtension;
 
-    public FileMessage(String newFileName, String origionFileName, long size, String contentType) {
+    public FileMessage(String newFileName, String origionFileName, long size, String contentType,String fileExtension) {
         this.newFileName = newFileName;
         this.origionFileName = origionFileName;
         this.size = size;
         this.contentType = contentType;
+        this.fileExtension = fileExtension;
     }
 
     public String getNewFileName() {
@@ -43,5 +45,13 @@ public class FileMessage {
 
     public void setContentType(String contentType) {
         this.contentType = contentType;
+    }
+
+    public String getFileExtension() {
+        return fileExtension;
+    }
+
+    public void setFileExtension(String fileExtension) {
+        this.fileExtension = fileExtension;
     }
 }

@@ -3,10 +3,8 @@ package com.zhuo.imsystem.http.service.Impl;
 import com.zhuo.imsystem.commom.config.ConstVar;
 import com.zhuo.imsystem.http.service.FileService;
 import org.springframework.stereotype.Service;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
+
+import java.io.*;
 
 @Service("fileService")
 public class FileServiceImpl implements FileService {
@@ -54,8 +52,19 @@ public class FileServiceImpl implements FileService {
         }
     }
 
-    public byte[] download(String channelId,String filename) throws Exception{
-        return null;
+    public byte[] download(String channelId, String filename) throws Exception{
+        String path = ConstVar.FILE_BASE_PATH+channelId+"/"+filename;
+        try {
+            System.out.println(path);
+            InputStream in = new FileInputStream(path);
+            //available():获取输入流所读取的文件的最大字节数
+            byte[] body = new byte[in.available()];
+            //把字节读取到数组中
+            in.read(body);
+            return body;
+        } catch (FileNotFoundException e) {
+            return null;
+        }
     }
 
     public boolean isImage(String fileType) {
@@ -70,6 +79,14 @@ public class FileServiceImpl implements FileService {
             return true;
         }
         return false;
+    }
+
+    public String getFileExtension(String filename){
+        String []res = filename.split("\\.");
+        if(res.length>1)
+            return res[1];
+        else
+            return "";
     }
 
 }

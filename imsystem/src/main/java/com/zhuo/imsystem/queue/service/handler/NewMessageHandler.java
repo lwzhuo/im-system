@@ -53,7 +53,7 @@ public class NewMessageHandler extends MessageHandler {
                 String res = ProtocalMap.toJSONString(responseProtocal);// todo  改为toString()
                 userChannel.writeAndFlush(new TextWebSocketFrame(res));
             }else {// 用户离线
-                System.out.println("用户离线");
+                System.out.println("用户["+toUid+"]离线");
                 //todo
             }
         }else {

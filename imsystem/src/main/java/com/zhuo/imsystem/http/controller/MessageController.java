@@ -98,6 +98,7 @@ public class MessageController extends BaseController{
 
     @RequestMapping(value = "/file",method = RequestMethod.POST)
     public ResponseJson uploadFile(HttpServletRequest request,@RequestParam("file")MultipartFile file)throws Exception{
+        System.out.println("收到文件");
         NewMessageRequestProtocal newMessageRequest = new NewMessageRequestProtocal();
         newMessageRequest.setChannelType(Integer.parseInt(request.getParameter("channelType")));
         newMessageRequest.setMsgType(Integer.parseInt(request.getParameter("msgType")));
@@ -142,7 +143,15 @@ public class MessageController extends BaseController{
         // 保存文件
         fileService.valid(channelId);
         byte[] data = file.getBytes();
-        boolean res = fileService.save(data,newFileName,channelId);
+        boolean isImage = fileService.isImage(contentType);
+        boolean res;
+        if(isImage){
+            // 保存图片
+            res = fileService.save(data,newFileName,channelId) && fileService.saveThumb(newFileName,channelId);
+        }else {
+            // 保存文件
+            res = fileService.save(data,newFileName,channelId);
+        }
         if(res){
             String fromUserName = userMapper.queryUserName(fromUid);
             int messageType = newMessageRequest.getMsgType();
@@ -164,7 +173,7 @@ public class MessageController extends BaseController{
     // 获取文件
     @RequestMapping(value = "/file/get/{channelId}/{filename}",method = RequestMethod.GET)
     @ResponseBody
-    public ResponseEntity<byte[]> getImage(HttpServletRequest request, @PathVariable String channelId, @PathVariable String filename,@RequestParam("originFileName") String originFileName) throws Exception {
+    public ResponseEntity<byte[]> getFile(HttpServletRequest request, @PathVariable String channelId, @PathVariable String filename,@RequestParam("originFileName") String originFileName) throws Exception {
         try {
             // 检查用户是否有权限下载文件
 //            String uid = (String)request.getAttribute("uid");

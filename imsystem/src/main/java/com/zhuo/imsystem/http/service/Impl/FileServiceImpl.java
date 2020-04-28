@@ -2,6 +2,7 @@ package com.zhuo.imsystem.http.service.Impl;
 
 import com.zhuo.imsystem.commom.config.ConstVar;
 import com.zhuo.imsystem.http.service.FileService;
+import net.coobird.thumbnailator.Thumbnails;
 import org.springframework.stereotype.Service;
 
 import java.io.*;
@@ -50,6 +51,22 @@ public class FileServiceImpl implements FileService {
                 }
             }
         }
+    }
+
+    // 保存缩略图
+    public boolean saveThumb(String filename,String channelId){
+        try {
+            File fromPic = new File(ConstVar.FILE_BASE_PATH+channelId+'/'+filename);
+            File toPic = new File(ConstVar.FILE_BASE_PATH+channelId+'/'+filename+"_small");
+            OutputStream os = new FileOutputStream(toPic);
+            Thumbnails.of(fromPic).size(150,150).toOutputStream(os);
+            os.flush();
+            os.close();
+        }catch (IOException e){
+            e.printStackTrace();
+            return false;
+        }
+        return true;
     }
 
     public byte[] download(String channelId, String filename) throws Exception{

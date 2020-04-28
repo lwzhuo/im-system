@@ -71,10 +71,9 @@ public class ChannelServiceImpl implements ChannelService {
         }
 
         Date now = new Date();
-        List<ChannelMemberDto> channelUserList  = channelDto.getChannelUserList();
+        List<ChannelMemberDto> channelMemberList = channelDto.getChannelUserList();
         if(channelType==Const.GROUP_CHALLEL){
-            // 校验channel 成员用户是否合法
-            List<ChannelMemberDto> channelMemberList = channelDto.getChannelUserList();
+            // 校验channel 成员用户是否合法 补充相应的参数
             for(ChannelMemberDto channelMemberDto:channelMemberList){
                 String uid = channelMemberDto.getUid();
                 User res = userMapper.queryUser(uid);
@@ -84,21 +83,25 @@ public class ChannelServiceImpl implements ChannelService {
                 }else {
                     // 补充参数
                     channelMemberDto.setChannelId(channelId);
+                    channelMemberDto.setUid(uid);
                     channelMemberDto.setJoinTime(now);
                     channelMemberDto.setChannelType(channelType);
-                    channelMemberDto.setUserType(ATTENDER);
                     channelMemberDto.setStatus(IN_CHANNEL);
                     channelMemberDto.setUpdateTime(now);
                     channelMemberDto.setCtime(now);
+                    // 处理创建者的信息
+                    if(uid.equals(creatorId)){
+                        channelMemberDto.setUserType(CREATOR);
+                    }else {
+                        channelMemberDto.setUserType(ATTENDER);
+                    }
                 }
             }
             // 保存channel数据
             channelDto.setCtime(now);
             channelDto.setUpdateTime(now);
             channelMapper.saveChannel(channelDto);
-            ChannelMemberDto creatorDto = new ChannelMemberDto(creatorId,channelId,now,channelType,CREATOR,IN_CHANNEL,now,now);// 创建者dto
-            channelUserList.add(creatorDto);
-            for(ChannelMemberDto item: channelUserList){
+            for(ChannelMemberDto item: channelMemberList){
                 channelMemberMapper.saveChannelMember(item);
             }
         }else if(channelType==Const.PRIVATE_CHANNEL){
@@ -115,7 +118,6 @@ public class ChannelServiceImpl implements ChannelService {
             }
             // 检查channel是否已经创建过
             ChannelDto res = channelMapper.queryPrivateChannelByMemberUid(creatorUid,memberUid);
-            System.out.println(res);
             if(res!=null){
                 // 根据用户uid 查询到相应的channel信息 直接返回这个channel数据
                 return res;

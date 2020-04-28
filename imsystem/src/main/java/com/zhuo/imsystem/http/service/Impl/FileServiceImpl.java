@@ -72,7 +72,6 @@ public class FileServiceImpl implements FileService {
     public byte[] download(String channelId, String filename) throws Exception{
         String path = ConstVar.FILE_BASE_PATH+channelId+"/"+filename;
         try {
-            System.out.println(path);
             InputStream in = new FileInputStream(path);
             //available():获取输入流所读取的文件的最大字节数
             byte[] body = new byte[in.available()];

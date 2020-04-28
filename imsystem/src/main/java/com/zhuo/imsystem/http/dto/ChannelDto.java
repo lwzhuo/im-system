@@ -10,6 +10,7 @@ public class ChannelDto {
     private String attenderId; // 参与者Id
     private String attenderName; // 参与者用户名
     private String attenderAvatar; // 参与者头像
+    private String summary; // 简介
     private int channelType;
     private Date ctime;
     private Date updateTime;
@@ -59,6 +60,14 @@ public class ChannelDto {
 
     public void setAttenderAvatar(String attenderAvatar) {
         this.attenderAvatar = attenderAvatar;
+    }
+
+    public String getSummary() {
+        return summary;
+    }
+
+    public void setSummary(String summary) {
+        this.summary = summary;
     }
 
     public String getCreatorId() {

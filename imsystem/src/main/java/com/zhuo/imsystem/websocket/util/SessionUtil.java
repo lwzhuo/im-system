@@ -23,6 +23,14 @@ public class SessionUtil {
         ChannelContainer.removeUserChannel(uid);
     }
 
+    public static boolean isUserOnline(String uid) {
+        Channel channel = ChannelContainer.getChannelByUserId(uid);
+        if(channel==null)
+            return false;
+        else
+            return true;
+    }
+
     public static boolean bindToChannelGroup(String uid,String groupChannelId){
         ChannelGroup channelGroup = ChannelContainer.getChannelGroupByChannelId(groupChannelId);
         Channel channel = ChannelContainer.getChannelByUserId(uid);

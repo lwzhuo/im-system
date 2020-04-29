@@ -7,11 +7,13 @@ import com.zhuo.imsystem.http.dto.ChannelMemberDto;
 import com.zhuo.imsystem.http.mapper.ChannelMapper;
 import com.zhuo.imsystem.http.mapper.ChannelMemberMapper;
 import com.zhuo.imsystem.http.mapper.UserMapper;
-import com.zhuo.imsystem.http.model.Channel;
 import com.zhuo.imsystem.http.model.User;
 import com.zhuo.imsystem.http.service.ChannelService;
 import com.zhuo.imsystem.http.service.UserChannelService;
 import com.zhuo.imsystem.http.util.CommonException;
+import com.zhuo.imsystem.websocket.util.ChannelContainer;
+import io.netty.channel.Channel;
+import io.netty.channel.group.ChannelGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.Date;
@@ -98,12 +100,18 @@ public class ChannelServiceImpl implements ChannelService {
                     }
                 }
             }
+            // 创建ChannelGroup对象
+            ChannelGroup channelGroup = ChannelContainer.createChannelGroup();
+            ChannelContainer.addChannelGroup(channelId,channelGroup);
             // 保存channel数据
             channelDto.setCtime(now);
             channelDto.setUpdateTime(now);
             channelMapper.saveChannel(channelDto);
             for(ChannelMemberDto item: channelMemberList){
-                channelMemberMapper.saveChannelMember(item);
+                channelMemberMapper.saveChannelMember(item); // 保存数据
+                // 将用户个人channel加入到ChannegGroup中
+                Channel channel = ChannelContainer.getChannelByUserId(item.getUid());
+                channelGroup.add(channel);
             }
         }else if(channelType==Const.PRIVATE_CHANNEL){
             // 私聊中 两个成员互为创建者 共享同一个channel

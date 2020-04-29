@@ -7,6 +7,8 @@ import com.zhuo.imsystem.http.util.ResponseJson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+
 // channel的管理 偏向channel维度
 @RestController
 @RequestMapping("/channel")
@@ -28,5 +30,13 @@ public class ChannelController extends BaseController  {
     public ResponseJson getChannelInfo(@RequestParam String uid,@RequestParam String channelId)throws Exception{
         ChannelDto channelDto = channelService.getInfo(channelId,uid);
         return success().setData(channelDto);
+    }
+
+    // 判断是否为群组管理员
+    @RequestMapping(value = "/{channelId}/is-admin",method = RequestMethod.GET)
+    public ResponseJson isAdmin(HttpServletRequest request,@PathVariable String channelId) throws Exception{
+        String uid = (String)request.getAttribute("uid");
+        boolean res = channelService.isAdmin(uid,channelId);
+        return success().setData(res);
     }
 }

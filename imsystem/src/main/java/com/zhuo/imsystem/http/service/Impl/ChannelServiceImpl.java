@@ -7,6 +7,7 @@ import com.zhuo.imsystem.http.dto.ChannelMemberDto;
 import com.zhuo.imsystem.http.mapper.ChannelMapper;
 import com.zhuo.imsystem.http.mapper.ChannelMemberMapper;
 import com.zhuo.imsystem.http.mapper.UserMapper;
+import com.zhuo.imsystem.http.model.Channel;
 import com.zhuo.imsystem.http.model.User;
 import com.zhuo.imsystem.http.service.ChannelService;
 import com.zhuo.imsystem.http.service.UserChannelService;
@@ -163,7 +164,22 @@ public class ChannelServiceImpl implements ChannelService {
                 return item;
             }
         }else {
-            //群聊 todo
+            //群聊
+            ChannelDto channelDto = channelDtoList.get(0);
+            channelDto.setChannelUserList(userChannelService.getChannelMemberList(channelId));
+            return channelDto;
+        }
+    }
+
+    // 判断是否为管理员
+    public boolean isAdmin(String uid,String channelId) throws Exception{
+        List<ChannelDto> channelDtoList =  channelMapper.queryChannelInfoByChannelId(channelId);
+        boolean res = false;
+        for(ChannelDto item:channelDtoList){
+            if(item.getCreatorId().equals(uid)){
+                res = true;
+                break;
+            }
         }
         return res;
     }

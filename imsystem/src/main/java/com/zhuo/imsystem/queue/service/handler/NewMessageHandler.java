@@ -13,6 +13,7 @@ import com.zhuo.imsystem.websocket.protocal.request.NewMessageRequestProtocal;
 import com.zhuo.imsystem.websocket.protocal.response.NewMessageResponseProtocal;
 import com.zhuo.imsystem.websocket.util.ChannelContainer;
 import io.netty.channel.Channel;
+import io.netty.channel.group.ChannelGroup;
 import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
 import org.springframework.context.ApplicationContext;
 
@@ -57,8 +58,11 @@ public class NewMessageHandler extends MessageHandler {
                 //todo
             }
         }else {
-            // 群聊 todo
-
+            // 群聊
+            ChannelGroup channelGroup = ChannelContainer.getChannelGroupByChannelId(channelId);
+            NewMessageResponseProtocal responseProtocal = new NewMessageResponseProtocal(msg,channelId,fromUid,channelType,messageType);
+            String res = ProtocalMap.toJSONString(responseProtocal);// todo  改为toString()
+            channelGroup.writeAndFlush(new TextWebSocketFrame(res));
         }
     }
 }

@@ -43,4 +43,7 @@ public interface ChannelMapper {
 
     @Select("select channel_id from im_channel_member where uid=#{uid}")
     public List<String> queryChannelIdsByMemberUid(String uid);
+
+    @Select("select channel_id from im_channel_member where channel_type=2")
+    public List<String> queryAllGroupChannelIds(); // 获取所有的群组channelID
 }

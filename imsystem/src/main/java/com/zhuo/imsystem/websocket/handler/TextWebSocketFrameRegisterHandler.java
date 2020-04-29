@@ -1,7 +1,10 @@
 package com.zhuo.imsystem.websocket.handler;
 
+import com.alibaba.fastjson.JSONObject;
 import com.zhuo.imsystem.commom.config.StatusCode;
+import com.zhuo.imsystem.queue.producer.BlockingQueueProvider;
 import com.zhuo.imsystem.websocket.protocal.ProtocalMap;
+import com.zhuo.imsystem.websocket.protocal.request.BindToGroupRequestProtocal;
 import com.zhuo.imsystem.websocket.protocal.request.RegisterRequestProtocal;
 import com.zhuo.imsystem.websocket.protocal.response.CommonErrorResponseProtocal;
 import com.zhuo.imsystem.websocket.protocal.response.RegisterResponseProtocal;
@@ -24,6 +27,11 @@ public class TextWebSocketFrameRegisterHandler extends SimpleChannelInboundHandl
             SessionUtil.userOnline(uidFromMsg,ctx.channel());// 将当前用户的channel注册到channel容器中
             System.out.println("[websocket] channel注册成功");
             String res = ProtocalMap.toJSONString(new RegisterResponseProtocal().success("注册成功"));
+            //创建群组绑定消息 并下发到系统队列中
+            BindToGroupRequestProtocal bindToGroupRequestProtocal = new BindToGroupRequestProtocal(uidFromChannel);
+            bindToGroupRequestProtocal.setJsonString(JSONObject.toJSONString(bindToGroupRequestProtocal));
+            BlockingQueueProvider.publish(bindToGroupRequestProtocal.getChannelType(),bindToGroupRequestProtocal.getAction(),bindToGroupRequestProtocal.getJsonString());
+            // 返回结果
             ctx.writeAndFlush(new TextWebSocketFrame(res));
         }else{
             System.out.println("[websocket] channel注册失败");

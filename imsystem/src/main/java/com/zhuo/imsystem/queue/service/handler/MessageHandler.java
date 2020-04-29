@@ -13,6 +13,8 @@ public abstract class MessageHandler {
                 return new EchoHandler(message);
             case ProtocalMap.New_message_Request:
                 return new NewMessageHandler(message);
+            case ProtocalMap.Bind_to_group_channel_Request:
+                return new BindToGroupHandler(message);
         }
         return null;
     }

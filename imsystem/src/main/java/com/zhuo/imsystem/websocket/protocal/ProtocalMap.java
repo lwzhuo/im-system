@@ -2,9 +2,11 @@ package com.zhuo.imsystem.websocket.protocal;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.zhuo.imsystem.websocket.protocal.request.BindToGroupRequestProtocal;
 import com.zhuo.imsystem.websocket.protocal.request.EchoRequestProtocal;
 import com.zhuo.imsystem.websocket.protocal.request.NewMessageRequestProtocal;
 import com.zhuo.imsystem.websocket.protocal.request.RegisterRequestProtocal;
+import com.zhuo.imsystem.websocket.protocal.response.BindToGroupResponseProtocal;
 import com.zhuo.imsystem.websocket.protocal.response.EchoResponseProtocal;
 import com.zhuo.imsystem.websocket.protocal.response.NewMessageResponseProtocal;
 import com.zhuo.imsystem.websocket.protocal.response.RegisterResponseProtocal;
@@ -25,6 +27,10 @@ public class ProtocalMap extends HashMap<Integer,Class>{
     public static final int New_message_Request = 5;
     public static final int New_message_Response = 6;
 
+    // 用户绑定群组协议
+    public static final int Bind_to_group_channel_Request = 7;
+    public static final int Bind_to_group_channel_Response = 8;
+
     private static ProtocalMap map = new ProtocalMap();
     static {
         map.put(Echo_Request, EchoRequestProtocal.class);
@@ -35,6 +41,9 @@ public class ProtocalMap extends HashMap<Integer,Class>{
 
         map.put(New_message_Request, NewMessageRequestProtocal.class);
         map.put(New_message_Response, NewMessageResponseProtocal.class);
+
+        map.put(Bind_to_group_channel_Request, BindToGroupRequestProtocal.class);
+        map.put(Bind_to_group_channel_Response, BindToGroupResponseProtocal.class);
     }
     private ProtocalMap(){
     }

@@ -25,4 +25,8 @@ public interface ChannelMemberMapper {
     })
     @Select("select * from im_channel_member where channel_id=#{channelId}")
     public List<ChannelMemberDto> getChannelMemberList(String channelId);
+
+    // 通过成员uid获取群组channelId
+    @Select("select channel_id from im_channel_member where uid=#{uid} and channel_type=2")
+    public List<String> getGroupChannelIdsByMemberuid(String uid);
 }

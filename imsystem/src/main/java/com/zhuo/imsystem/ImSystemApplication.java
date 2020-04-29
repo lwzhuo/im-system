@@ -2,6 +2,7 @@ package com.zhuo.imsystem;
 
 import com.zhuo.imsystem.queue.consumer.BlockingQueueConsumer;
 import com.zhuo.imsystem.websocket.WebSocketServer;
+import com.zhuo.imsystem.websocket.util.SessionUtil;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -18,6 +19,9 @@ public class ImSystemApplication {
 
         // 启动队列consumer
         BlockingQueueConsumer.start();
+
+        // 群组ChannelGroup初始化
+        new SessionUtil().ChannelGroupInit();
     }
 
 }

@@ -3,7 +3,6 @@ package com.zhuo.imsystem.http.controller;
 import com.alibaba.fastjson.JSONObject;
 import com.zhuo.imsystem.commom.config.ConstVar;
 import com.zhuo.imsystem.commom.config.StatusCode;
-import com.zhuo.imsystem.http.config.Const;
 import com.zhuo.imsystem.http.model.User;
 import com.zhuo.imsystem.http.service.AvatarService;
 import com.zhuo.imsystem.http.service.UserService;
@@ -16,7 +15,6 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletRequest;
-import java.awt.image.BufferedImage;
 import java.util.HashMap;
 
 @RestController
@@ -42,7 +40,7 @@ public class UserController extends BaseController {
     // 获取当前用户的信息
     @RequestMapping(value = "/me",method = RequestMethod.GET)
     public ResponseJson aboutMe(@RequestHeader("X-Token") String token){
-        Claims claims = JWTUtil.parseJWT(token, Const.JWT_SECRET);
+        Claims claims = JWTUtil.parseJWT(token, ConstVar.JWT_SECRET);
         String uid = JSONObject.parseObject(claims.getSubject()).getString("uid");
         User user = new User();
         User res = userService.queryUser(uid);

@@ -5,7 +5,7 @@ import java.util.Date;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 import com.alibaba.fastjson.JSONObject;
-import com.zhuo.imsystem.http.config.Const;
+import com.zhuo.imsystem.commom.config.ConstVar;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
@@ -65,7 +65,7 @@ public class JWTUtil {
     public static String checkJWT(String jwt){
         String res = null;
         try {
-            Claims claims = JWTUtil.parseJWT(jwt, Const.JWT_SECRET);
+            Claims claims = JWTUtil.parseJWT(jwt, ConstVar.JWT_SECRET);
             res = claims.getSubject();
             long expirTime = claims.getExpiration().getTime();
             long nowMillis = System.currentTimeMillis();
@@ -84,10 +84,10 @@ public class JWTUtil {
     public static void main(String[] args) {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("uid","123456");
-        String jwt = JWTUtil.createJWT(jsonObject.toJSONString(), Const.JWT_SECRET,Const.JWT_TTL);
+        String jwt = JWTUtil.createJWT(jsonObject.toJSONString(), ConstVar.JWT_SECRET,ConstVar.JWT_TTL);
         System.out.println(jwt);
 
-        Claims afterParse = JWTUtil.parseJWT(jwt,Const.JWT_SECRET);
+        Claims afterParse = JWTUtil.parseJWT(jwt,ConstVar.JWT_SECRET);
         System.out.println(afterParse);
         System.out.println(afterParse.getSubject());
         System.out.println(afterParse.getExpiration());

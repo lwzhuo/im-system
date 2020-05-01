@@ -1,7 +1,7 @@
 package com.zhuo.imsystem.websocket.handler;
 
 import com.alibaba.fastjson.JSONObject;
-import com.zhuo.imsystem.http.config.Const;
+import com.zhuo.imsystem.commom.config.ConstVar;
 import com.zhuo.imsystem.http.util.JWTUtil;
 import io.jsonwebtoken.Claims;
 import io.netty.channel.ChannelHandlerContext;
@@ -24,7 +24,7 @@ public class AuthHandler extends SimpleChannelInboundHandler<FullHttpRequest> {
         }
         String token = param[1].trim();
         if(token!=null && token!=""){
-            Claims claims = JWTUtil.parseJWT(token, Const.JWT_SECRET);
+            Claims claims = JWTUtil.parseJWT(token, ConstVar.JWT_SECRET);
             JSONObject jsonObject = JSONObject.parseObject(claims.getSubject());
             String uid = jsonObject.getString("uid");
             ctx.channel().attr(USERID).set(uid);

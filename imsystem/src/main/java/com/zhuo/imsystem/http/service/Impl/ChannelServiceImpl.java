@@ -1,6 +1,6 @@
 package com.zhuo.imsystem.http.service.Impl;
 
-import com.zhuo.imsystem.http.config.Const;
+import com.zhuo.imsystem.commom.config.ConstVar;
 import com.zhuo.imsystem.commom.config.StatusCode;
 import com.zhuo.imsystem.http.dto.ChannelDto;
 import com.zhuo.imsystem.http.dto.ChannelMemberDto;
@@ -75,7 +75,7 @@ public class ChannelServiceImpl implements ChannelService {
 
         Date now = new Date();
         List<ChannelMemberDto> channelMemberList = channelDto.getChannelUserList();
-        if(channelType==Const.GROUP_CHALLEL){
+        if(channelType== ConstVar.GROUP_CHALLEL){
             // 校验channel 成员用户是否合法 补充相应的参数
             for(ChannelMemberDto channelMemberDto:channelMemberList){
                 String uid = channelMemberDto.getUid();
@@ -113,7 +113,7 @@ public class ChannelServiceImpl implements ChannelService {
                 Channel channel = ChannelContainer.getChannelByUserId(item.getUid());
                 channelGroup.add(channel);
             }
-        }else if(channelType==Const.PRIVATE_CHANNEL){
+        }else if(channelType==ConstVar.PRIVATE_CHANNEL){
             // 私聊中 两个成员互为创建者 共享同一个channel
             // 校验成员信息是否合法
             String creatorUid = channelDto.getCreatorId();

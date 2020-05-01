@@ -3,7 +3,6 @@ package com.zhuo.imsystem.queue.service.handler;
 import com.zhuo.imsystem.commom.config.ConstVar;
 import com.zhuo.imsystem.elasticsearch.ElasticMessageService;
 import com.zhuo.imsystem.elasticsearch.Message;
-import com.zhuo.imsystem.http.config.Const;
 import com.zhuo.imsystem.http.dto.ChannelDto;
 import com.zhuo.imsystem.http.mapper.ChannelMapper;
 import com.zhuo.imsystem.queue.model.message.BlockingQueueMessage;
@@ -42,7 +41,7 @@ public class NewMessageHandler extends MessageHandler {
         elasticMessageService.save(stroedMessage);
 
         // 处理消息发送
-        if(channelType== Const.PRIVATE_CHANNEL){
+        if(channelType== ConstVar.PRIVATE_CHANNEL){
             // 私聊
             ChannelDto channelDto = channelMapper.queryPrivateChannelByCreatorUid(channelId,fromUid);
             String toUid = channelDto.getAttenderId();

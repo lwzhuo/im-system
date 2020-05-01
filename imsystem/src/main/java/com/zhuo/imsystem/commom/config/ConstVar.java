@@ -1,6 +1,11 @@
 package com.zhuo.imsystem.commom.config;
 
 public class ConstVar {
+
+    public static int JWT_TTL = 86400000; // JWT有效期
+
+    public static String JWT_SECRET = "ForIMSystem"; // 用户认证token密钥
+
     // 队列名称
     public static int PRIVATE_CHANNEL_QUEUE = 1;
     public static int GROUP_CHANNEL_QUEUE = 2;

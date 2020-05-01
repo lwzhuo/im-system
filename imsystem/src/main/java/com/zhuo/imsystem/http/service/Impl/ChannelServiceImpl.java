@@ -179,7 +179,9 @@ public class ChannelServiceImpl implements ChannelService {
         }else {
             //群聊
             ChannelDto channelDto = channelDtoList.get(0);
-            channelDto.setChannelUserList(userChannelService.getChannelMemberList(channelId));
+            List<ChannelMemberDto> channelUserList = userChannelService.getChannelMemberList(channelId);
+            channelDto.setChannelUserList(channelUserList);
+            channelDto.setMemberCount(channelUserList.size());
             return channelDto;
         }
     }

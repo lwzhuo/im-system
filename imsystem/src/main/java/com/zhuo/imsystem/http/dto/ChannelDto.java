@@ -15,6 +15,7 @@ public class ChannelDto {
     private Date ctime;
     private Date updateTime;
     private List<ChannelMemberDto> channelUserList;
+    private int memberCount; // 成员数量
 
     public ChannelDto(){
 
@@ -116,5 +117,13 @@ public class ChannelDto {
 
     public void setAttenderName(String attenderName) {
         this.attenderName = attenderName;
+    }
+
+    public int getMemberCount() {
+        return memberCount;
+    }
+
+    public void setMemberCount(int memberCount) {
+        this.memberCount = memberCount;
     }
 }

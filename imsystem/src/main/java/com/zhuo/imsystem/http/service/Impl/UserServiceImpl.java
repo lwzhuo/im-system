@@ -6,6 +6,7 @@ import com.zhuo.imsystem.http.model.User;
 import com.zhuo.imsystem.http.service.UserService;
 import com.zhuo.imsystem.http.util.CommonException;
 import com.zhuo.imsystem.http.util.PasswordUtil;
+import com.zhuo.imsystem.websocket.util.SessionUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -79,5 +80,9 @@ public class UserServiceImpl implements UserService {
 
     public boolean updateUserInfo(String uid,String avatarUrl){
         return userMapper.updateAvatar(uid,avatarUrl);
+    }
+
+    public void logout(String uid){
+        SessionUtil.userOffline(uid); // 删除用户channel
     }
 }

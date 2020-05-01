@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 
 @RestController
@@ -41,5 +42,13 @@ public class AuthController extends BaseController{
         hashMap.put("nickname","");
         hashMap.put("token",jwt);
         return success().setData(hashMap);
+    }
+
+    @RequestMapping(value = "/logout",method = RequestMethod.GET)
+    public ResponseJson logout(HttpServletRequest request){
+        String uid = (String) request.getAttribute("uid");
+        userService.logout(uid);
+        System.out.println("用户["+uid+"]退出登录");
+        return success();
     }
 }

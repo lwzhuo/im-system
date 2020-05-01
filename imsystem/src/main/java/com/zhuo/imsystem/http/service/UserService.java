@@ -9,4 +9,5 @@ public interface UserService {
     public Boolean register(User user) throws Exception;
     public User login(User user) throws Exception;
     public boolean updateUserInfo(String uid,String avatarUrl);
+    public void logout(String uid);
 }

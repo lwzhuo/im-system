@@ -150,6 +150,11 @@ public class ChannelServiceImpl implements ChannelService {
 
     // 获取channel信息
     public ChannelDto getInfo(String channelId,String uid) throws Exception{
+        // 判断用户是否有权限访问该channel
+        ChannelMemberDto channelMemberDto = userChannelService.getMemberChannel(channelId,uid);
+        if(channelMemberDto==null){
+            throw new CommonException(StatusCode.ERROR_CHANNEL_AUTH_FAILED,"用户没有该房间的的权限");
+        }
         List<ChannelDto> channelDtoList = channelMapper.queryChannelInfoByChannelId(channelId);
         ChannelDto res = null;
         if(channelDtoList==null || channelDtoList.size()==0){

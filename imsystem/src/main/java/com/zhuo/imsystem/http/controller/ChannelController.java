@@ -39,4 +39,10 @@ public class ChannelController extends BaseController  {
         boolean res = channelService.isAdmin(uid,channelId);
         return success().setData(res);
     }
+
+    // url方式进入房间
+    @RequestMapping(value = "/join/{token}",method = RequestMethod.GET)
+    public ResponseJson joinChannelByUrl(@PathVariable String token){
+        return null;
+    }
 }

@@ -22,15 +22,6 @@ import java.util.UUID;
 
 @Service("channelService")
 public class ChannelServiceImpl implements ChannelService {
-    // channel类型
-    private static int PRIVATE_CHANNEL = 1;
-    private static int GROUP_CHANNEL = 2;
-    // 用户类型
-    private static int CREATOR = 1;
-    private static int ATTENDER = 2;
-    // 用户状态
-    private static int IN_CHANNEL = 1;
-    private static int LEFT_CHANNEL = 2;
 
     @Autowired
     ChannelMapper channelMapper;
@@ -48,13 +39,13 @@ public class ChannelServiceImpl implements ChannelService {
     public ChannelDto createChannel(ChannelDto channelDto) throws Exception{
         // 校验channel类型是否合法
         int channelType = channelDto.getChannelType();
-        if(channelType!= PRIVATE_CHANNEL&&channelType!=GROUP_CHANNEL){
+        if(channelType!= ConstVar.PRIVATE_CHANNEL&&channelType!=ConstVar.GROUP_CHANNEL){
             System.out.println("channel类型错误");
             throw new CommonException(StatusCode.ERROR_CHANNEL_CREATE_FAIL,"channel 创建失败");
         }
 
         // 校验群聊名称是否存在
-        if(channelType==GROUP_CHANNEL){
+        if(channelType==ConstVar.GROUP_CHANNEL){
             if(channelDto.getChannelName()==null || channelDto.getChannelName().trim().equals("")){
                 System.out.println("群聊名称为空");
                 throw new CommonException(StatusCode.ERROR_CHANNEL_CREATE_FAIL,"群聊名称不能为空");
@@ -75,7 +66,7 @@ public class ChannelServiceImpl implements ChannelService {
 
         Date now = new Date();
         List<ChannelMemberDto> channelMemberList = channelDto.getChannelUserList();
-        if(channelType== ConstVar.GROUP_CHALLEL){
+        if(channelType== ConstVar.GROUP_CHANNEL){
             // 校验channel 成员用户是否合法 补充相应的参数
             for(ChannelMemberDto channelMemberDto:channelMemberList){
                 String uid = channelMemberDto.getUid();
@@ -89,14 +80,14 @@ public class ChannelServiceImpl implements ChannelService {
                     channelMemberDto.setUid(uid);
                     channelMemberDto.setJoinTime(now);
                     channelMemberDto.setChannelType(channelType);
-                    channelMemberDto.setStatus(IN_CHANNEL);
+                    channelMemberDto.setStatus(ConstVar.IN_CHANNEL);
                     channelMemberDto.setUpdateTime(now);
                     channelMemberDto.setCtime(now);
                     // 处理创建者的信息
                     if(uid.equals(creatorId)){
-                        channelMemberDto.setUserType(CREATOR);
+                        channelMemberDto.setUserType(ConstVar.CREATOR);
                     }else {
-                        channelMemberDto.setUserType(ATTENDER);
+                        channelMemberDto.setUserType(ConstVar.ATTENDER);
                     }
                 }
             }
@@ -132,13 +123,13 @@ public class ChannelServiceImpl implements ChannelService {
                 return res;
             }else {
                 // 新增channel信息
-                ChannelDto creatorA = new ChannelDto(channelId,memberName,creatorId,memberUid,PRIVATE_CHANNEL,now,now);
-                ChannelDto creatorB = new ChannelDto(channelId,creatorName,memberUid,creatorId,PRIVATE_CHANNEL,now,now);
+                ChannelDto creatorA = new ChannelDto(channelId,memberName,creatorId,memberUid,ConstVar.PRIVATE_CHANNEL,now,now);
+                ChannelDto creatorB = new ChannelDto(channelId,creatorName,memberUid,creatorId,ConstVar.PRIVATE_CHANNEL,now,now);
                 channelMapper.saveChannel(creatorA);
                 channelMapper.saveChannel(creatorB);
                 // 新增成员信息
-                ChannelMemberDto memberA = new ChannelMemberDto(creatorId,channelId,now,channelType,ATTENDER,IN_CHANNEL,now,now);// 成员A dto
-                ChannelMemberDto memberB = new ChannelMemberDto(memberUid,channelId,now,channelType,ATTENDER,IN_CHANNEL,now,now);// 成员B dto
+                ChannelMemberDto memberA = new ChannelMemberDto(creatorId,channelId,now,channelType,ConstVar.ATTENDER,ConstVar.IN_CHANNEL,now,now);// 成员A dto
+                ChannelMemberDto memberB = new ChannelMemberDto(memberUid,channelId,now,channelType,ConstVar.ATTENDER,ConstVar.IN_CHANNEL,now,now);// 成员B dto
                 channelMemberMapper.saveChannelMember(memberA);
                 channelMemberMapper.saveChannelMember(memberB);
 
@@ -161,7 +152,7 @@ public class ChannelServiceImpl implements ChannelService {
             return res;
         }
         int channelType = channelDtoList.get(0).getChannelType();
-        if(channelType==PRIVATE_CHANNEL){
+        if(channelType==ConstVar.PRIVATE_CHANNEL){
             // 私聊
             if(channelDtoList.size()!=2)
                 return res;
@@ -199,4 +190,43 @@ public class ChannelServiceImpl implements ChannelService {
         return res;
     }
 
+    // 检查是否为群聊channel
+    public boolean isGroupChannel(String channelId){
+        List<ChannelDto> channelDto = channelMapper.queryChannelInfoByChannelId(channelId);
+        if(channelDto.size()>0 && channelDto.get(0).getChannelType()==ConstVar.GROUP_CHANNEL)
+            return true;
+        else
+            return false;
+    }
+
+    // 加入群聊
+    public ChannelMemberDto joinGroupChannel(String channelId,String uid)throws Exception{
+        boolean isGroupChannel = isGroupChannel(channelId);// 检查channel类型是否为群聊类型
+        if(isGroupChannel){
+            Date now = new Date();
+            ChannelMemberDto channelMemberDto = new ChannelMemberDto();
+            channelMemberDto.setChannelId(channelId);
+            channelMemberDto.setUid(uid);
+            channelMemberDto.setStatus(ConstVar.IN_CHANNEL);
+            channelMemberDto.setJoinTime(now);
+            channelMemberDto.setUserType(ConstVar.ATTENDER);
+            channelMemberDto.setChannelType(ConstVar.GROUP_CHANNEL);
+            channelMemberDto.setCtime(now);
+            channelMemberDto.setUpdateTime(now);
+            channelMemberMapper.saveChannelMember(channelMemberDto);
+            return channelMemberDto;
+        }else {
+            throw new CommonException(StatusCode.ERROR_CHANNEL_JOIN_FAILED,"channel类型错误");
+        }
+    }
+
+    // 退出群聊
+    public boolean leftGroupChannel(String channelId,String uid)throws Exception{
+        boolean isGroupChannel = isGroupChannel(channelId); // 检查是否为群聊类型
+        if(isGroupChannel) {
+            return channelMemberMapper.updateUserStatus(channelId, uid, ConstVar.LEFT_CHANNEL);
+        }else {
+            throw new CommonException(StatusCode.ERROR_CHANNEL_JOIN_FAILED,"channel类型错误");
+        }
+    }
 }

@@ -41,7 +41,8 @@ public interface ChannelMapper {
     @Select("select * from im_channel where creator_id=#{creatorId} and channel_id=#{channelId} limit 1")
     public ChannelDto queryPrivateChannelByCreatorUid(String channelId,String creatorId);
 
-    @Select("select channel_id from im_channel_member where uid=#{uid}")
+    // 查询用户状态为在channel中的channelId
+    @Select("select channel_id from im_channel_member where uid=#{uid} and status=1")
     public List<String> queryChannelIdsByMemberUid(String uid);
 
     @Select("select channel_id from im_channel_member where channel_type=2")

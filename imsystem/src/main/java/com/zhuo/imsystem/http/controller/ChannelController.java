@@ -1,8 +1,11 @@
 package com.zhuo.imsystem.http.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import com.zhuo.imsystem.commom.config.StatusCode;
 import com.zhuo.imsystem.http.dto.ChannelDto;
+import com.zhuo.imsystem.http.dto.ChannelMemberDto;
 import com.zhuo.imsystem.http.service.ChannelService;
+import com.zhuo.imsystem.http.util.CommonException;
 import com.zhuo.imsystem.http.util.ResponseJson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -40,9 +43,44 @@ public class ChannelController extends BaseController  {
         return success().setData(res);
     }
 
-    // url方式进入房间
-    @RequestMapping(value = "/join/{token}",method = RequestMethod.GET)
-    public ResponseJson joinChannelByUrl(@PathVariable String token){
-        return null;
+//    // 获取进入群聊房间短链接
+//    @RequestMapping(value = "/{channelId}/generate-link",method = RequestMethod.GET)
+//    public ResponseJson getShortLink(@PathVariable String channelId){
+//        return null;
+//    }
+//
+//    // 通过短链接的id 获取房间信息
+//    @RequestMapping(value = "/info/{shortId}",method = RequestMethod.GET)
+//    public ResponseJson getChannelInfoByShortId(@PathVariable String shortId){
+//        return null;
+//    }
+
+    // 进入房间
+    @RequestMapping(value = "/join",method = RequestMethod.GET)
+    public ResponseJson joinChannel(@RequestParam String channelId,@RequestParam String uid) throws Exception{
+        ChannelMemberDto channelMemberDto = channelService.joinGroupChannel(channelId,uid);
+        // todo 给群聊全体下发进入房间的消息
+        return success().setData(channelMemberDto);
+    }
+
+    // 退出房间/管理员移除群聊
+    @RequestMapping(value = "left",method = RequestMethod.GET)
+    public ResponseJson leftChannel(HttpServletRequest request,@RequestParam String channelId,@RequestParam String uid) throws Exception{
+        // 检查权限 是否为其中两种情况 1.管理员移除群聊 2.用户自己退出
+        String uidFromToken = (String)request.getAttribute("uid"); // 获取token中的uid
+        boolean byUser = uid.equals(uidFromToken); // 是否为用户自身
+        if(!byUser){
+            // 检查是否为管理员操作
+            boolean isAdmin = channelService.isAdmin(uid,channelId);
+            if(!isAdmin)
+                throw new CommonException(StatusCode.ERROR_CHANNEL_LEFT_FAILED,"没有权限");
+        }
+        boolean res = channelService.leftGroupChannel(channelId,uid);
+        if(res){
+            // todo 给该用户下发移出房间的消息
+            return success().setData("退出群聊成功");
+        }else {
+            return error("退出群聊失败");
+        }
     }
 }

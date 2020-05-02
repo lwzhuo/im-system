@@ -29,4 +29,8 @@ public interface ChannelMemberMapper {
     // 通过成员uid获取群组channelId
     @Select("select channel_id from im_channel_member where uid=#{uid} and channel_type=2")
     public List<String> getGroupChannelIdsByMemberuid(String uid);
+
+    // 修改成员状态
+    @Update("update im_channel_member set status={status} where channel_id=#{channelId} and uid=#{uid}")
+    public boolean updateUserStatus(String channelId,String uid,int status);
 }

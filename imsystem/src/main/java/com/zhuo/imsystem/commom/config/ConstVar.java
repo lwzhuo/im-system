@@ -6,6 +6,8 @@ public class ConstVar {
 
     public static String JWT_SECRET = "ForIMSystem"; // 用户认证token密钥
 
+    public static String JWT_JOIN_CHANNEL_SECRET = "Only4JoinChannel"; // 用户加入channel的token密钥
+
     // 队列名称
     public static int PRIVATE_CHANNEL_QUEUE = 1;
     public static int GROUP_CHANNEL_QUEUE = 2;
@@ -21,10 +23,18 @@ public class ConstVar {
     public static int MESSAGE_STATUS_NORMAL = 0;
     public static int MESSAGE_STATUS_DELETED = 1;
 
+    // 用户类型
+    public static int CREATOR = 1;
+    public static int ATTENDER = 2;
+
+    // 用户状态
+    public static int IN_CHANNEL = 1;
+    public static int LEFT_CHANNEL = 2;
+
     // 私聊
     public static int PRIVATE_CHANNEL = 1;
     // 群聊
-    public static int GROUP_CHALLEL = 2;
+    public static int GROUP_CHANNEL = 2;
 
     // 聊天文本长度限制
     public static int MAX_TEXT_LENGTH = 300;

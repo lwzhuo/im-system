@@ -2,14 +2,8 @@ package com.zhuo.imsystem.websocket.protocal;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.zhuo.imsystem.websocket.protocal.request.BindToGroupRequestProtocal;
-import com.zhuo.imsystem.websocket.protocal.request.EchoRequestProtocal;
-import com.zhuo.imsystem.websocket.protocal.request.NewMessageRequestProtocal;
-import com.zhuo.imsystem.websocket.protocal.request.RegisterRequestProtocal;
-import com.zhuo.imsystem.websocket.protocal.response.BindToGroupResponseProtocal;
-import com.zhuo.imsystem.websocket.protocal.response.EchoResponseProtocal;
-import com.zhuo.imsystem.websocket.protocal.response.NewMessageResponseProtocal;
-import com.zhuo.imsystem.websocket.protocal.response.RegisterResponseProtocal;
+import com.zhuo.imsystem.websocket.protocal.request.*;
+import com.zhuo.imsystem.websocket.protocal.response.*;
 
 import java.util.HashMap;
 
@@ -31,6 +25,18 @@ public class ProtocalMap extends HashMap<Integer,Class>{
     public static final int Bind_to_group_channel_Request = 7;
     public static final int Bind_to_group_channel_Response = 8;
 
+    // channel创建协议
+    public static final int Channel_create_Request = 9;
+    public static final int Channel_create_Response = 10;
+
+    // 用户加入channel协议
+    public static final int Member_join_channel_Request = 11;
+    public static final int Member_join_channel_Response = 12;
+
+    // 用户离开channel协议
+    public static final int Member_left_channel_Request = 13;
+    public static final int Member_left_channel_Response = 14;
+
     private static ProtocalMap map = new ProtocalMap();
     static {
         map.put(Echo_Request, EchoRequestProtocal.class);
@@ -44,6 +50,15 @@ public class ProtocalMap extends HashMap<Integer,Class>{
 
         map.put(Bind_to_group_channel_Request, BindToGroupRequestProtocal.class);
         map.put(Bind_to_group_channel_Response, BindToGroupResponseProtocal.class);
+
+        map.put(Channel_create_Request, ChannelCreateRequestProtocal.class);
+        map.put(Channel_create_Response, ChannelCreateResponseProtocal.class);
+
+        map.put(Member_join_channel_Request, MemberJoinRequestProtocal.class);
+        map.put(Member_join_channel_Response, MemberJoinResponseProtocal.class);
+
+        map.put(Member_left_channel_Request, MemberLeftRequestProtocal.class);
+        map.put(Member_left_channel_Response, MemberLeftResponseProtocal.class);
     }
     private ProtocalMap(){
     }

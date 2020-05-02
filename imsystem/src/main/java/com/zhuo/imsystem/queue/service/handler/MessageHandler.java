@@ -15,6 +15,12 @@ public abstract class MessageHandler {
                 return new NewMessageHandler(message);
             case ProtocalMap.Bind_to_group_channel_Request:
                 return new BindToGroupHandler(message);
+            case ProtocalMap.Channel_create_Request:
+                return new ChannelCreateHandler();
+            case ProtocalMap.Member_join_channel_Request:
+                return new MemberJoinHandler();
+            case ProtocalMap.Member_left_channel_Request:
+                return new MemberLeftHandler();
         }
         return null;
     }

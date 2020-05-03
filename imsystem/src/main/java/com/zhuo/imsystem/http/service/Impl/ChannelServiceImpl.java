@@ -201,7 +201,15 @@ public class ChannelServiceImpl implements ChannelService {
 
     // 加入群聊
     public ChannelMemberDto joinGroupChannel(String channelId,String uid)throws Exception{
-        boolean isGroupChannel = isGroupChannel(channelId);// 检查channel类型是否为群聊类型
+        // 检查用户是否已经在群组中
+        ChannelMemberDto res = channelMemberMapper.getInChannelMember(channelId,uid);
+        if(res!=null){
+            return res;
+        }
+
+        // 用户确认离开或者没进入群组 新增一条进入群组的记录
+        // 检查channel类型是否为群聊类型
+        boolean isGroupChannel = isGroupChannel(channelId);
         if(isGroupChannel){
             Date now = new Date();
             ChannelMemberDto channelMemberDto = new ChannelMemberDto();
@@ -222,11 +230,20 @@ public class ChannelServiceImpl implements ChannelService {
 
     // 退出群聊
     public boolean leftGroupChannel(String channelId,String uid)throws Exception{
-        boolean isGroupChannel = isGroupChannel(channelId); // 检查是否为群聊类型
-        if(isGroupChannel) {
-            return channelMemberMapper.updateUserStatus(channelId, uid, ConstVar.LEFT_CHANNEL);
+        // 检查用户是否已经在群组中
+        ChannelMemberDto res = channelMemberMapper.getInChannelMember(channelId,uid);
+        if(res!=null){
+            // 用户还在群组中
+            // 检查是否为群聊类型
+            boolean isGroupChannel = isGroupChannel(channelId);
+            if(isGroupChannel) {
+                Date now = new Date();
+                return channelMemberMapper.userLeftChannel(channelId, uid, now);
+            }else {
+                throw new CommonException(StatusCode.ERROR_CHANNEL_LEFT_FAILED,"channel类型错误");
+            }
         }else {
-            throw new CommonException(StatusCode.ERROR_CHANNEL_JOIN_FAILED,"channel类型错误");
+            throw new CommonException(StatusCode.ERROR_CHANNEL_LEFT_FAILED,"用户不在当前channel中");
         }
     }
 }

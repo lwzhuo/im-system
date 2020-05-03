@@ -27,7 +27,7 @@ public class UserChannelServiceImpl implements UserChannelService {
 
     // 检查用户是否在channel中
     public ChannelMemberDto getMemberChannel(String channelId,String uid) throws Exception{
-        ChannelMemberDto channelMemberDto = channelMemberMapper.getChannelMember(channelId,uid);
+        ChannelMemberDto channelMemberDto = channelMemberMapper.getInChannelMember(channelId,uid);
         if(channelMemberDto==null)
             return null;
         else

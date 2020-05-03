@@ -12,6 +12,7 @@ import com.zhuo.imsystem.http.service.ChannelService;
 import com.zhuo.imsystem.http.service.UserChannelService;
 import com.zhuo.imsystem.http.util.CommonException;
 import com.zhuo.imsystem.websocket.util.ChannelContainer;
+import com.zhuo.imsystem.websocket.util.SessionUtil;
 import io.netty.channel.Channel;
 import io.netty.channel.group.ChannelGroup;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -179,15 +180,10 @@ public class ChannelServiceImpl implements ChannelService {
 
     // 判断是否为管理员
     public boolean isAdmin(String uid,String channelId) throws Exception{
-        List<ChannelDto> channelDtoList =  channelMapper.queryChannelInfoByChannelId(channelId);
-        boolean res = false;
-        for(ChannelDto item:channelDtoList){
-            if(item.getCreatorId().equals(uid)){
-                res = true;
-                break;
-            }
-        }
-        return res;
+        ChannelMemberDto channelMemberDto =  channelMemberMapper.getAdminMemberInfo(channelId);
+        if(channelMemberDto==null)
+            return false;
+        return channelMemberDto.getUid().equals(uid);
     }
 
     // 检查是否为群聊channel
@@ -223,7 +219,13 @@ public class ChannelServiceImpl implements ChannelService {
             channelMemberDto.setCtime(now);
             channelMemberDto.setUpdateTime(now);
             channelMemberMapper.saveChannelMember(channelMemberDto);
-            return channelMemberDto;
+
+            // 加入到ChannelGroup中 用于接收消息
+            boolean bindRes = SessionUtil.bindToChannelGroup(uid,channelId);
+            if(bindRes)
+                return channelMemberDto;
+            else
+                throw new CommonException(StatusCode.ERROR_CHANNEL_JOIN_FAILED,"channel绑定失败");
         }else {
             throw new CommonException(StatusCode.ERROR_CHANNEL_JOIN_FAILED,"channel类型错误");
         }
@@ -238,8 +240,14 @@ public class ChannelServiceImpl implements ChannelService {
             // 检查是否为群聊类型
             boolean isGroupChannel = isGroupChannel(channelId);
             if(isGroupChannel) {
-                Date now = new Date();
-                return channelMemberMapper.userLeftChannel(channelId, uid, now);
+                // 移除channelGroup
+                boolean unbindRes = SessionUtil.unbindFromChannelGroup(uid,channelId);
+                if(unbindRes){
+                    Date now = new Date();
+                    return channelMemberMapper.userLeftChannel(channelId, uid, now);
+                }else {
+                    throw new CommonException(StatusCode.ERROR_CHANNEL_LEFT_FAILED,"channel解绑失败");
+                }
             }else {
                 throw new CommonException(StatusCode.ERROR_CHANNEL_LEFT_FAILED,"channel类型错误");
             }

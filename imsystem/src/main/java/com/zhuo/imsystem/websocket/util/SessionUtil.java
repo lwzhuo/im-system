@@ -37,6 +37,14 @@ public class SessionUtil {
         boolean res = channelGroup.add(channel);
         return res;
     }
+
+    public static boolean unbindFromChannelGroup(String uid,String groupChannelId){
+        ChannelGroup channelGroup = ChannelContainer.getChannelGroupByChannelId(groupChannelId);
+        Channel channel = ChannelContainer.getChannelByUserId(uid);
+        boolean res = channelGroup.remove(channel);
+        return res;
+    }
+
     public void ChannelGroupInit(){
         System.out.println("开始ChannelGroup初始化");
         // 获取所有的channelId

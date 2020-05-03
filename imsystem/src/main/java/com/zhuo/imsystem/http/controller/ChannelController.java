@@ -64,15 +64,18 @@ public class ChannelController extends BaseController  {
     }
 
     // 退出房间/管理员移除群聊
-    @RequestMapping(value = "left",method = RequestMethod.GET)
+    @RequestMapping(value = "/left",method = RequestMethod.GET)
     public ResponseJson leftChannel(HttpServletRequest request,@RequestParam String channelId,@RequestParam String uid) throws Exception{
         // 检查权限 是否为其中两种情况 1.管理员移除群聊 2.用户自己退出
         String uidFromToken = (String)request.getAttribute("uid"); // 获取token中的uid
         boolean byUser = uid.equals(uidFromToken); // 是否为用户自身
         if(!byUser){
             // 检查是否为管理员操作
-            boolean isAdmin = channelService.isAdmin(uid,channelId);
+            boolean isAdmin = channelService.isAdmin(uidFromToken,channelId);
             if(!isAdmin)
+                throw new CommonException(StatusCode.ERROR_CHANNEL_LEFT_FAILED,"没有权限");
+            // 检查是否是管理员自我删除
+            if(uid.equals(uidFromToken))
                 throw new CommonException(StatusCode.ERROR_CHANNEL_LEFT_FAILED,"没有权限");
         }
         boolean res = channelService.leftGroupChannel(channelId,uid);

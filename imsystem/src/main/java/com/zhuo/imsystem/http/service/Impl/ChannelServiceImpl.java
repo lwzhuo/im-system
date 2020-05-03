@@ -221,11 +221,8 @@ public class ChannelServiceImpl implements ChannelService {
             channelMemberMapper.saveChannelMember(channelMemberDto);
 
             // 加入到ChannelGroup中 用于接收消息
-            boolean bindRes = SessionUtil.bindToChannelGroup(uid,channelId);
-            if(bindRes)
-                return channelMemberDto;
-            else
-                throw new CommonException(StatusCode.ERROR_CHANNEL_JOIN_FAILED,"channel绑定失败");
+            SessionUtil.bindToChannelGroup(uid,channelId);
+            return channelMemberDto;
         }else {
             throw new CommonException(StatusCode.ERROR_CHANNEL_JOIN_FAILED,"channel类型错误");
         }
@@ -241,13 +238,9 @@ public class ChannelServiceImpl implements ChannelService {
             boolean isGroupChannel = isGroupChannel(channelId);
             if(isGroupChannel) {
                 // 移除channelGroup
-                boolean unbindRes = SessionUtil.unbindFromChannelGroup(uid,channelId);
-                if(unbindRes){
-                    Date now = new Date();
-                    return channelMemberMapper.userLeftChannel(channelId, uid, now);
-                }else {
-                    throw new CommonException(StatusCode.ERROR_CHANNEL_LEFT_FAILED,"channel解绑失败");
-                }
+                SessionUtil.unbindFromChannelGroup(uid,channelId);
+                Date now = new Date();
+                return channelMemberMapper.userLeftChannel(channelId, uid, now);
             }else {
                 throw new CommonException(StatusCode.ERROR_CHANNEL_LEFT_FAILED,"channel类型错误");
             }

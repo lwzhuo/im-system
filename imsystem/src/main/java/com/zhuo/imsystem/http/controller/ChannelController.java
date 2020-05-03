@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.List;
 
 // channel的管理 偏向channel维度
 @RestController
@@ -61,6 +63,20 @@ public class ChannelController extends BaseController  {
         ChannelMemberDto channelMemberDto = channelService.joinGroupChannel(channelId,uid);
         // todo 给群聊全体下发进入房间的消息
         return success().setData(channelMemberDto);
+    }
+
+    // 批量进入房间
+    @RequestMapping(value = "/join-batch",method = RequestMethod.POST)
+    public ResponseJson joinChannelBatch(@RequestBody JSONObject json) throws Exception{
+        String channelId = json.getString("channelId");
+        List<String> uidList = (List<String>) json.get("uidList");
+        List<ChannelMemberDto> res = new ArrayList<ChannelMemberDto>();
+        for(String uid:uidList){
+            ChannelMemberDto channelMemberDto = channelService.joinGroupChannel(channelId,uid);
+            res.add(channelMemberDto);
+            // todo 给群聊全体下发进入房间的消息
+        }
+        return success().setData(res);
     }
 
     // 退出房间/管理员移除群聊

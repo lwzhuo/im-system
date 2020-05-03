@@ -34,15 +34,21 @@ public class SessionUtil {
     public static boolean bindToChannelGroup(String uid,String groupChannelId){
         ChannelGroup channelGroup = ChannelContainer.getChannelGroupByChannelId(groupChannelId);
         Channel channel = ChannelContainer.getChannelByUserId(uid);
-        boolean res = channelGroup.add(channel);
-        return res;
+        // todo 返回结果优化
+        if(channel!=null)
+            return channelGroup.add(channel);
+        else
+            return false;
     }
 
     public static boolean unbindFromChannelGroup(String uid,String groupChannelId){
         ChannelGroup channelGroup = ChannelContainer.getChannelGroupByChannelId(groupChannelId);
         Channel channel = ChannelContainer.getChannelByUserId(uid);
-        boolean res = channelGroup.remove(channel);
-        return res;
+        // todo 返回结果优化
+        if(channel!=null)
+            return channelGroup.remove(channel);
+        else
+            return false;
     }
 
     public void ChannelGroupInit(){

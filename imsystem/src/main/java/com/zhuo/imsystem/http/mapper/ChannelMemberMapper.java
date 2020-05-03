@@ -15,10 +15,17 @@ public interface ChannelMemberMapper {
     public int saveChannelMember(ChannelMemberDto channelMemberDto);
 
     // 获取状态为在channel中的用户
+    @Results(id = "channelMemberResult1", value = {
+            @Result(property = "channelId", column = "channel_id"),
+            @Result(property = "joinTime", column = "join_time"),
+            @Result(property = "leftTime", column = "left_time"),
+            @Result(property = "channelType", column = "channel_type"),
+            @Result(property = "userType", column = "user_type")
+    })
     @Select("select * from im_channel_member where channel_id=#{channelId} and uid=#{uid} and status=1")
     public ChannelMemberDto getInChannelMember(String channelId, String uid);
 
-    @Results(id = "channelMemberResult1", value = {
+    @Results(id = "channelMemberResult2", value = {
             @Result(property = "channelId", column = "channel_id"),
             @Result(property = "joinTime", column = "join_time"),
             @Result(property = "leftTime", column = "left_time"),

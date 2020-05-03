@@ -141,11 +141,11 @@ public class ChannelServiceImpl implements ChannelService {
 
     // 获取channel信息
     public ChannelDto getInfo(String channelId,String uid) throws Exception{
-        // 判断用户是否有权限访问该channel
-        ChannelMemberDto channelMemberDto = userChannelService.getMemberChannel(channelId,uid);
-        if(channelMemberDto==null){
-            throw new CommonException(StatusCode.ERROR_CHANNEL_AUTH_FAILED,"用户没有该房间的的权限");
-        }
+        // todo 对于链接分享进入的用户 需要重新考虑如何 判断用户是否有权限访问该channel
+//        ChannelMemberDto channelMemberDto = userChannelService.getMemberChannel(channelId,uid);
+//        if(channelMemberDto==null){
+//            throw new CommonException(StatusCode.ERROR_CHANNEL_AUTH_FAILED,"用户没有该房间的的权限");
+//        }
         List<ChannelDto> channelDtoList = channelMapper.queryChannelInfoByChannelId(channelId);
         ChannelDto res = null;
         if(channelDtoList==null || channelDtoList.size()==0){
@@ -204,6 +204,7 @@ public class ChannelServiceImpl implements ChannelService {
         // 检查用户是否已经在群组中
         ChannelMemberDto res = channelMemberMapper.getInChannelMember(channelId,uid);
         if(res!=null){
+            System.out.println("[加入群组] 用户["+uid+"]已经在群组中");
             return res;
         }
 

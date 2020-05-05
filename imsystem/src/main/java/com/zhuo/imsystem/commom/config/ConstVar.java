@@ -12,6 +12,7 @@ public class ConstVar {
     public static int PRIVATE_CHANNEL_QUEUE = 1;
     public static int GROUP_CHANNEL_QUEUE = 2;
     public static int SYSTEM_CHANNEL_QUEUE = 3;
+    public static int PUBLIC_CHANNEL_QUEUE = 4;
 
     // 消息类型
     public static int TEXT_MESSAGE_TYPE = 1;

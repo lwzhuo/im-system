@@ -11,4 +11,5 @@ public interface ChannelService {
     public boolean isGroupChannel(String channelId);
     public boolean leftGroupChannel(String channelId,String uid)throws Exception;
     public void sendChannelCreateMessage(String channelId,String fromUid,int channelType,String channelName);
+    public String getChannelIdByPublicUrl(String channelId);
 }

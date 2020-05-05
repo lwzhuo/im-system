@@ -17,12 +17,16 @@ public class BlockingQueueModel {
     // 群聊队列
     private static BlockingQueue<BlockingQueueMessage> GROUP_QUEUE = new LinkedBlockingQueue<BlockingQueueMessage>();
 
+    // 公开群组队列
+    private static BlockingQueue<BlockingQueueMessage> PUBLIC_GROUP_QUEUE = new LinkedBlockingQueue<BlockingQueueMessage>();
+
     private static HashMap<Integer,BlockingQueue<BlockingQueueMessage>> QUEUE_MAP = new HashMap<Integer, BlockingQueue<BlockingQueueMessage>>();
 
     static {
-        QUEUE_MAP.put(ConstVar.SYSTEM_CHANNEL,SYSTEM_QUEUE);
+        QUEUE_MAP.put(ConstVar.SYSTEM_CHANNEL_QUEUE,SYSTEM_QUEUE);
         QUEUE_MAP.put(ConstVar.PRIVATE_CHANNEL_QUEUE,PRIVATE_QUEUE);
         QUEUE_MAP.put(ConstVar.GROUP_CHANNEL_QUEUE,GROUP_QUEUE);
+        QUEUE_MAP.put(ConstVar.PUBLIC_CHANNEL_QUEUE,PUBLIC_GROUP_QUEUE);
     }
 
     public static BlockingQueue getQueue(int channelType){

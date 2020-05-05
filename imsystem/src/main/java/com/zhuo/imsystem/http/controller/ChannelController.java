@@ -102,4 +102,12 @@ public class ChannelController extends BaseController  {
             return error("退出群聊失败");
         }
     }
+
+    // 获取公开群组的channelid
+    @RequestMapping(value = "/get-public-channel-id",method = RequestMethod.POST)
+    public ResponseJson getPublicChannelId(@RequestBody JSONObject json){
+        String url = json.getString("url");
+        String channelId = channelService.getChannelIdByPublicUrl(url);
+        return success().setData(channelId);
+    }
 }

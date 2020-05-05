@@ -10,4 +10,5 @@ public interface ChannelService {
     public ChannelMemberDto joinGroupChannel(String channelId, String uid) throws Exception;
     public boolean isGroupChannel(String channelId);
     public boolean leftGroupChannel(String channelId,String uid)throws Exception;
+    public void sendChannelCreateMessage(String channelId,String fromUid,int channelType,String channelName);
 }

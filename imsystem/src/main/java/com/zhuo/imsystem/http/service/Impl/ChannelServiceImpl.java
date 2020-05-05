@@ -1,7 +1,9 @@
 package com.zhuo.imsystem.http.service.Impl;
 
+import com.alibaba.fastjson.JSONObject;
 import com.zhuo.imsystem.commom.config.ConstVar;
 import com.zhuo.imsystem.commom.config.StatusCode;
+import com.zhuo.imsystem.elasticsearch.Message;
 import com.zhuo.imsystem.http.dto.ChannelDto;
 import com.zhuo.imsystem.http.dto.ChannelMemberDto;
 import com.zhuo.imsystem.http.mapper.ChannelMapper;
@@ -11,6 +13,8 @@ import com.zhuo.imsystem.http.model.User;
 import com.zhuo.imsystem.http.service.ChannelService;
 import com.zhuo.imsystem.http.service.UserChannelService;
 import com.zhuo.imsystem.http.util.CommonException;
+import com.zhuo.imsystem.queue.producer.BlockingQueueProvider;
+import com.zhuo.imsystem.websocket.protocal.request.ChannelCreateRequestProtocal;
 import com.zhuo.imsystem.websocket.util.ChannelContainer;
 import com.zhuo.imsystem.websocket.util.SessionUtil;
 import io.netty.channel.Channel;
@@ -40,6 +44,7 @@ public class ChannelServiceImpl implements ChannelService {
     public ChannelDto createChannel(ChannelDto channelDto) throws Exception{
         // 校验channel类型是否合法
         int channelType = channelDto.getChannelType();
+        String channelName = channelDto.getChannelName();
         if(channelType!= ConstVar.PRIVATE_CHANNEL&&channelType!=ConstVar.GROUP_CHANNEL){
             System.out.println("channel类型错误");
             throw new CommonException(StatusCode.ERROR_CHANNEL_CREATE_FAIL,"channel 创建失败");
@@ -103,6 +108,8 @@ public class ChannelServiceImpl implements ChannelService {
                 channelMemberMapper.saveChannelMember(item); // 保存数据
                 // 将用户个人channel加入到ChannegGroup中
                 Channel channel = ChannelContainer.getChannelByUserId(item.getUid());
+                if(channel==null)
+                    continue;
                 channelGroup.add(channel);
             }
         }else if(channelType==ConstVar.PRIVATE_CHANNEL){
@@ -113,6 +120,7 @@ public class ChannelServiceImpl implements ChannelService {
             User member = userMapper.queryUser(memberUid);
             String creatorName = creator.getUserName();
             String memberName = member.getUserName();
+            channelName = creatorName; // 私聊情况下 设置channelName
             if(member==null) {
                 System.out.println("channel 成员用户不存在");
                 throw new CommonException(StatusCode.ERROR_CHANNEL_CREATE_FAIL,"channel 创建失败");
@@ -134,9 +142,11 @@ public class ChannelServiceImpl implements ChannelService {
                 channelMemberMapper.saveChannelMember(memberA);
                 channelMemberMapper.saveChannelMember(memberB);
 
-                return creatorA;
+                channelDto =  creatorA;
             }
         }
+        // 发送消息通知成员
+        sendChannelCreateMessage(channelId,creatorId,channelType,channelName);
         return channelDto;
     }
 
@@ -247,5 +257,23 @@ public class ChannelServiceImpl implements ChannelService {
         }else {
             throw new CommonException(StatusCode.ERROR_CHANNEL_LEFT_FAILED,"用户不在当前channel中");
         }
+    }
+
+    // 发送创建房间消息
+    public void sendChannelCreateMessage(String channelId,String fromUid,int channelType,String channelName){
+        String messageId = Message.generateMessageTid();
+        ChannelCreateRequestProtocal msg = new ChannelCreateRequestProtocal(channelId,fromUid,channelType,channelName,messageId);
+        msg.setJsonString(JSONObject.toJSONString(msg));
+        BlockingQueueProvider.publish(msg.getChannelType(),msg.getAction(),msg.getJsonString());
+    }
+
+    // 发送进入房间消息
+    public void sendEnterChannelMessage(String channelId,String fromUid,int channelType){
+
+    }
+
+    // 发送离开房间消息
+    public void sendLeftChannelMessage(String channelId,String leftUid,int channelType){
+        return;
     }
 }

@@ -16,6 +16,7 @@ public class ChannelDto {
     private Date updateTime;
     private List<ChannelMemberDto> channelUserList;
     private int memberCount; // 成员数量
+    private String picUrl; // 图片链接
 
     public ChannelDto(){
 
@@ -125,5 +126,13 @@ public class ChannelDto {
 
     public void setMemberCount(int memberCount) {
         this.memberCount = memberCount;
+    }
+
+    public String getPicUrl() {
+        return picUrl;
+    }
+
+    public void setPicUrl(String picUrl) {
+        this.picUrl = picUrl;
     }
 }

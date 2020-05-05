@@ -9,6 +9,6 @@ public class BindToGroupRequestProtocal extends RequestProtocal {
     public BindToGroupRequestProtocal(String uid){
         this.fromUid = uid;
         this.action = ProtocalMap.Bind_to_group_channel_Request;
-        this.channelType = ConstVar.SYSTEM_CHANNEL_QUEUE;
+        this.channelType = ConstVar.SYSTEM_CHANNEL;
     }
 }

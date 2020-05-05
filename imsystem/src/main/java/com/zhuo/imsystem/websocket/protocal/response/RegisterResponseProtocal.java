@@ -6,7 +6,7 @@ import com.zhuo.imsystem.websocket.protocal.ProtocalMap;
 public class RegisterResponseProtocal extends ResponseProtocal {
     public RegisterResponseProtocal(){
         super();
-        this.setChannelType(ConstVar.SYSTEM_CHANNEL_QUEUE);
+        this.setChannelType(ConstVar.SYSTEM_CHANNEL);
         this.setAction(ProtocalMap.Register_Response);
     }
 }

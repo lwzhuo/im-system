@@ -12,7 +12,7 @@ public class ChannelCreateRequestProtocal extends RequestProtocal {
         this.channelId = channelId;
         this.fromUid = fromUid;
         this.createdChannelType = createdChannelType; // 描述创建的房间的channel类型
-        this.channelType = ConstVar.SYSTEM_CHANNEL_QUEUE; // 创建房间消息本身是系统消息
+        this.channelType = ConstVar.SYSTEM_CHANNEL; // 创建房间消息本身是系统消息
         this.action = ProtocalMap.Channel_create_Request;
         this.messageId = messageId;
         this.ts = System.currentTimeMillis();

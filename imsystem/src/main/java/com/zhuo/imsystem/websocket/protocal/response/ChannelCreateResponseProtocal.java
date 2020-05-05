@@ -12,7 +12,7 @@ public class ChannelCreateResponseProtocal extends ResponseProtocal {
         this.msg = msg;
         this.action = ProtocalMap.Channel_create_Response;
         this.msgType = ConstVar.TEXT_MESSAGE_TYPE;
-        this.channelType = ConstVar.SYSTEM_CHANNEL_QUEUE;
+        this.channelType = ConstVar.SYSTEM_CHANNEL;
         this.createdChannelType = createdChannelType;
         this.channelName = channelName;
     }

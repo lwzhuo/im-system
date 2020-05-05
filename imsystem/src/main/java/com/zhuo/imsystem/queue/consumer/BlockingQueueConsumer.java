@@ -27,7 +27,7 @@ public class BlockingQueueConsumer {
 
     public static void start(){
         System.out.println("消息队列模块启动");
-        int channelType[] = new int[]{ConstVar.PRIVATE_CHANNEL_QUEUE,ConstVar.GROUP_CHANNEL_QUEUE,ConstVar.SYSTEM_CHANNEL_QUEUE};
+        int channelType[] = new int[]{ConstVar.PRIVATE_CHANNEL_QUEUE,ConstVar.GROUP_CHANNEL_QUEUE,ConstVar.SYSTEM_CHANNEL};
         for(int type : channelType){
             Thread thread = new Thread(() -> {
                 for (;;) {

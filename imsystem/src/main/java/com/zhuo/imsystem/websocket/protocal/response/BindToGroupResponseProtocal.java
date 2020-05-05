@@ -6,7 +6,7 @@ import com.zhuo.imsystem.websocket.protocal.ProtocalMap;
 public class BindToGroupResponseProtocal extends ResponseProtocal{
     public BindToGroupResponseProtocal(){
         super();
-        this.setChannelType(ConstVar.SYSTEM_CHANNEL_QUEUE);
+        this.setChannelType(ConstVar.SYSTEM_CHANNEL);
         this.setAction(ProtocalMap.Bind_to_group_channel_Response);
     }
 }

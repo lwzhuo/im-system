@@ -35,6 +35,10 @@ public class ConstVar {
     public static int PRIVATE_CHANNEL = 1;
     // 群聊
     public static int GROUP_CHANNEL = 2;
+    // 系统消息
+    public static int SYSTEM_CHANNEL = 3;
+    // 公开聊天
+    public static int PUBLIC_CHANNEL = 4;
 
     // 聊天文本长度限制
     public static int MAX_TEXT_LENGTH = 300;

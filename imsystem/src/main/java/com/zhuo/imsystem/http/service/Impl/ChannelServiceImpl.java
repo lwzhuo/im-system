@@ -44,6 +44,7 @@ public class ChannelServiceImpl implements ChannelService {
     @Autowired
     PublicChannelDictMapper publicChannelDictMapper;
 
+
     @Override
     public ChannelDto createChannel(ChannelDto channelDto) throws Exception{
         // 校验channel类型是否合法
@@ -294,8 +295,17 @@ public class ChannelServiceImpl implements ChannelService {
         return;
     }
 
-    public String getChannelIdByPublicUrl(String url){
+    // 获取公开群组的channelId 没有则创建
+    public String getChannelIdByPublicUrl(ChannelDto channelDto) throws Exception{
+        String url = channelDto.getPublicUrl();
         String channelId = publicChannelDictMapper.getChannelIdByOuterUrl(url);
+        if(channelId==null){
+            channelDto.setChannelType(ConstVar.PUBLIC_CHANNEL);
+            channelDto.setCreatorId("public");
+            ChannelDto res = createChannel(channelDto);
+            channelId = res.getChannelId();
+            publicChannelDictMapper.putChannelId(channelId,url);
+        }
         return channelId;
     }
 }

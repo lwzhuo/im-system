@@ -105,9 +105,9 @@ public class ChannelController extends BaseController  {
 
     // 获取公开群组的channelid
     @RequestMapping(value = "/get-public-channel-id",method = RequestMethod.POST)
-    public ResponseJson getPublicChannelId(@RequestBody JSONObject json){
-        String url = json.getString("url");
-        String channelId = channelService.getChannelIdByPublicUrl(url);
+    public ResponseJson getPublicChannelId(@RequestBody JSONObject json) throws Exception{
+        ChannelDto channelDto = json.toJavaObject(ChannelDto.class);
+        String channelId = channelService.getChannelIdByPublicUrl(channelDto);
         return success().setData(channelId);
     }
 }

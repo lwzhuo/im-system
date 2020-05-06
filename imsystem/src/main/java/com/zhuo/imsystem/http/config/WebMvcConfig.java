@@ -37,7 +37,8 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
                 "/auth/login",
                 "/user/register",
                 "/user/avatar/get/**",
-                "/message/file/get/**"
+                "/message/file/get/**",
+                "/channel/get-public-channel-id"
         );
         super.addInterceptors(registry);
     }

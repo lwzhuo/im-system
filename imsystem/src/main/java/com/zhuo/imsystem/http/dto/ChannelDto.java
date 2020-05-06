@@ -17,6 +17,7 @@ public class ChannelDto {
     private List<ChannelMemberDto> channelUserList;
     private int memberCount; // 成员数量
     private String picUrl; // 图片链接
+    private String publicUrl;
 
     public ChannelDto(){
 
@@ -134,5 +135,13 @@ public class ChannelDto {
 
     public void setPicUrl(String picUrl) {
         this.picUrl = picUrl;
+    }
+
+    public String getPublicUrl() {
+        return publicUrl;
+    }
+
+    public void setPublicUrl(String publicUrl) {
+        this.publicUrl = publicUrl;
     }
 }

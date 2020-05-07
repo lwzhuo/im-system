@@ -59,6 +59,8 @@ public class NewMessageHandler extends MessageHandler {
         }else {
             // 群聊
             ChannelGroup channelGroup = ChannelContainer.getChannelGroupByChannelId(channelId);
+            int channelSize = channelGroup.size();
+            System.out.println("群组["+channelId+"]当前人数:"+channelSize);
             NewMessageResponseProtocal responseProtocal = new NewMessageResponseProtocal(msg,channelId,fromUid,channelType,messageType);
             String res = ProtocalMap.toJSONString(responseProtocal);// todo  改为toString()
             channelGroup.writeAndFlush(new TextWebSocketFrame(res));

@@ -1,6 +1,5 @@
 package com.zhuo.imsystem.http.controller;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.zhuo.imsystem.commom.config.ConstVar;
 import com.zhuo.imsystem.commom.config.StatusCode;
@@ -11,19 +10,15 @@ import com.zhuo.imsystem.http.model.FileMessage;
 import com.zhuo.imsystem.http.service.FileService;
 import com.zhuo.imsystem.http.service.MessageService;
 import com.zhuo.imsystem.http.service.UserChannelService;
-import com.zhuo.imsystem.http.util.CommonException;
 import com.zhuo.imsystem.http.util.ResponseJson;
 import com.zhuo.imsystem.websocket.protocal.request.NewMessageRequestProtocal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
 import javax.servlet.http.HttpServletRequest;
-import java.io.RandomAccessFile;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.HashMap;
@@ -190,5 +185,23 @@ public class MessageController extends BaseController{
             e.printStackTrace();
             return null;
         }
+    }
+
+    // 分享消息
+    @RequestMapping(value = "/share/{channelId}",method = RequestMethod.POST)
+    public ResponseJson shareMessage(@PathVariable String channelId,@RequestBody JSONObject json)throws Exception {
+        return null;
+    }
+
+    // 获取分享的消息
+    @RequestMapping(value = "/get-share/{shareId}",method = RequestMethod.POST)
+    public ResponseJson getShareMessage(@PathVariable String shareId)throws Exception {
+        return null;
+    }
+
+    // 查找消息
+    @RequestMapping(value = "/search/{channelId}",method = RequestMethod.POST)
+    public ResponseJson searchMessage(@PathVariable String channelId)throws Exception {
+        return null;
     }
 }

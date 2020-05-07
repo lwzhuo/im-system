@@ -33,7 +33,7 @@ public class BindToGroupHandler extends MessageHandler {
         // 获取和该用户相关的群组channelId
         List<String> groupChannelIdList = channelMemberMapper.getGroupChannelIdsByMemberuid(fromUid);
         // 逐个绑定到群组ChannelGroup中
-        System.out.println("用户 "+fromUid+" 开始绑定群组");
+        System.out.println("用户["+fromUid+"]开始绑定群组");
         int total = 0;
         int sucessNum = 0;
         for(String groupChannelId:groupChannelIdList){
@@ -45,6 +45,7 @@ public class BindToGroupHandler extends MessageHandler {
 
         Channel userChannel = ChannelContainer.getChannelByUserId(fromUid);
         String res = ProtocalMap.toJSONString(new BindToGroupResponseProtocal().success("绑定群组完毕 共:"+total+" 成功:"+sucessNum));
+        System.out.println("用户["+fromUid+"]绑定群组完毕 共:"+total+" 成功:"+sucessNum);
         userChannel.writeAndFlush(new TextWebSocketFrame(res));
     }
 }

@@ -237,7 +237,7 @@ public class ChannelServiceImpl implements ChannelService {
         int channelType;
         // 检查channel类型是否为公开群组类型
         if(isPublicChannel(channelId)){
-            channelType = ConstVar.GROUP_CHANNEL;
+            channelType = ConstVar.PUBLIC_CHANNEL;
         }else if(isGroupChannel(channelId)){
             channelType = ConstVar.GROUP_CHANNEL;
         }else {
@@ -255,7 +255,10 @@ public class ChannelServiceImpl implements ChannelService {
         channelMemberDto.setUpdateTime(now);
         channelMemberMapper.saveChannelMember(channelMemberDto);
         // 加入到ChannelGroup中 用于接收消息
-        SessionUtil.bindToChannelGroup(uid,channelId);
+        boolean bindRes = SessionUtil.bindToChannelGroup(uid,channelId);
+        if(bindRes==false){
+            System.out.println("用户["+uid+"]绑定群组["+channelId+"]失败");
+        }
         return channelMemberDto;
     }
 

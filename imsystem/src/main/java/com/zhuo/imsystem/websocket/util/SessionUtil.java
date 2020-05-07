@@ -35,8 +35,10 @@ public class SessionUtil {
         ChannelGroup channelGroup = ChannelContainer.getChannelGroupByChannelId(groupChannelId);
         Channel channel = ChannelContainer.getChannelByUserId(uid);
         // todo 返回结果优化
-        if(channel!=null)
+        if(channel!=null){
+            System.out.println("用户["+uid+"] 绑定到群组["+groupChannelId+"]");
             return channelGroup.add(channel);
+        }
         else
             return false;
     }

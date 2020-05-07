@@ -27,7 +27,7 @@
         type : 'POST',
         data : JSON.stringify({
             channelName:question,
-            summary:"来自知乎",
+            summary:"来自知乎 "+public_url,
             picUrl:image_url,
             publicUrl:public_url
         }),

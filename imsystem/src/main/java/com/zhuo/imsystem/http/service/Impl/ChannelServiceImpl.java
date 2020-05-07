@@ -70,6 +70,9 @@ public class ChannelServiceImpl implements ChannelService {
         // 对于公开群组 直接创建
         if(channelType==ConstVar.PUBLIC_CHANNEL){
             channelMapper.saveChannel(channelDto);
+            // 创建ChannelGroup对象
+            ChannelGroup channelGroup = ChannelContainer.createChannelGroup();
+            ChannelContainer.addChannelGroup(channelId,channelGroup);
             return channelDto;
         }
         // 校验chennel 创建者用户是否合法

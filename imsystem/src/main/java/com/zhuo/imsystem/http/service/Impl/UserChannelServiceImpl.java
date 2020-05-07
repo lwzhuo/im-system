@@ -40,7 +40,7 @@ public class UserChannelServiceImpl implements UserChannelService {
         List<ChannelDto> res = new ArrayList<ChannelDto>();
         for(String channelId : channelIdList){
             List<ChannelDto> channelDtoList = channelMapper.queryChannelInfoByChannelId(channelId);
-            if(channelDtoList.size()==1 && channelDtoList.get(0).getChannelType()== ConstVar.GROUP_CHANNEL) // 群聊
+            if(channelDtoList.size()==1 && (channelDtoList.get(0).getChannelType()== ConstVar.GROUP_CHANNEL||channelDtoList.get(0).getChannelType()== ConstVar.PUBLIC_CHANNEL)) // 群聊或者是公共群组
                 res.add(channelDtoList.get(0));
             else if(channelDtoList.size()==2){// 私聊 处理可能查出来两个channel的情况
                 if(channelDtoList.get(0).getCreatorId().equals(uid))

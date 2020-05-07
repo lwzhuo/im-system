@@ -12,8 +12,8 @@ public class ChannelSQLBulider {
         channelDto.setUpdateTime(new Date());
         SQL sql = new SQL().
                 INSERT_INTO("im_channel")
-                .INTO_COLUMNS("channel_id","channel_name","creator_id","attender_id","channel_type","ctime","updatetime")
-                .INTO_VALUES("#{channelId}","#{channelName}","#{creatorId}","#{attenderId}","#{channelType}","#{ctime}","#{updateTime}");
+                .INTO_COLUMNS("channel_id","channel_name","creator_id","attender_id","channel_type","ctime","updatetime","summary")
+                .INTO_VALUES("#{channelId}","#{channelName}","#{creatorId}","#{attenderId}","#{channelType}","#{ctime}","#{updateTime}","#{summary}");
         return sql.toString();
     }
 

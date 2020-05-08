@@ -33,4 +33,7 @@ public class StatusCode {
     // 用户相关
     public static int ERROR_USER_AVATAR_UPLOAD_FAILED = -700; // 用户头像上传失败
     public static int ERROR_CHANGE_USER_INFO_FAILED = 701; // 修改用户信息失败
+
+    // 聊天记录相关
+    public static int ERROR_MESSAGE_SHARE_FAILED = -800; // 聊天记录分享失败
 }

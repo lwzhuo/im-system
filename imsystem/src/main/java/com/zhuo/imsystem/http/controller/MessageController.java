@@ -5,6 +5,7 @@ import com.zhuo.imsystem.commom.config.ConstVar;
 import com.zhuo.imsystem.commom.config.StatusCode;
 import com.zhuo.imsystem.elasticsearch.Message;
 import com.zhuo.imsystem.http.dto.ChannelMemberDto;
+import com.zhuo.imsystem.http.dto.ShareMessageDto;
 import com.zhuo.imsystem.http.mapper.UserMapper;
 import com.zhuo.imsystem.http.model.FileMessage;
 import com.zhuo.imsystem.http.service.FileService;
@@ -189,8 +190,11 @@ public class MessageController extends BaseController{
 
     // 分享消息
     @RequestMapping(value = "/share/{channelId}",method = RequestMethod.POST)
-    public ResponseJson shareMessage(@PathVariable String channelId,@RequestBody JSONObject json)throws Exception {
-        return null;
+    public ResponseJson shareMessage(HttpServletRequest request,@PathVariable String channelId,@RequestBody JSONObject json)throws Exception {
+        List<String> messageList = (List<String>)json.get("messageIdList");
+        String uid = (String) request.getAttribute("uid");
+        ShareMessageDto res = messageService.shareMessage(channelId,uid,messageList);
+        return success().setData(res);
     }
 
     // 获取分享的消息

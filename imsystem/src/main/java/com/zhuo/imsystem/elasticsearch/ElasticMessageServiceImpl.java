@@ -48,4 +48,10 @@ public class ElasticMessageServiceImpl implements ElasticMessageService {
     public void saveAll(List<Message> list){
         elasticRepository.saveAll(list);
     }
+
+    public List<Message> getBatchMessageByChannelIdAndMessageIds(String channelId,List<String> messageList){
+        Sort sort = Sort.by("ts").descending();
+        Pageable pageable = PageRequest.of(0,100,sort);
+        return elasticRepository.getMessageByChannelIdAndMessageIds(channelId,messageList,pageable);
+    }
 }

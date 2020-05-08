@@ -27,4 +27,12 @@ public interface ElasticRepository extends ElasticsearchRepository<Message, Long
             "{\"range\": {\"ts\": {\"lt\": ?1}}}]}},\n")
     public List<Message> getMessageDesc(String channelId, long ts, Pageable pageable);
 
+    // 通过mChannelId 和 messageId 批量获取聊天记录
+    @Query("{\"bool\": {\"must\": [\n" +
+            "    {\"term\": {\"channelId\": \"?0\"}},\n" +
+            "    {\"terms\": {\"messageId\": ?1}}\n" +
+            "    ]}\n" +
+            "}")
+    public List<Message> getMessageByChannelIdAndMessageIds(String channelId, List<String> messageIds, Pageable pageable);
+
 }

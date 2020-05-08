@@ -18,4 +18,6 @@ public interface ElasticMessageService {
     public void save(Message message);
 
     public void saveAll(List<Message> list);
+
+    public List<Message> getBatchMessageByChannelIdAndMessageIds(String channelId,List<String> messageList);
 }

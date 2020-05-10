@@ -88,7 +88,11 @@ public class MessageServiceImpl implements MessageService {
     }
 
     // 获取分享的聊天记录
-    public ShareMessageDto getShareMessage(String shareId){
-        return null;
+    public List getShareMessage(String shareId){
+        ShareMessageDto shareMessageDto = shareMessageMapper.getShareData(shareId);
+        String channelId = shareMessageDto.getChannelId();
+        List<String> messageIds = shareMessageItemMapper.getMessageIdsByShareId(shareId);
+        List<Message> res = elasticMessageService.getBatchMessageByChannelIdAndMessageIds(channelId,messageIds);
+        return res;
     }
 }

@@ -1,5 +1,7 @@
 package com.zhuo.imsystem.http.dto;
 
+import com.zhuo.imsystem.elasticsearch.Message;
+
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -8,11 +10,13 @@ public class ShareMessageDto {
     private String channelId;
     private String shareId;
     private String shareUid;
+    private String shareUserName;
     private String summary;
     private String keyword;
     private Date ctime;
     private Date updatetime;
     private List<ShareMessageItemDto> shareMessageItems;
+    private List<Message> messages;
 
     public String getChannelId() {
         return channelId;
@@ -81,5 +85,21 @@ public class ShareMessageDto {
     public static String generateShareId(){
         String uid = UUID.randomUUID().toString().replace("-", "");
         return uid;
+    }
+
+    public List<Message> getMessages() {
+        return messages;
+    }
+
+    public void setMessages(List<Message> messages) {
+        this.messages = messages;
+    }
+
+    public String getShareUserName() {
+        return shareUserName;
+    }
+
+    public void setShareUserName(String shareUserName) {
+        this.shareUserName = shareUserName;
     }
 }

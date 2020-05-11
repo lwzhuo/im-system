@@ -9,5 +9,5 @@ public interface MessageService {
     public void sendMessage(NewMessageRequestProtocal newMessageRequestProtocal) throws Exception;
     public List getMoreMessage(String channelId, long ts, int size)throws Exception;
     public ShareMessageDto shareMessage(String chnanelId, String uid, List<String> messageIdList) throws Exception;
-    public List getShareMessage(String shareId);
+    public ShareMessageDto getShareMessage(String shareId);
 }

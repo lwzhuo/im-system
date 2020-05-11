@@ -200,7 +200,7 @@ public class MessageController extends BaseController{
     // 获取分享的消息
     @RequestMapping(value = "/get-share/{shareId}",method = RequestMethod.GET)
     public ResponseJson getShareMessage(@PathVariable String shareId)throws Exception {
-        List res = messageService.getShareMessage(shareId);
+        ShareMessageDto res = messageService.getShareMessage(shareId);
         return success().setData(res);
     }
 

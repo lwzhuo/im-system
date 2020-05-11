@@ -9,6 +9,7 @@ import com.zhuo.imsystem.http.mapper.ShareMessageItemMapper;
 import com.zhuo.imsystem.http.mapper.ShareMessageMapper;
 import com.zhuo.imsystem.http.service.KeyWordService;
 import com.zhuo.imsystem.http.service.MessageService;
+import com.zhuo.imsystem.http.service.UserService;
 import com.zhuo.imsystem.http.util.CommonException;
 import com.zhuo.imsystem.queue.producer.BlockingQueueProvider;
 import com.zhuo.imsystem.websocket.protocal.request.NewMessageRequestProtocal;
@@ -31,6 +32,9 @@ public class MessageServiceImpl implements MessageService {
 
     @Autowired
     ShareMessageItemMapper shareMessageItemMapper;
+
+    @Autowired
+    UserService userService;
 
     public void sendMessage(NewMessageRequestProtocal msg) throws Exception{
         BlockingQueueProvider.publish(msg.getChannelType(),msg.getAction(),msg.getJsonString());
@@ -88,11 +92,13 @@ public class MessageServiceImpl implements MessageService {
     }
 
     // 获取分享的聊天记录
-    public List getShareMessage(String shareId){
+    public ShareMessageDto getShareMessage(String shareId){
         ShareMessageDto shareMessageDto = shareMessageMapper.getShareData(shareId);
         String channelId = shareMessageDto.getChannelId();
         List<String> messageIds = shareMessageItemMapper.getMessageIdsByShareId(shareId);
         List<Message> res = elasticMessageService.getBatchMessageByChannelIdAndMessageIds(channelId,messageIds);
-        return res;
+        shareMessageDto.setMessages(res);
+        shareMessageDto.setShareUserName(userService.queryUser(shareMessageDto.getShareUid()).getUserName());
+        return shareMessageDto;
     }
 }

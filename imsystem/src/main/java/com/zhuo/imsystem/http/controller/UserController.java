@@ -10,6 +10,8 @@ import com.zhuo.imsystem.http.util.FirstLetterUtil;
 import com.zhuo.imsystem.http.util.JWTUtil;
 import com.zhuo.imsystem.http.util.ResponseJson;
 import io.jsonwebtoken.Claims;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -20,6 +22,7 @@ import java.util.HashMap;
 @RestController
 @RequestMapping("/user")
 public class UserController extends BaseController {
+    private static Logger logger = LoggerFactory.getLogger(UserController.class);
     @Autowired
     UserService userService;
 
@@ -113,7 +116,7 @@ public class UserController extends BaseController {
     @ResponseBody
     public byte[] getImage(@PathVariable String uid,@PathVariable String filename) {
         try {
-            System.out.println(uid+" "+filename);
+            logger.info(uid+" "+filename);
             return avatarService.download(uid,filename);
         }catch (Exception e){
             e.printStackTrace();

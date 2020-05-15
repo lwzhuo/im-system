@@ -14,9 +14,12 @@ import com.zhuo.imsystem.websocket.util.ChannelContainer;
 import io.netty.channel.Channel;
 import io.netty.channel.group.ChannelGroup;
 import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 
 public class NewMessageHandler extends MessageHandler {
+    private static Logger logger = LoggerFactory.getLogger(NewMessageHandler.class);
     // 运行时注入
     private ApplicationContext applicationContext = SpringUtils.getApplicationContext();
     private ChannelMapper channelMapper = applicationContext.getBean(ChannelMapper.class);
@@ -48,19 +51,19 @@ public class NewMessageHandler extends MessageHandler {
             Channel userChannel = ChannelContainer.getChannelByUserId(toUid);
             // 保存消息
             if(userChannel!=null){// 用户在线
-                System.out.println("用户在线 发送消息");
+                logger.info("用户在线 发送消息");
                 NewMessageResponseProtocal responseProtocal = new NewMessageResponseProtocal(msg,channelId,fromUid,channelType,messageType);
                 String res = ProtocalMap.toJSONString(responseProtocal);// todo  改为toString()
                 userChannel.writeAndFlush(new TextWebSocketFrame(res));
             }else {// 用户离线
-                System.out.println("用户["+toUid+"]离线");
+                logger.info("用户["+toUid+"]离线");
                 //todo
             }
         }else {
             // 群聊
             ChannelGroup channelGroup = ChannelContainer.getChannelGroupByChannelId(channelId);
             int channelSize = channelGroup.size();
-            System.out.println("群组["+channelId+"]当前人数:"+channelSize);
+            logger.info("群组["+channelId+"]当前人数:"+channelSize);
             NewMessageResponseProtocal responseProtocal = new NewMessageResponseProtocal(msg,channelId,fromUid,channelType,messageType);
             String res = ProtocalMap.toJSONString(responseProtocal);// todo  改为toString()
             channelGroup.writeAndFlush(new TextWebSocketFrame(res));

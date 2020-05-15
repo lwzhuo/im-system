@@ -7,6 +7,8 @@ import com.zhuo.imsystem.http.dto.ChannelMemberDto;
 import com.zhuo.imsystem.http.service.ChannelService;
 import com.zhuo.imsystem.http.util.CommonException;
 import com.zhuo.imsystem.http.util.ResponseJson;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,6 +20,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/channel")
 public class ChannelController extends BaseController  {
+    private static Logger logger = LoggerFactory.getLogger(ChannelController.class);
 
     @Autowired
     ChannelService channelService;
@@ -44,18 +47,6 @@ public class ChannelController extends BaseController  {
         boolean res = channelService.isAdmin(uid,channelId);
         return success().setData(res);
     }
-
-//    // 获取进入群聊房间短链接
-//    @RequestMapping(value = "/{channelId}/generate-link",method = RequestMethod.GET)
-//    public ResponseJson getShortLink(@PathVariable String channelId){
-//        return null;
-//    }
-//
-//    // 通过短链接的id 获取房间信息
-//    @RequestMapping(value = "/info/{shortId}",method = RequestMethod.GET)
-//    public ResponseJson getChannelInfoByShortId(@PathVariable String shortId){
-//        return null;
-//    }
 
     // 进入房间
     @RequestMapping(value = "/join",method = RequestMethod.GET)

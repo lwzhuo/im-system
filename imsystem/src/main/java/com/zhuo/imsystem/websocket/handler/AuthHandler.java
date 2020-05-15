@@ -8,9 +8,11 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.handler.codec.http.FullHttpRequest;
 import io.netty.util.AttributeKey;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class AuthHandler extends SimpleChannelInboundHandler<FullHttpRequest> {
-
+    private static Logger logger = LoggerFactory.getLogger(AuthHandler.class);
     public static AttributeKey<String> USERID = AttributeKey.valueOf("uid");
 
     @Override
@@ -19,7 +21,7 @@ public class AuthHandler extends SimpleChannelInboundHandler<FullHttpRequest> {
         String queryPath = uri.substring(uri.indexOf("?"));
         String param[] = queryPath.split("=");
         if(param.length!=2 && param[0]!="token"){
-            System.out.println("[websocket] 签名验证失败,uri 格式错误"+uri);
+            logger.info("[websocket] 签名验证失败,uri 格式错误"+uri);
             ctx.close();
         }
         String token = param[1].trim();
@@ -30,11 +32,11 @@ public class AuthHandler extends SimpleChannelInboundHandler<FullHttpRequest> {
             ctx.channel().attr(USERID).set(uid);
             request.setUri("/ws");
             // 传递到下一个handler：升级握手
-            System.out.println("[websocket] 签名验证成功");
+            logger.info("[websocket] 签名验证成功");
             ctx.channel().pipeline().remove(this); // 鉴权成功 移除handler
             ctx.fireChannelRead(request.retain());
         }else {
-            System.out.println("[websocket] 签名验证失败,uri 没有携带token参数");
+            logger.info("[websocket] 签名验证失败,uri 没有携带token参数");
             ctx.close();
         }
     }

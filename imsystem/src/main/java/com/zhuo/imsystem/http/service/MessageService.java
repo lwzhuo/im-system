@@ -10,4 +10,5 @@ public interface MessageService {
     public List getMoreMessage(String channelId, long ts, int size)throws Exception;
     public ShareMessageDto shareMessage(String chnanelId, String uid, List<String> messageIdList) throws Exception;
     public ShareMessageDto getShareMessage(String shareId);
+    public List queryMessageByKeyword(String channelId,String keyword);
 }

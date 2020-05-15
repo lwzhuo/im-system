@@ -5,11 +5,14 @@ import com.zhuo.imsystem.queue.model.message.BlockingQueueMessage;
 import com.zhuo.imsystem.queue.model.queue.BlockingQueueModel;
 import com.zhuo.imsystem.queue.service.ThreadPoolHolder;
 import com.zhuo.imsystem.queue.service.handler.MessageHandler;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.concurrent.BlockingQueue;
 
 
 public class BlockingQueueConsumer {
+    private static Logger logger = LoggerFactory.getLogger(BlockingQueueConsumer.class);
     /**
      * 消费数据
      * @param msgType   消息频道类型 系统 私聊 群聊
@@ -17,7 +20,7 @@ public class BlockingQueueConsumer {
     public static BlockingQueueMessage consume(int msgType){
         BlockingQueue<BlockingQueueMessage> blockingQueue = (BlockingQueue<BlockingQueueMessage>) BlockingQueueModel.getQueue(msgType);
         if(blockingQueue==null){
-            System.out.println("消息类型错误:"+msgType);
+            logger.info("消息类型错误:"+msgType);
             return null;
         }
 
@@ -26,14 +29,14 @@ public class BlockingQueueConsumer {
     }
 
     public static void start(){
-        System.out.println("消息队列模块启动");
+        logger.info("消息队列模块启动");
         int channelType[] = new int[]{ConstVar.PRIVATE_CHANNEL_QUEUE,ConstVar.GROUP_CHANNEL_QUEUE,ConstVar.SYSTEM_CHANNEL_QUEUE,ConstVar.PUBLIC_CHANNEL_QUEUE};
         for(int type : channelType){
             Thread thread = new Thread(() -> {
                 for (;;) {
                     BlockingQueueMessage message = consume(type); // 从队列中获取数据
                     if (message != null) {
-                        System.out.println("从["+type+"]队列中获取消息["+message.getAction()+"]:"+message.getMsg());
+                        logger.info("从["+type+"]队列中获取消息["+message.getAction()+"]:"+message.getMsg());
                         ThreadPoolHolder.getThreadPool().execute(() -> {
                             MessageHandler.createHandler(message).doHandler(); // 获取handler并处理数据
                         });
@@ -53,7 +56,7 @@ public class BlockingQueueConsumer {
                         int size = BlockingQueueModel.getQueue(type).size();
                         str+=(" channelType:"+type+" size:"+size);
                     }
-                    System.out.println(str);
+                    logger.info(str);
                     Thread.sleep(10000);
                 }
             }catch (InterruptedException e){

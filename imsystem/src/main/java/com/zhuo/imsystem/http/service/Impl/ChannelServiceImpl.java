@@ -20,6 +20,8 @@ import com.zhuo.imsystem.websocket.util.ChannelContainer;
 import com.zhuo.imsystem.websocket.util.SessionUtil;
 import io.netty.channel.Channel;
 import io.netty.channel.group.ChannelGroup;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.Date;
@@ -28,6 +30,7 @@ import java.util.UUID;
 
 @Service("channelService")
 public class ChannelServiceImpl implements ChannelService {
+    private static Logger logger = LoggerFactory.getLogger(ChannelServiceImpl.class);
 
     @Autowired
     ChannelMapper channelMapper;
@@ -51,14 +54,14 @@ public class ChannelServiceImpl implements ChannelService {
         int channelType = channelDto.getChannelType();
         String channelName = channelDto.getChannelName();
         if(channelType!= ConstVar.PRIVATE_CHANNEL&&channelType!=ConstVar.GROUP_CHANNEL&&channelType!=ConstVar.PUBLIC_CHANNEL){
-            System.out.println("channel类型错误");
+            logger.info("channel类型错误");
             throw new CommonException(StatusCode.ERROR_CHANNEL_CREATE_FAIL,"channel 创建失败");
         }
 
         // 校验群聊名称是否存在
         if(channelType==ConstVar.GROUP_CHANNEL || channelType==ConstVar.PUBLIC_CHANNEL){
             if(channelDto.getChannelName()==null || channelDto.getChannelName().trim().equals("")){
-                System.out.println("群聊名称为空");
+                logger.info("群聊名称为空");
                 throw new CommonException(StatusCode.ERROR_CHANNEL_CREATE_FAIL,"群聊名称不能为空");
             }
         }
@@ -79,7 +82,7 @@ public class ChannelServiceImpl implements ChannelService {
         String creatorId = channelDto.getCreatorId();
         User creator = userMapper.queryUser(creatorId);
         if(creator==null){
-            System.out.println("channel 创建者用户不存在");
+            logger.info("channel 创建者用户不存在");
             throw new CommonException(StatusCode.ERROR_CHANNEL_CREATE_FAIL,"channel 创建失败");
         }
 
@@ -91,7 +94,7 @@ public class ChannelServiceImpl implements ChannelService {
                 String uid = channelMemberDto.getUid();
                 User res = userMapper.queryUser(uid);
                 if(res==null) {
-                    System.out.println("channel 成员用户不存在");
+                    logger.info("channel 成员用户不存在");
                     throw new CommonException(StatusCode.ERROR_CHANNEL_CREATE_FAIL,"channel 创建失败");
                 }else {
                     // 补充参数
@@ -135,7 +138,7 @@ public class ChannelServiceImpl implements ChannelService {
             String memberName = member.getUserName();
             channelName = creatorName; // 私聊情况下 设置channelName
             if(member==null) {
-                System.out.println("channel 成员用户不存在");
+                logger.info("channel 成员用户不存在");
                 throw new CommonException(StatusCode.ERROR_CHANNEL_CREATE_FAIL,"channel 创建失败");
             }
             // 检查channel是否已经创建过
@@ -231,7 +234,7 @@ public class ChannelServiceImpl implements ChannelService {
         // 检查用户是否已经在群组中
         ChannelMemberDto res = channelMemberMapper.getInChannelMember(channelId,uid);
         if(res!=null){
-            System.out.println("[加入群组] 用户["+uid+"]已经在群组中");
+            logger.info("[加入群组] 用户["+uid+"]已经在群组中");
             return res;
         }
         int channelType;
@@ -257,7 +260,7 @@ public class ChannelServiceImpl implements ChannelService {
         // 加入到ChannelGroup中 用于接收消息
         boolean bindRes = SessionUtil.bindToChannelGroup(uid,channelId);
         if(bindRes==false){
-            System.out.println("用户["+uid+"]绑定群组["+channelId+"]失败");
+            logger.info("用户["+uid+"]绑定群组["+channelId+"]失败");
         }
         return channelMemberDto;
     }

@@ -4,11 +4,14 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.zhuo.imsystem.websocket.protocal.request.*;
 import com.zhuo.imsystem.websocket.protocal.response.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;
 
 // 协议映射字典
 public class ProtocalMap extends HashMap<Integer,Class>{
+    private static Logger logger = LoggerFactory.getLogger(ProtocalMap.class);
     // echo 协议
     public static final int Echo_Request = 1;
     public static final int Echo_Response = 2;
@@ -78,24 +81,22 @@ public class ProtocalMap extends HashMap<Integer,Class>{
     }
 
     public static void main(String[] args){
-        System.out.println(ProtocalMap.getMap());
         String jsonString = "{\"action\":1,\"msg\":\"test\",\"fromUid\":\"1\",\"ts\":1585464517108}";
 
         JSONObject jsonObject = JSONObject.parseObject(jsonString);
         int type = jsonObject.getIntValue("action");// 获取数据类型
         EchoRequestProtocal protocal = (EchoRequestProtocal) JSON.toJavaObject(jsonObject, ProtocalMap.getMap().get(type));// 获取pojo
-        System.out.println(protocal.getMsg());
+        logger.info(protocal.getMsg());
 
         String str = JSONObject.toJSON(protocal).toString();
-        System.out.println(str);
+        logger.info(str);
 
-        System.out.println("=============================================================================");
+        logger.info("=============================================================================");
 
         Protocal protocal1 = ProtocalMap.toProtocalObject(jsonString);
-        System.out.println(protocal1.getAction());
-        System.out.println(protocal1.getMsg());
+        logger.info(protocal1.getMsg());
 
-        System.out.println(ProtocalMap.toJSONString(protocal));
+        logger.info(ProtocalMap.toJSONString(protocal));
     }
 }
 

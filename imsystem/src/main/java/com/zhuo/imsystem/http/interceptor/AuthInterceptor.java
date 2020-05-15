@@ -3,6 +3,8 @@ import com.alibaba.fastjson.JSONObject;
 import com.zhuo.imsystem.commom.config.StatusCode;
 import com.zhuo.imsystem.http.util.JWTUtil;
 import com.zhuo.imsystem.http.util.ResponseJson;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 import javax.servlet.http.HttpServletRequest;
@@ -11,10 +13,11 @@ import javax.servlet.http.HttpServletResponse;
 // 身份认证拦截器
 @Component
 public class AuthInterceptor implements HandlerInterceptor {
+    private static Logger logger = LoggerFactory.getLogger(AuthInterceptor.class);
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         String token = request.getHeader("X-Token");
-        System.out.println("[http]"+request.getRequestURL()+"[获取token]"+token);
+        logger.info("[http]"+request.getRequestURL()+"[获取token]"+token);
         String res = JWTUtil.checkJWT(token);
         if(res==null){
             // 解析jwt失败 或者 token过期

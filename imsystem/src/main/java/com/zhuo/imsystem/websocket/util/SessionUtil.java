@@ -5,12 +5,15 @@ import com.zhuo.imsystem.http.mapper.ChannelMemberMapper;
 import com.zhuo.imsystem.utils.SpringUtils;
 import io.netty.channel.Channel;
 import io.netty.channel.group.ChannelGroup;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 
 import java.util.List;
 
 // 用户会话管理 (主要是channel和channel容器操作)
 public class SessionUtil {
+    private static Logger logger = LoggerFactory.getLogger(SessionUtil.class);
     private ApplicationContext applicationContext = SpringUtils.getApplicationContext();
     private ChannelMapper channelMapper = applicationContext.getBean(ChannelMapper.class);
     private ChannelMemberMapper channelMemberMapper = applicationContext.getBean(ChannelMemberMapper.class);
@@ -36,7 +39,7 @@ public class SessionUtil {
         Channel channel = ChannelContainer.getChannelByUserId(uid);
         // todo 返回结果优化
         if(channel!=null){
-            System.out.println("用户["+uid+"] 绑定到群组["+groupChannelId+"]");
+            logger.info("用户["+uid+"] 绑定到群组["+groupChannelId+"]");
             return channelGroup.add(channel);
         }
         else
@@ -54,13 +57,13 @@ public class SessionUtil {
     }
 
     public void ChannelGroupInit(){
-        System.out.println("开始ChannelGroup初始化");
+        logger.info("开始ChannelGroup初始化");
         // 获取所有的channelId
         List<String> groupChannelIds = channelMapper.queryAllGroupChannelIds();
         for(String channelId : groupChannelIds){
             ChannelGroup channelGroup = ChannelContainer.createChannelGroup();
             ChannelContainer.addChannelGroup(channelId,channelGroup);
         }
-        System.out.println("ChannelGroup初始化完毕");
+        logger.info("ChannelGroup初始化完毕");
     }
 }

@@ -54,4 +54,11 @@ public class ElasticMessageServiceImpl implements ElasticMessageService {
         Pageable pageable = PageRequest.of(0,100,sort);
         return elasticRepository.getMessageByChannelIdAndMessageIds(channelId,messageList,pageable);
     }
+
+    public List<Message> searchMessageByKeyword(String channelId,String keyword){
+        Sort sort = Sort.by("ts").descending();
+        Pageable pageable = PageRequest.of(0,20,sort);
+        List<Message> res = elasticRepository.queryMessageByKeyword(channelId,keyword,pageable);
+        return res;
+    }
 }

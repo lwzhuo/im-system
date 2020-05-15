@@ -101,4 +101,9 @@ public class MessageServiceImpl implements MessageService {
         shareMessageDto.setShareUserName(userService.queryUser(shareMessageDto.getShareUid()).getUserName());
         return shareMessageDto;
     }
+
+    public List queryMessageByKeyword(String channelId,String keyword){
+        List res = elasticMessageService.searchMessageByKeyword(channelId,keyword);
+        return res;
+    }
 }

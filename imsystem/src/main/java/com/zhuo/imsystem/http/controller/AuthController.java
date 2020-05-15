@@ -7,6 +7,8 @@ import com.zhuo.imsystem.http.service.UserService;
 import com.zhuo.imsystem.http.util.FirstLetterUtil;
 import com.zhuo.imsystem.http.util.JWTUtil;
 import com.zhuo.imsystem.http.util.ResponseJson;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,6 +21,7 @@ import java.util.HashMap;
 @RestController
 @RequestMapping("/auth")
 public class AuthController extends BaseController{
+    private static Logger logger = LoggerFactory.getLogger(AuthController.class);
     @Autowired
     UserService userService;
 
@@ -47,7 +50,7 @@ public class AuthController extends BaseController{
     public ResponseJson logout(HttpServletRequest request){
         String uid = (String) request.getAttribute("uid");
         userService.logout(uid);
-        System.out.println("用户["+uid+"]退出登录");
+        logger.info("用户["+uid+"]退出登录");
         return success();
     }
 }

@@ -10,9 +10,11 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class JWTUtil {
-
+    private static Logger logger = LoggerFactory.getLogger(JWTUtil.class);
     /**
      * 生成加密key
      *
@@ -70,12 +72,12 @@ public class JWTUtil {
             long expirTime = claims.getExpiration().getTime();
             long nowMillis = System.currentTimeMillis();
             if(expirTime<=nowMillis){// 校验签名是否过期
-                System.out.println("token 已经过期"+jwt);
+                logger.info("token 已经过期"+jwt);
                 res=null;
             }
         }catch (Exception e) {
             // 解析jwt失败
-            System.out.println("token 解析失败"+jwt);
+            logger.info("token 解析失败"+jwt);
             res=null;
         }
         return res;
@@ -85,13 +87,9 @@ public class JWTUtil {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("uid","123456");
         String jwt = JWTUtil.createJWT(jsonObject.toJSONString(), ConstVar.JWT_SECRET,ConstVar.JWT_TTL);
-        System.out.println(jwt);
+        logger.info(jwt);
 
         Claims afterParse = JWTUtil.parseJWT(jwt,ConstVar.JWT_SECRET);
-        System.out.println(afterParse);
-        System.out.println(afterParse.getSubject());
-        System.out.println(afterParse.getExpiration());
-        System.out.println(afterParse.getExpiration().getTime());
     }
 
 }

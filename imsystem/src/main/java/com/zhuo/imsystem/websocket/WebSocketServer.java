@@ -6,12 +6,15 @@ import io.netty.channel.ChannelOption;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.zhuo.imsystem.websocket.handler.WebSocketChildChannelHandler;
 import javax.annotation.Resource;
 import java.util.Date;
 
 public class WebSocketServer {
+    private static Logger logger = LoggerFactory.getLogger(WebSocketServer.class);
     private final EventLoopGroup bossGroup = new NioEventLoopGroup();
     private final EventLoopGroup workersGroup = new NioEventLoopGroup();
     private final ServerBootstrap serverBootstrap = new ServerBootstrap();
@@ -19,7 +22,7 @@ public class WebSocketServer {
     private static final int PORT = 8000;
 
     public void start(){
-        System.out.println("开始启动websocket服务");
+        logger.info("开始启动websocket服务");
         serverBootstrap.group(bossGroup,workersGroup)
                 .channel(NioServerSocketChannel.class)
                 .option(ChannelOption.SO_BACKLOG, 1024) //配置TCP参数，握手字符串长度设置
@@ -32,7 +35,7 @@ public class WebSocketServer {
     private static void bind(final ServerBootstrap serverBootstrap, final int port) {
         serverBootstrap.bind(port).addListener(future -> {
             if (future.isSuccess()) {
-                System.out.println(new Date() + ": 端口[" + port + "]绑定成功!");
+                logger.info(new Date() + ": 端口[" + port + "]绑定成功!");
             } else {
                 System.err.println("端口[" + port + "]绑定失败!");
             }

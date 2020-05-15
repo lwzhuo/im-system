@@ -20,4 +20,6 @@ public interface ElasticMessageService {
     public void saveAll(List<Message> list);
 
     public List<Message> getBatchMessageByChannelIdAndMessageIds(String channelId,List<String> messageList);
+
+    public List<Message> searchMessageByKeyword(String channelId,String keyword);
 }

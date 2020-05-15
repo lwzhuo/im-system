@@ -1,10 +1,14 @@
 package com.zhuo.imsystem.http.util;
 
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.util.DigestUtils;
 import java.security.SecureRandom;
 import java.util.Base64;
 
 public class PasswordUtil {
+    private static Logger logger = LoggerFactory.getLogger(PasswordUtil.class);
     /**
      * 盐的长度
      */
@@ -70,6 +74,6 @@ public class PasswordUtil {
     public static void main(String[] args) throws Exception{
 //        1389FB39AD46B68D46F7E9C508A3FBA7
         String res = PasswordUtil.getMd5Password("aaa","bbb");
-        System.out.println(res);
+        logger.info(res);
     }
 }

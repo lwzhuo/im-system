@@ -13,6 +13,8 @@ import com.zhuo.imsystem.http.service.MessageService;
 import com.zhuo.imsystem.http.service.UserChannelService;
 import com.zhuo.imsystem.http.util.ResponseJson;
 import com.zhuo.imsystem.websocket.protocal.request.NewMessageRequestProtocal;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -28,6 +30,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/message")
 public class MessageController extends BaseController{
+    private static Logger logger = LoggerFactory.getLogger(MessageController.class);
 
     @Autowired
     UserChannelService userChannelService;
@@ -94,7 +97,7 @@ public class MessageController extends BaseController{
 
     @RequestMapping(value = "/file",method = RequestMethod.POST)
     public ResponseJson uploadFile(HttpServletRequest request,@RequestParam("file")MultipartFile file)throws Exception{
-        System.out.println("收到文件");
+        logger.info("收到文件");
         NewMessageRequestProtocal newMessageRequest = new NewMessageRequestProtocal();
         newMessageRequest.setChannelType(Integer.parseInt(request.getParameter("channelType")));
         newMessageRequest.setMsgType(Integer.parseInt(request.getParameter("msgType")));
@@ -205,8 +208,11 @@ public class MessageController extends BaseController{
     }
 
     // 查找消息
-    @RequestMapping(value = "/search/{channelId}",method = RequestMethod.POST)
-    public ResponseJson searchMessage(@PathVariable String channelId)throws Exception {
-        return null;
+    @RequestMapping(value = "/search",method = RequestMethod.POST)
+    public ResponseJson searchMessage(@RequestBody JSONObject json)throws Exception {
+        String channelId = json.getString("channelId");
+        String keyword = json.getString("keyword");
+        List res = messageService.queryMessageByKeyword(channelId,keyword);
+        return success().setData(res);
     }
 }

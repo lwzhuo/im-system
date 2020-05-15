@@ -38,7 +38,7 @@ public interface ElasticRepository extends ElasticsearchRepository<Message, Long
     // 通过ChannelId 和 关键词 查找聊天记录
     @Query("{\"bool\": {\"must\": [\n" +
             "    {\"term\": {\"channelId\": \"?0\"}},\n" +
-            "    {\"match\": {\"msg\": ?1}}\n" +
+            "    {\"match\": {\"msg\": \"?1\"}}\n" +
             "    ]}\n" +
             "}")
     public List<Message> queryMessageByKeyword(String channelId, String keyword, Pageable pageable);

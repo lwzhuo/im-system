@@ -52,7 +52,7 @@ public class ChannelController extends BaseController  {
     @RequestMapping(value = "/join",method = RequestMethod.GET)
     public ResponseJson joinChannel(@RequestParam String channelId,@RequestParam String uid) throws Exception{
         ChannelMemberDto channelMemberDto = channelService.joinGroupChannel(channelId,uid);
-        // todo 给群聊全体下发进入房间的消息
+        channelService.sendEnterChannelMessage(channelId,uid,channelMemberDto.getChannelType());
         return success().setData(channelMemberDto);
     }
 
@@ -65,7 +65,7 @@ public class ChannelController extends BaseController  {
         for(String uid:uidList){
             ChannelMemberDto channelMemberDto = channelService.joinGroupChannel(channelId,uid);
             res.add(channelMemberDto);
-            // todo 给群聊全体下发进入房间的消息
+            channelService.sendEnterChannelMessage(channelId,uid,channelMemberDto.getChannelType());
         }
         return success().setData(res);
     }

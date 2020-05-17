@@ -16,6 +16,7 @@ import com.zhuo.imsystem.http.service.UserChannelService;
 import com.zhuo.imsystem.http.util.CommonException;
 import com.zhuo.imsystem.queue.producer.BlockingQueueProvider;
 import com.zhuo.imsystem.websocket.protocal.request.ChannelCreateRequestProtocal;
+import com.zhuo.imsystem.websocket.protocal.request.MemberJoinRequestProtocal;
 import com.zhuo.imsystem.websocket.util.ChannelContainer;
 import com.zhuo.imsystem.websocket.util.SessionUtil;
 import io.netty.channel.Channel;
@@ -296,7 +297,10 @@ public class ChannelServiceImpl implements ChannelService {
 
     // 发送进入房间消息
     public void sendEnterChannelMessage(String channelId,String fromUid,int channelType){
-
+        User user = userMapper.queryUser(fromUid);
+        MemberJoinRequestProtocal msg = new MemberJoinRequestProtocal(channelId,fromUid,user.getAvatarUrl(),user.getUserName(),ConstVar.ATTENDER);
+        msg.setJsonString(JSONObject.toJSONString(msg));
+        BlockingQueueProvider.publish(msg.getChannelType(),msg.getAction(),msg.getJsonString());
     }
 
     // 发送离开房间消息

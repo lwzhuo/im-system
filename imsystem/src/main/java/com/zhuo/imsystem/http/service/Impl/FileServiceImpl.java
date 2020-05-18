@@ -100,7 +100,7 @@ public class FileServiceImpl implements FileService {
     public String getFileExtension(String filename){
         String []res = filename.split("\\.");
         if(res.length>1)
-            return res[1];
+            return res[res.length-1];
         else
             return "";
     }

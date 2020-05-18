@@ -31,8 +31,12 @@ public class MemberJoinHandler extends MessageHandler {
         if(channelType== ConstVar.GROUP_CHANNEL){
             ChannelGroup channelGroup = ChannelContainer.getChannelGroupByChannelId(channelId);
             String res = ProtocalMap.toJSONString(memberJoinResponseProtocal);
+            if(channelGroup==null){
+                logger.error("推送用户[{}]加入群组[{}]消息失败:群组ChannelGroup不存在",userName,channelId);
+                return;
+            }
             channelGroup.writeAndFlush(new TextWebSocketFrame(res));
-            logger.info("推送用户{}加入群组{}消息",userName,channelId);
+            logger.info("推送用户[{}]加入群组[{}]消息",userName,channelId);
         }
     }
 }

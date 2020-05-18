@@ -13,4 +13,5 @@ public interface ChannelService {
     public void sendChannelCreateMessage(String channelId,String fromUid,int channelType,String channelName);
     public String getChannelIdByPublicUrl(ChannelDto channelDto) throws Exception;
     public void sendEnterChannelMessage(String channelId,String fromUid,int channelType);
+    public void sendLeftChannelMessage(String channelId,String leftUid,int channelType,int leftReason);
 }

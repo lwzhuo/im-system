@@ -1,6 +1,7 @@
 package com.zhuo.imsystem.http.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import com.zhuo.imsystem.commom.config.ConstVar;
 import com.zhuo.imsystem.commom.config.StatusCode;
 import com.zhuo.imsystem.http.dto.ChannelDto;
 import com.zhuo.imsystem.http.dto.ChannelMemberDto;
@@ -76,6 +77,7 @@ public class ChannelController extends BaseController  {
         // 检查权限 是否为其中两种情况 1.管理员移除群聊 2.用户自己退出
         String uidFromToken = (String)request.getAttribute("uid"); // 获取token中的uid
         boolean byUser = uid.equals(uidFromToken); // 是否为用户自身
+        int leftReason = ConstVar.LEFT_CHANNEL;
         if(!byUser){
             // 检查是否为管理员操作
             boolean isAdmin = channelService.isAdmin(uidFromToken,channelId);
@@ -84,10 +86,11 @@ public class ChannelController extends BaseController  {
             // 检查是否是管理员自我删除
             if(uid.equals(uidFromToken))
                 throw new CommonException(StatusCode.ERROR_CHANNEL_LEFT_FAILED,"没有权限");
+            leftReason = ConstVar.KICK_OUT_BY_ADMIN;
         }
         boolean res = channelService.leftGroupChannel(channelId,uid);
         if(res){
-            // todo 给该用户下发移出房间的消息
+            channelService.sendLeftChannelMessage(channelId,uid,ConstVar.GROUP_CHANNEL,leftReason);
             return success().setData("退出群聊成功");
         }else {
             return error("退出群聊失败");

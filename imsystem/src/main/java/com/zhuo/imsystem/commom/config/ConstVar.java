@@ -55,4 +55,8 @@ public class ConstVar {
 
     // 文件基准路径
     public static String FILE_BASE_PATH = "/Users/zhuo/Documents/im-system-source/file/";
+
+    // 离开房间原因
+    public static int LEAVE_ROOM = 1;       // 主动离开
+    public static int KICK_OUT_BY_ADMIN = 2;// 被管理员踢出
 }

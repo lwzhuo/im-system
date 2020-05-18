@@ -17,6 +17,7 @@ import com.zhuo.imsystem.http.util.CommonException;
 import com.zhuo.imsystem.queue.producer.BlockingQueueProvider;
 import com.zhuo.imsystem.websocket.protocal.request.ChannelCreateRequestProtocal;
 import com.zhuo.imsystem.websocket.protocal.request.MemberJoinRequestProtocal;
+import com.zhuo.imsystem.websocket.protocal.request.MemberLeftRequestProtocal;
 import com.zhuo.imsystem.websocket.util.ChannelContainer;
 import com.zhuo.imsystem.websocket.util.SessionUtil;
 import io.netty.channel.Channel;
@@ -304,8 +305,10 @@ public class ChannelServiceImpl implements ChannelService {
     }
 
     // 发送离开房间消息
-    public void sendLeftChannelMessage(String channelId,String leftUid,int channelType){
-        return;
+    public void sendLeftChannelMessage(String channelId,String leftUid,int channelType,int leftReason){
+        MemberLeftRequestProtocal msg = new MemberLeftRequestProtocal(channelId,leftUid,leftReason);
+        msg.setJsonString(JSONObject.toJSONString(msg));
+        BlockingQueueProvider.publish(msg.getChannelType(),msg.getAction(),msg.getJsonString());
     }
 
     // 获取公开群组的channelId 没有则创建

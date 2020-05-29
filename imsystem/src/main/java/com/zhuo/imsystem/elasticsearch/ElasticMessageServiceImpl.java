@@ -50,7 +50,7 @@ public class ElasticMessageServiceImpl implements ElasticMessageService {
     }
 
     public List<Message> getBatchMessageByChannelIdAndMessageIds(String channelId,List<String> messageList){
-        Sort sort = Sort.by("ts").descending();
+        Sort sort = Sort.by("ts").ascending();
         Pageable pageable = PageRequest.of(0,100,sort);
         return elasticRepository.getMessageByChannelIdAndMessageIds(channelId,messageList,pageable);
     }
@@ -59,6 +59,13 @@ public class ElasticMessageServiceImpl implements ElasticMessageService {
         Sort sort = Sort.by("ts").descending();
         Pageable pageable = PageRequest.of(0,20,sort);
         List<Message> res = elasticRepository.queryMessageByKeyword(channelId,keyword,pageable);
+        return res;
+    }
+
+    public List<Message> searchMessageByKeywordFromAllChannel(List<String> channelIdList,String keyword){
+        Sort sort = Sort.by("ts").descending();
+        Pageable pageable = PageRequest.of(0,20,sort);
+        List<Message> res = elasticRepository.queryMessageByKeywordFromAllChannel(channelIdList,keyword,pageable);
         return res;
     }
 }

@@ -42,7 +42,7 @@ public class ConstVar {
     public static int PUBLIC_CHANNEL = 4;
 
     // 聊天文本长度限制
-    public static int MAX_TEXT_LENGTH = 300;
+    public static int MAX_TEXT_LENGTH = 1000;
 
     // 头像大小限制 单位KB
     public static int MAX_AVATAR_SIZE = 2048;

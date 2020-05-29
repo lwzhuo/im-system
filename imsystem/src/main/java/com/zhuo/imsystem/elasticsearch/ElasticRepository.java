@@ -42,4 +42,12 @@ public interface ElasticRepository extends ElasticsearchRepository<Message, Long
             "    ]}\n" +
             "}")
     public List<Message> queryMessageByKeyword(String channelId, String keyword, Pageable pageable);
+
+    // 通过批量channelId 和 关键词 查找聊天记录
+    @Query("{\"bool\": {\"must\": [\n" +
+            "    {\"terms\": {\"channelIds\": \"?0\"}},\n" +
+            "    {\"match\": {\"msg\": \"?1\"}}\n" +
+            "    ]}\n" +
+            "}")
+    public List<Message> queryMessageByKeywordFromAllChannel(List<String> channelIds,String keyword,Pageable pageable);
 }
